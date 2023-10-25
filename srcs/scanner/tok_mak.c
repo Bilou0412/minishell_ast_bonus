@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tok_mak.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:17:56 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/10/25 15:24:00 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/10/25 16:00:42 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	make_word(t_input_str *str_in, t_tokens **tok)
 	int		size_word;
 	char	*word;
 
+	word = NULL;
 	size_word = check_char(str_in);
 	if (size_word == -1)
 		return (-1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:16:58 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/10/25 12:17:26 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/10/25 15:47:42 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_tokens	*ft_lstnew(char *content, int type)
 	new = (t_tokens *)ft_calloc(1, sizeof(*new));
 	if (!new)
 		return (NULL);
-	new->token = content;
+	new->string = content;
 	new->type = type;
 	new->next = NULL;
 	return (new);

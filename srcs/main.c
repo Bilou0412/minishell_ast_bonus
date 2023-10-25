@@ -1,78 +1,71 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/05 15:23:19 by soutin            #+#    #+#             */
+/*   Updated: 2023/10/25 15:46:28 by soutin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
-#include <stdio.h>
-#include <string.h>
 
-void	print_lex_info(t_tokens *tok)
+t_vars	*_vars(void)
 {
-	int	i;
-
-	i = 0;
-	while (tok)
-	{
-		ft_printf("tok[%d] : %s\n type : ", i, tok->token);
-		if (tok->type == 0)
-			ft_printf("LESS\n");
-		else if (tok->type == 1)
-			ft_printf("DLESS\n");
-		else if (tok->type == 2)
-			ft_printf("GREAT\n");
-		else if (tok->type == 3)
-			ft_printf("DGREAT\n");
-		else if (tok->type == 4)
-			ft_printf("PIPE\n");
-		else if (tok->type == 5)
-			ft_printf("OR\n");
-		else if (tok->type == 6)
-			ft_printf("AND\n");
-		else if (tok->type == 7)
-			ft_printf("O_PARENTHESIS\n");
-		else if (tok->type == 8)
-			ft_printf("C_PARENTHESIS\n");
-		else if (tok->type == 9)
-			ft_printf("WORD\n");
-		else if (tok->type == 10)
-			ft_printf("ERRORLVL\n");
-		else if (tok->type == 11)
-			ft_printf("DOLLARS\n");
-		else if (tok->type == 14)
-			ft_printf("FILE\n");
-		else if (tok->type == 12)
-			ft_printf("LIMITEUR\n");
-		tok = tok->next;
-		i++;
-	}
+	static t_vars	vars;
+	
+	return (&vars);
 }
 
-int	main(void)
+char	*get_prompt(char **prompt)
 {
-	t_tokens *tok;
-	t_input_str str_in;
+	int		i;
+	char	*buffer;
+	char	*tmp;
 
+	tmp = NULL;
+	buffer = getcwd(NULL, 0);
+	if (!buffer)
+		return (NULL);
+	i = ft_strlen(buffer);
+	while (i >= 0 && buffer[i] != '/')
+		i--;
+	tmp = ft_substr(buffer, i, ft_strlen(buffer + i));
+	if (!tmp)
+		return (NULL);
+	*prompt = ft_strjoin(tmp, " ");
+	if (!prompt)
+		return (NULL);
+	free(buffer);
+	free(tmp);
+	return (*prompt);
+}
+
+int	main()
+{
+	t_input_str str_in;
+	char	*prompt;
+
+	_vars()->tokens = NULL;
 	while (1)
 	{
-		tok = NULL;
+		prompt = NULL;
 		str_in.curpos = 0;
-		str_in.buff = readline("zebishell> ");
-		if (*str_in.buff)
+		if (!get_prompt(&prompt))
+			return (1);
+		str_in.buff = readline(prompt);
+		if (str_in.buff)
 		{
-			token_m(&str_in, &tok);
-			print_lex_info(tok);
+			token_m(&str_in, &_vars()->tokens);
+			is_command_line(_vars()->tokens, &_vars()->ast);
+			print_tree(_vars()->ast, 0);
+			free_tree(&_vars()->ast);
+			ft_lstclear(&_vars()->tokens, &free);
 			free(str_in.buff);
-			free_struc(tok);
 		}
-		else
-			free(str_in.buff);
+		free(prompt);
 	}
+	return (0);
 }
-/*int	main(void)
-{
-	t_tokens *tok;
-	t_input_str str_in;
-	str_in.buff = ft_strdup("\'\'\"c\"\"md\" -a ");
-
-	tok = NULL;
-	token_m(&str_in, &tok);
-	print_lex_info(tok);
-	free(str_in.buff);
-	free_struc(tok);
-}*/

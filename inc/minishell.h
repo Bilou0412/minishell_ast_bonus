@@ -3,75 +3,54 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/25 12:18:19 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/10/25 12:19:47 by bmoudach         ###   ########.fr       */
+/*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
+/*   Updated: 2023/10/25 16:38:41 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../libft/libft.h"
+# include "../libft/inc/libft.h"
+# include "parser.h"
+# include <errno.h>
+# include <sys/types.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-# include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
-# include <string.h>
-# include <sys/types.h>
+# include <stdlib.h>
 
-typedef struct s_ast_tokens
+
+
+typedef struct s_vars
 {
-	char				**token;
-	int					type;
-	struct s_ast_tokens	*right;
-	struct s_ast_tokens	*left;
-}						t_ast_tokens;
+	struct s_tokens	*tokens;
+	struct s_ast	*ast;
+	int				nb_cmds;
+}					t_vars;
 
-typedef struct s_tokens
-{
-	struct s_tokens		*next;
-	char				*token;
-	int					type;
-}						t_tokens;
 
-typedef struct s_input_str
-{
-	char				*buff;
-	int					curpos;
-	int					buff_size;
-}						t_input_str;
 
-enum					e_token_type
-{
-	LESS,
-	DLESS,
-	GREAT,
-	DGREAT,
-	PIPE,
-	OR,
-	AND,
-	O_PARENTHESIS,
-	C_PARENTHESIS,
-	WORD,
-	ERRORLVL,
-	DOLLARS,
-	LIMITER,
-	RESERVERDW,
-	FILEM,
-	INDEFINE,
-};
+t_vars				*_vars(void);
 
-void					ft_lstadd_back(t_tokens **lex_tok, t_tokens *new);
-t_tokens				*ft_lstnew(char *content, int type);
-t_tokens				*ft_lstlast(t_tokens **tok);
-int						token_m(t_input_str *str_in, t_tokens **tok);
-int						free_struc(t_tokens *tok);
-void					ft_lstadd_front(t_tokens **tok, t_tokens *new);
-int						tok_type(char *content);
-int						check_char(t_input_str *str_in);
-char					*del_quote(char *word);
+
+
+void				printlist(struct s_cmds **head);
+void				print_tree(t_ast *ast, int depth);
+void				printtab(char **v);
+void				printtokens(t_tokens **head);
+
+void				free_tree(t_ast **ast);
+
+t_tokens			*ft_lstnew(char *content, int type);
+void				ft_lstadd_front(t_tokens **lst, t_tokens *new);
+int					ft_lstsize(t_tokens *lst);
+t_tokens			*ft_lstlast(t_tokens **tok);
+void				ft_lstadd_back(t_tokens **lst, t_tokens *new);
+void				ft_lstdelone(t_tokens *lst, void (*del)(void *));
+void				ft_lstclear(t_tokens **lst, void (*del)(void *));
 
 #endif
