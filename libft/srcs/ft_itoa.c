@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 10:34:24 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/05/13 14:22:10 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:40:56 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include"libft.h"
+
+#include "../inc/libft.h"
 
 static int	len_n(int n)
 {

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putptr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 16:01:17 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/08/25 22:35:21 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:42:23 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "../inc/libft.h"
 
 void	convert_ptr(unsigned long nb, int *len)
 {

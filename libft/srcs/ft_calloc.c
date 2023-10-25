@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 22:59:10 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/05/12 18:11:27 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:39:55 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include"libft.h"
+
+#include "../inc/libft.h"
 
 void	*ft_calloc(size_t nitems, size_t size)
 {

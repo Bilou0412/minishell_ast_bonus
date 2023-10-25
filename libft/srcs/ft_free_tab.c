@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free_tab.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 20:17:38 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/09/26 03:40:51 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:40:19 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../inc/libft.h"
 
 int	ft_free_tab(char **tab)
 {

@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:49:29 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/08/25 22:33:17 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:41:53 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include<stdarg.h>
-#include<stdio.h>
-#include"libft.h"
+#include "../inc/libft.h"
 
 static	int	check_str(const char *str)
 {

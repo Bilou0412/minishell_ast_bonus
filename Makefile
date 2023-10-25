@@ -1,37 +1,37 @@
-SRC_DIR			=		srcs
-OBJ_DIR			=		objs
-LIBFT_DIR		=		libft
+SRCS_DIR	=	srcs
+OBJS_DIR	=	objs
+LIBFT_DIR	=	libft
 
-NAME			=		minishell
-SRC				=		srcs/scanner/list_utils.c \
-						srcs/scanner/tok_mak.c \
-						srcs/scanner/tok_utils.c \
-						srcs/print.c \
-						srcs/fill_ast.c \
-						srcs/main.c \
-						srcs/free.c \
+NAME		=	minishell
+SRCS		=	srcs/scanner/list_utils.c \
+					srcs/scanner/tok_mak.c \
+					srcs/scanner/tok_utils.c \
+					srcs/print.c \
+					srcs/fill_ast.c \
+					srcs/main.c \
+					srcs/free.c \
 
-OBJ				=		$(SRC:$(SRC)/%.c=$(OBJ_DIR)/%.o)
-LIBFT			=		libft/libft.a
+OBJS		=	$(SRCS:$(SRCS)/%.c=$(OBJS_DIR)/%.o)
+LIBFT		=	libft/libft.a
 
-CPPFLAGS		=		-I./include -I./libft/include
-CFLAGS			=		-Wall -Werror -Werror -g3 -lreadline
+CPPFLAGS	=	-I./inc -I./libft/inc
+CFLAGS		=	-Wall -Werror -Werror -g3 -lreadline
 
-$(NAME):				$(OBJ)
-							$(MAKE) -C $(LIBFT_DIR)
-							cc $(CFLAGS) $(CPPFLAGS) $(OBJ) -o $(NAME) $(LIBFT)
+$(NAME):		$(OBJS)
+					$(MAKE) -C $(LIBFT_DIR)
+					cc $(CFLAGS) $(CPPFLAGS) $(OBJS) -o $(NAME) $(LIBFT)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c | $(OBJS_DIR)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
-all:					$(NAME)
+all:			$(NAME)
 						
 clean:
-						$(MAKE) fclean -C $(LIBFT_DIR)
+				$(MAKE) fclean -C $(LIBFT_DIR)
 
-fclean:					clean
-							rm -f $(NAME)
+fclean:			clean
+					rm -f $(NAME)
 
-re:						fclean all
+re:				fclean all
 
-.PHONY:					all clean fclean re
+.PHONY:			all clean fclean re
