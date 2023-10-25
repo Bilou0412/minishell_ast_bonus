@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tok_mak.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/25 12:17:56 by bmoudach          #+#    #+#             */
+/*   Updated: 2023/10/25 15:24:00 by bmoudach         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 int	content_to_token(char *content, t_tokens **tok, int type)
@@ -20,7 +32,7 @@ int	single_char_tok(t_input_str *str_in, t_tokens **tok)
 	if (!content)
 		return (-1);
 	type = tok_type(content);
-	if (ft_strchr("$<>|()", str_in->buff[str_in->curpos]))
+	if (ft_strchr("<>|()", str_in->buff[str_in->curpos]))
 	{
 		if (!content_to_token(content, tok, type))
 			return (1);
@@ -29,6 +41,7 @@ int	single_char_tok(t_input_str *str_in, t_tokens **tok)
 	}
 	return (free(content), 0);
 }
+
 int	double_char_tok(t_input_str *str_in, t_tokens **tok)
 {
 	char	*content;
@@ -39,54 +52,50 @@ int	double_char_tok(t_input_str *str_in, t_tokens **tok)
 		return (-1);
 	type = tok_type(content);
 	if (!ft_strncmp(content, "||", 2) || !ft_strncmp(content, "&&", 2)
-		|| !ft_strncmp(content, "<<", 2) || !ft_strncmp(content, ">>", 2)
-		|| !ft_strncmp(content, "$?", 2))
+		|| !ft_strncmp(content, "<<", 2) || !ft_strncmp(content, ">>", 2))
 	{
 		if (!content_to_token(content, tok, type))
 			return (1);
 		else
-			return (free(content), 0);
+			return (free(content), -1);
 	}
 	return (free(content), 0);
 }
+
 int	make_word(t_input_str *str_in, t_tokens **tok)
 {
 	int		size_word;
 	char	*word;
-	char	*current;
 
-	size_word = 0;
-	current = ft_substr(str_in->buff, str_in->curpos, 2);
-	if (!current)
+	size_word = check_char(str_in);
+	if (size_word == -1)
 		return (-1);
-	while (str_in->buff[str_in->curpos + size_word] && tok_type(current) == WORD
-		&& current[0] != ' ')
-	{
-		free(current);
-		size_word++;
-		current = ft_substr(str_in->buff, str_in->curpos + size_word, 2);
-		if (!current)
-			return (-1);
-	}
 	if (size_word)
 	{
 		word = ft_substr(str_in->buff, str_in->curpos, size_word);
 		if (!word)
-			return (0);
+			return (-1);
 		str_in->curpos += size_word;
 	}
-	return (content_to_token(word, tok, WORD));
+	else if (!size_word)
+		return (str_in->curpos += 2, 0);
+	if (!word)
+		return (-1);
+	if (content_to_token(word, tok, WORD) == -1)
+		return (-1);
+	return (0);
 }
 
 int	token_m(t_input_str *str_in, t_tokens **tok)
 {
-	while (str_in->buff[str_in->curpos])
+	str_in->buff_size = ft_strlen(str_in->buff);
+	str_in->curpos = 0;
+	while (str_in->curpos < str_in->buff_size)
 	{
 		if (double_char_tok(str_in, tok))
 			str_in->curpos += 2;
-		else if (single_char_tok(str_in, tok))
-			str_in->curpos++;
-		else if (str_in->buff[str_in->curpos] == ' ')
+		else if (single_char_tok(str_in, tok)
+			|| str_in->buff[str_in->curpos] == ' ')
 			str_in->curpos++;
 		else
 			make_word(str_in, tok);

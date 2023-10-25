@@ -35,6 +35,8 @@ Nous suivrons ensuite la grammaire établie, sans aller plus loin que les comman
 - `||` : ou logique
   - Utilisé pour exécuter une commande si la commande précédente a échoué.
 
+
+
 ## Grammaire
 
 ```

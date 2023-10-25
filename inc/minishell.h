@@ -1,11 +1,26 @@
-#include "../libft/libft.h"
-#include <readline/history.h>
-#include <readline/readline.h>
-#include <signal.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <string.h>
-#include <sys/types.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/25 12:18:19 by bmoudach          #+#    #+#             */
+/*   Updated: 2023/10/25 12:19:47 by bmoudach         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef MINISHELL_H
+# define MINISHELL_H
+
+# include "../libft/libft.h"
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <string.h>
+# include <sys/types.h>
 
 typedef struct s_ast_tokens
 {
@@ -26,6 +41,7 @@ typedef struct s_input_str
 {
 	char				*buff;
 	int					curpos;
+	int					buff_size;
 }						t_input_str;
 
 enum					e_token_type
@@ -44,7 +60,7 @@ enum					e_token_type
 	DOLLARS,
 	LIMITER,
 	RESERVERDW,
-	INFILE,
+	FILEM,
 	INDEFINE,
 };
 
@@ -55,3 +71,7 @@ int						token_m(t_input_str *str_in, t_tokens **tok);
 int						free_struc(t_tokens *tok);
 void					ft_lstadd_front(t_tokens **tok, t_tokens *new);
 int						tok_type(char *content);
+int						check_char(t_input_str *str_in);
+char					*del_quote(char *word);
+
+#endif
