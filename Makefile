@@ -22,11 +22,12 @@ $(NAME):		$(OBJS)
 					$(MAKE) -C $(LIBFT_DIR)
 					cc $(CFLAGS) $(CPPFLAGS) $(OBJS) -o $(NAME) $(LIBFT)
 
+
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c | $(OBJS_DIR)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 all:			$(NAME)
-						
+				
 clean:
 				$(MAKE) fclean -C $(LIBFT_DIR)
 

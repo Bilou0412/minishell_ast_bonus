@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:20:03 by soutin            #+#    #+#             */
-/*   Updated: 2023/10/31 16:21:01 by soutin           ###   ########.fr       */
+/*   Updated: 2023/10/31 17:47:27 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_ast	*ft_newleaf(t_ast **node, t_tokens **current)
 			(*node)->tokens = NULL;
 		(*node)->left = NULL;
 		(*node)->right = NULL;
-		return ((*node));
+		return (*node);
 	}
 	(*current)->next = NULL;
 	ft_lstadd_front(&(*node)->tokens, *current);

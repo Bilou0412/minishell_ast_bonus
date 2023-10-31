@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:19 by soutin            #+#    #+#             */
-/*   Updated: 2023/10/31 16:18:07 by soutin           ###   ########.fr       */
+/*   Updated: 2023/10/31 18:35:19 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,11 @@ int	read_inputs(t_vars *vars)
 {
 	char		*prompt;
 
+	vars->str_in.buff = "fefef|EFF||FEFE&&(BGGB||ghhhh)&&hh";
+	token_m(&vars->str_in, &vars->tokens);
+	if (launch_ast(vars->tokens, &vars->ast) < 0)
+		return (1);
+	free_tree(&vars->ast);
 	while (1)
 	{
 		if (!get_prompt(&prompt))
