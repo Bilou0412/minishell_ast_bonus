@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tok_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:23:40 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/10/25 15:24:36 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/10/31 16:04:16 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	tok_type(char *content)
 	return (WORD);
 }
 
-int	char_is_quote(t_input_str *str_in, int *word_size, char *current)
+int	char_is_quote(t_str_data *str_in, int *word_size, char *current)
 {
 	char	quote;
 
@@ -54,7 +54,7 @@ int	char_is_quote(t_input_str *str_in, int *word_size, char *current)
 	return (0);
 }
 
-int	check_char(t_input_str *str_in)
+int	check_char(t_str_data *str_in)
 {
 	char	current;
 	int		word_size;

@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:15:26 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/10/25 16:02:34 by soutin           ###   ########.fr       */
+/*   Updated: 2023/10/31 16:28:20 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,27 +31,10 @@ void	ft_lstclear(t_tokens **lst, void (*del)(void*))
 
 void	ft_lstdelone(t_tokens *lst, void (*del)(void*))
 {
-	if (!lst || !del)
+	if (!lst)
 		return ;
 	(*del)(lst->string);
 	free(lst);
-}
-
-void	free_cmds(t_cmds **cmds)
-{
-	t_cmds	*tmp;
-	t_cmds	*buf;
-
-	tmp = *cmds;
-	if (!cmds)
-		return ;
-	while (tmp)
-	{
-		buf = tmp->next;
-		free(tmp);
-		tmp = buf;
-	}
-	*cmds = NULL;
 }
 
 void	free_tree(t_ast **ast)
@@ -60,5 +43,5 @@ void	free_tree(t_ast **ast)
 		return ;
 	free_tree(&(*ast)->left);
 	free_tree(&(*ast)->right);
-	free_cmds(&(*ast)->cmds);
+	ft_lstclear(&(*ast)->tokens, &free);
 }

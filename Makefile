@@ -3,13 +3,14 @@ OBJS_DIR	=	objs
 LIBFT_DIR	=	libft
 
 NAME		=	minishell
-SRCS		=	srcs/scanner/list_utils.c \
-					srcs/scanner/tok_mak.c \
-					srcs/scanner/tok_utils.c \
-					srcs/print.c \
-					srcs/fill_ast.c \
-					srcs/main.c \
-					srcs/free.c \
+SRCS		=	srcs/parser/tokens_utils.c \
+				srcs/parser/token_maker.c \
+				srcs/parser/token_maker_utils.c \
+				srcs/parser/fill_ast.c \
+				srcs/parser/fill_ast_utils.c \
+				srcs/print.c \
+				srcs/main.c \
+				srcs/free.c \
 
 OBJS		=	$(SRCS:$(SRCS)/%.c=$(OBJS_DIR)/%.o)
 LIBFT		=	libft/libft.a

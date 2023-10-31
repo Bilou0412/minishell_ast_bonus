@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 13:40:29 by soutin            #+#    #+#             */
-/*   Updated: 2023/10/25 16:00:04 by soutin           ###   ########.fr       */
+/*   Updated: 2023/10/31 16:23:04 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ enum				e_token_type
 	ERRORLVL,
 	DOLLARS,
 	LIMITER,
-	RESERVERDW,
+	RESERVEDW,
 	FILEM,
 	INDEFINE,
 };
@@ -40,35 +40,29 @@ typedef struct s_tokens
 	struct s_tokens	*next;
 }					t_tokens;
 
-typedef struct s_input_str
+typedef struct s_str_data
 {
 	char			*buff;
 	int				buff_size;
 	int				curpos;
-}					t_input_str;
-
-typedef struct s_cmds
-{
-	char			*string;
-	int				type;
-	struct s_cmds	*next;
-}					t_cmds;
+}					t_str_data;
 
 typedef struct s_ast
 {
-	struct s_cmds	*cmds;
+	struct s_tokens	*tokens;
 	struct s_ast	*left;
 	struct s_ast	*right;
 }					t_ast;
 
-int					token_m(t_input_str *str_in, t_tokens **tok);
+int					token_m(t_str_data *str_in, t_tokens **tok);
+int					check_char(t_str_data *str_in);
+char				*del_quote(char *word);
 int					tok_type(char *content);
 
-void				launch_ast(t_tokens **head, t_ast **root);
-int					is_command_line(t_tokens *current, t_ast **root);
-void				is_command(t_tokens **current, t_ast *node);
-
-int					check_char(t_input_str *str_in);
-char				*del_quote(char *word);
+int					launch_ast(t_tokens *head, t_ast **root);
+int					is_branch(t_tokens **current, t_ast **root);
+int					is_leaf(t_tokens **current, t_ast *node);
+t_ast				*ft_newleaf(t_ast **node, t_tokens **current);
+int					is_last_leaf(t_tokens *current);
 
 #endif

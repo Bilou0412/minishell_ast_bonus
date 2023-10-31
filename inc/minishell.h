@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/10/25 16:38:41 by soutin           ###   ########.fr       */
+/*   Updated: 2023/10/31 16:01:59 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,16 @@
 # include <stdio.h>
 # include <stdlib.h>
 
-
-
 typedef struct s_vars
 {
-	struct s_tokens	*tokens;
-	struct s_ast	*ast;
-	int				nb_cmds;
+	t_tokens	*tokens;
+	t_ast		*ast;
+	t_str_data	str_in;
+	int			nb_cmds;
 }					t_vars;
-
-
 
 t_vars				*_vars(void);
 
-
-
-void				printlist(struct s_cmds **head);
 void				print_tree(t_ast *ast, int depth);
 void				printtab(char **v);
 void				printtokens(t_tokens **head);

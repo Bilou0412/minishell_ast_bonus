@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:17:56 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/10/25 16:00:42 by soutin           ###   ########.fr       */
+/*   Updated: 2023/10/31 16:05:13 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	content_to_token(char *content, t_tokens **tok, int type)
 	return (0);
 }
 
-int	single_char_tok(t_input_str *str_in, t_tokens **tok)
+int	single_char_tok(t_str_data *str_in, t_tokens **tok)
 {
 	char	*content;
 	int		type;
@@ -42,7 +42,7 @@ int	single_char_tok(t_input_str *str_in, t_tokens **tok)
 	return (free(content), 0);
 }
 
-int	double_char_tok(t_input_str *str_in, t_tokens **tok)
+int	double_char_tok(t_str_data *str_in, t_tokens **tok)
 {
 	char	*content;
 	int		type;
@@ -62,7 +62,7 @@ int	double_char_tok(t_input_str *str_in, t_tokens **tok)
 	return (free(content), 0);
 }
 
-int	make_word(t_input_str *str_in, t_tokens **tok)
+int	make_word(t_str_data *str_in, t_tokens **tok)
 {
 	int		size_word;
 	char	*word;
@@ -87,10 +87,11 @@ int	make_word(t_input_str *str_in, t_tokens **tok)
 	return (0);
 }
 
-int	token_m(t_input_str *str_in, t_tokens **tok)
+int	token_m(t_str_data *str_in, t_tokens **tok)
 {
 	str_in->buff_size = ft_strlen(str_in->buff);
 	str_in->curpos = 0;
+	*tok = NULL;
 	while (str_in->curpos < str_in->buff_size)
 	{
 		if (double_char_tok(str_in, tok))

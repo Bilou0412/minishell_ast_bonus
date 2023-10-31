@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:19 by soutin            #+#    #+#             */
-/*   Updated: 2023/10/25 15:46:28 by soutin           ###   ########.fr       */
+/*   Updated: 2023/10/31 16:18:07 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_vars	*_vars(void)
 {
 	static t_vars	vars;
-	
+
 	return (&vars);
 }
 
@@ -26,6 +26,7 @@ char	*get_prompt(char **prompt)
 	char	*tmp;
 
 	tmp = NULL;
+	*prompt = NULL;
 	buffer = getcwd(NULL, 0);
 	if (!buffer)
 		return (NULL);
@@ -43,29 +44,33 @@ char	*get_prompt(char **prompt)
 	return (*prompt);
 }
 
-int	main()
+int	read_inputs(t_vars *vars)
 {
-	t_input_str str_in;
-	char	*prompt;
+	char		*prompt;
 
-	_vars()->tokens = NULL;
 	while (1)
 	{
-		prompt = NULL;
-		str_in.curpos = 0;
 		if (!get_prompt(&prompt))
 			return (1);
-		str_in.buff = readline(prompt);
-		if (str_in.buff)
+		vars->str_in.buff = readline(prompt);
+		if (!vars->str_in.buff)
+			return (-1);
+		if (vars->str_in.buff)
 		{
-			token_m(&str_in, &_vars()->tokens);
-			is_command_line(_vars()->tokens, &_vars()->ast);
-			print_tree(_vars()->ast, 0);
-			free_tree(&_vars()->ast);
-			ft_lstclear(&_vars()->tokens, &free);
-			free(str_in.buff);
+			token_m(&vars->str_in, &vars->tokens);
+			if (launch_ast(vars->tokens, &vars->ast) < 0)
+				return (1);
+			free_tree(&vars->ast);
+			free(vars->str_in.buff);
 		}
 		free(prompt);
 	}
+	return (0);
+}
+
+int	main(void)
+{
+	if (read_inputs(_vars()) < 0)
+		return (1);
 	return (0);
 }
