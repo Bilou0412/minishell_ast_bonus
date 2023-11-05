@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 16:50:50 by soutin            #+#    #+#             */
-/*   Updated: 2023/10/31 15:39:19 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/04 19:54:28 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,32 +20,32 @@ void	printtokens(t_tokens **head)
 	while (current)
 	{
 		ft_printf("%s ", current->string);
-		if (current->type == WORD)
-			ft_printf("WORD");
-		else if (current->type == LIMITER)
-			ft_printf("LIMITER");
-		else if (current->type == RESERVEDW)
-			ft_printf("RESERVEDw");
-		else if (current->type == DOLLARS)
-			ft_printf("ENVVARIABLE");
-		else if (current->type == GREAT)
-			ft_printf("GREAT");
-		else if (current->type == DGREAT)
-			ft_printf("DGREAT");
-		else if (current->type == LESS)
-			ft_printf("LESS");
-		else if (current->type == DLESS)
-			ft_printf("DLESS");
-		else if (current->type == PIPE)
-			ft_printf("PIPE");
-		else if (current->type == AND)
-			ft_printf("AND");
-		else if (current->type == OR)
-			ft_printf("OR");
-		else if (current->type == O_PARENTHESIS)
-			ft_printf("O_PARENTHESIS");
-		else if (current->type == C_PARENTHESIS)
-			ft_printf("C_PARENTHESIS");
+		// if (current->type == WORD)
+		// 	ft_printf("WORD");
+		// else if (current->type == LIMITER)
+		// 	ft_printf("LIMITER");
+		// else if (current->type == RESERVEDW)
+		// 	ft_printf("RESERVEDw");
+		// else if (current->type == DOLLARS)
+		// 	ft_printf("ENVVARIABLE");
+		// else if (current->type == GREAT)
+		// 	ft_printf("GREAT");
+		// else if (current->type == DGREAT)
+		// 	ft_printf("DGREAT");
+		// else if (current->type == LESS)
+		// 	ft_printf("LESS");
+		// else if (current->type == DLESS)
+		// 	ft_printf("DLESS");
+		// else if (current->type == PIPE)
+		// 	ft_printf("PIPE");
+		// else if (current->type == AND)
+		// 	ft_printf("AND");
+		// else if (current->type == OR)
+		// 	ft_printf("OR");
+		// else if (current->type == O_PARENTHESIS)
+		// 	ft_printf("O_PARENTHESIS");
+		// else if (current->type == C_PARENTHESIS)
+		// 	ft_printf("C_PARENTHESIS");
 		current = current->next;
 	}
 	printf("\n");

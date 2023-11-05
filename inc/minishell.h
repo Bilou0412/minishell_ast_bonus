@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/10/31 16:01:59 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/04 20:00:05 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,40 @@
 # include "../libft/inc/libft.h"
 # include "parser.h"
 # include <errno.h>
-# include <sys/types.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <sys/types.h>
 
-typedef struct s_vars
+typedef struct s_files
 {
-	t_tokens	*tokens;
-	t_ast		*ast;
-	t_str_data	str_in;
-	int			nb_cmds;
+	int				fd;
+	struct s_files	*next;
+}					t_files;
+
+typedef struct s_cmd
+{
+	t_files			*infiles;
+	t_files			*outfiles;
+	char			**argv;
+	char			*cmd_path;
+	char			**envp_paths;
+	
+}					t_cmd;
+
+typedef struct s_var
+{
+	t_tokens		*tokens;
+	t_ast			*ast;
+	t_str_data		str_in;
+	t_cmd			cmd;
+	char			**envp;
+	char			**envp_paths;
+	int				pipe_fd[2];
+	int				tmp_fd;
+	int				pid[1024];
 }					t_vars;
 
 t_vars				*_vars(void);
@@ -36,6 +57,9 @@ t_vars				*_vars(void);
 void				print_tree(t_ast *ast, int depth);
 void				printtab(char **v);
 void				printtokens(t_tokens **head);
+
+int					read_ast(t_vars *vars, t_ast *current);
+int					here_doc_loop(t_cmd *cmd, t_tokens *curr);
 
 void				free_tree(t_ast **ast);
 

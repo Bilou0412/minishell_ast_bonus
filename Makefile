@@ -8,9 +8,13 @@ SRCS		=	srcs/parser/tokens_utils.c \
 				srcs/parser/token_maker_utils.c \
 				srcs/parser/fill_ast.c \
 				srcs/parser/fill_ast_utils.c \
+				srcs/read_and_exec/read_ast.c \
+				srcs/read_and_exec/pipex.c \
+				srcs/read_and_exec/inits.c \
+				srcs/read_and_exec/inits_utils.c \
 				srcs/print.c \
-				srcs/main.c \
 				srcs/free.c \
+				srcs/main.c \
 
 OBJS		=	$(SRCS:$(SRCS)/%.c=$(OBJS_DIR)/%.o)
 LIBFT		=	libft/libft.a

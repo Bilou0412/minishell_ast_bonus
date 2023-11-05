@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 12:44:33 by soutin            #+#    #+#             */
-/*   Updated: 2023/10/31 19:08:57 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/05 20:10:21 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,8 @@ int	is_branch(t_tokens **curr_tok, t_ast **curr_node)
 		return (0);
 	if (!ft_newleaf(curr_node, NULL))
 		return (-1);
-	if (((*curr_tok)->type < 4 || (*curr_tok)->type > 6) && (*curr_tok)->type != C_PARENTHESIS)
+	if (((*curr_tok)->type < 4 || (*curr_tok)->type > 6)
+		&& (*curr_tok)->type != C_PARENTHESIS)
 	{
 		flag = leaf_position(curr_tok, curr_node);
 		if (flag < 0)
@@ -108,6 +109,6 @@ int	launch_ast(t_tokens *head, t_ast **root)
 	tmp = head;
 	if (is_branch(&tmp, root) < 0)
 		return (-1);
-	print_tree(*root, 0);
+	// print_tree(*root, 0);
 	return (0);
 }

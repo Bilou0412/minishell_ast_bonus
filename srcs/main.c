@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:19 by soutin            #+#    #+#             */
-/*   Updated: 2023/10/31 18:35:19 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/05 19:42:16 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,17 @@ int	read_inputs(t_vars *vars)
 {
 	char		*prompt;
 
-	vars->str_in.buff = "fefef|EFF||FEFE&&(BGGB||ghhhh)&&hh";
-	token_m(&vars->str_in, &vars->tokens);
-	if (launch_ast(vars->tokens, &vars->ast) < 0)
-		return (1);
-	free_tree(&vars->ast);
+	// vars->str_in.buff = "";
+	// token_m(&vars->str_in, &vars->tokens);
+	// if (launch_ast(vars->tokens, &vars->ast) < 0)
+	// 	return (-1);
+	// read_ast(vars, vars->ast);
+	// print_tree(vars->ast, 0);
+	// free_tree(&vars->ast);
 	while (1)
 	{
 		if (!get_prompt(&prompt))
-			return (1);
+			return (-1);
 		vars->str_in.buff = readline(prompt);
 		if (!vars->str_in.buff)
 			return (-1);
@@ -64,7 +66,10 @@ int	read_inputs(t_vars *vars)
 		{
 			token_m(&vars->str_in, &vars->tokens);
 			if (launch_ast(vars->tokens, &vars->ast) < 0)
-				return (1);
+				return (-1);
+			if (read_ast(vars, vars->ast))
+				printf("wrong");
+			print_tree(vars->ast, 0);
 			free_tree(&vars->ast);
 			free(vars->str_in.buff);
 		}
@@ -73,8 +78,10 @@ int	read_inputs(t_vars *vars)
 	return (0);
 }
 
-int	main(void)
+int	main(int c, char **v, char **envp)
 {
+	(void)c;
+	(void)v;
 	if (read_inputs(_vars()) < 0)
 		return (1);
 	return (0);
