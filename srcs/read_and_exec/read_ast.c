@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:15:27 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/05 20:13:51 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/05 20:19:37 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,9 +143,9 @@ int	fill_cmd_argv(t_vars *vars, t_tokens *tokens)
 	return (0);
 }
 
-// ouvrir les fds des différents fichiers de la commande
-// enlever tous les fichiers avec leurs chevrons de la liste de tokens
-// prendre les tokens restants pour les convertir en argv
+// la boucle ouvre tous les fds de la commande et
+// supprime les tokens OPERATOR + FILENAME de la liste
+// les tokens restants sont convertis en argv
 
 int	sort_cmd(t_vars *vars, t_tokens **head)
 {
