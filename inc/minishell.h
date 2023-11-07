@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/04 20:00:05 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/07 12:40:10 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,14 @@
 # include "../libft/inc/libft.h"
 # include "parser.h"
 # include <errno.h>
+# include <linux/limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/types.h>
+# include <unistd.h>
 
 typedef struct s_files
 {
@@ -36,16 +38,17 @@ typedef struct s_cmd
 	char			**argv;
 	char			*cmd_path;
 	char			**envp_paths;
-	
+
 }					t_cmd;
 
-typedef struct s_var
+typedef struct s_vars
 {
 	t_tokens		*tokens;
 	t_ast			*ast;
 	t_str_data		str_in;
 	t_cmd			cmd;
 	char			**envp;
+	char			**envl;
 	char			**envp_paths;
 	int				pipe_fd[2];
 	int				tmp_fd;
