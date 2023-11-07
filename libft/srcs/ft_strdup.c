@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 00:02:14 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/10/25 17:42:43 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/07 19:23:57 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strdup(const char *src)
 	int		i;
 
 	i = 0;
-	buff = malloc(ft_strlen(src) * sizeof(char) + 1);
+	buff = ft_calloc(ft_strlen(src) + 1, sizeof(char));
 	if (!buff)
 		return (0);
 	while (src[i] != '\0')

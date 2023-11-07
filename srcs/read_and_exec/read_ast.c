@@ -6,11 +6,25 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:15:27 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/05 20:19:37 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/07 19:51:05 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+void	count_cmd(t_vars *vars, t_ast *head)
+{
+	t_ast	*tmp;
+
+	tmp = head;
+	if (!head)
+		return ;
+	count_cmd(vars, head->left);
+	count_cmd(vars, head->right);
+	if ((head->tokens->type < 4 || head->tokens->type > 6))
+		vars->nb_cmd++;
+		
+}
 
 // Ca permet de detruire les 2 tokens de fichier actuels de la commande
 // ex: < infile cat
@@ -129,17 +143,17 @@ int	fill_cmd_argv(t_vars *vars, t_tokens *tokens)
 	int			i;
 
 	i = 0;
-	vars->cmd.argv = ft_calloc(ft_lstsize(tokens) + 1, sizeof (char*));
-	if (!vars->cmd.argv)
+	vars->cmd.argv_cmd = ft_calloc(ft_lstsize(tokens) + 1, sizeof (char*));
+	if (!vars->cmd.argv_cmd)
 		return (-1);
 	tmp = tokens;
 	while (tmp)
 	{
-		vars->cmd.argv[i] = tokens->string;
+		vars->cmd.argv_cmd[i] = tokens->string;
 		tmp = tmp->next;
 		i++;
 	}
-	vars->cmd.argv[i] = NULL;
+	vars->cmd.argv_cmd[i] = NULL;
 	return (0);
 }
 
@@ -157,30 +171,77 @@ int	sort_cmd(t_vars *vars, t_tokens **head)
 		if (current->type < 4)
 		{
 			if (handle_files(&vars->cmd, current) < 0)
-				return (-1);
+				return (vars->last_return_val = 1, -1);
 			delete_file_tokens(head, &current);
 		}
 		else
 			current = current->next;
 	}
 	if (fill_cmd_argv(vars, *head) < 0)
-		return (-1);
+		return (vars->last_return_val = 1, -1);
 	return (0);
 }
 
+int	pipex(t_vars *vars, t_ast *curr)
+{
+	if (read_ast(vars, curr->left))
+		return (1);
+	if (read_ast(vars, curr->right))
+		return (1);
+	return (0);
+	
+}
+
+int	or(t_vars *vars, t_ast *curr)
+{
+	if (read_ast(vars, curr->left))
+		return (1);
+	if (!vars->last_return_val)
+		return (0);
+	if (read_ast(vars, curr->right))
+		return (1);
+	return (0);
+}
+
+int	and(t_vars *vars, t_ast *curr)
+{
+	if (read_ast(vars, curr->left))
+		return (1);
+	if (vars->last_return_val)
+		return (0);
+	if (read_ast(vars, curr->right))
+		return (1);
+	
+	return (0);
+	
+}
+
 // lire l'ast en partant d'en bas à gauche
+// si t'es sur | || ou && et qu'un enfant 
+// est NULL, c'est qu'il y a un problème
 
 int	read_ast(t_vars *vars, t_ast *curr)
 {
 	if (!curr)
 		return (0);
-	if ((curr->tokens->type > 3 && curr->tokens->type < 7)) // si t'es sur | || ou && et qu'un enfant 
-		if (!curr->right || !curr->left)					// est NULL, c'est qu'il y a un problème
+	if ((curr->tokens->type > 3 && curr->tokens->type < 7)) 
+		if (!curr->right || !curr->left)
 			return (1);
-	if (read_ast(vars, curr->left))
-		return (1);
-	if (read_ast(vars, curr->right))
-		return (1);
+	if (curr->tokens->type == PIPE)
+	{
+		if (pipex(vars, curr))
+			return (1);
+	}
+	else if (curr->tokens->type == AND)
+	{
+		if (and(vars, curr))
+			return (1);
+	}
+	else if (curr->tokens->type == OR)
+	{
+		if (or(vars, curr))
+			return (1);
+	}
 	if ((curr->tokens->type < 4 || curr->tokens->type > 6))
 		if (sort_cmd(vars, &curr->tokens) < 0)
 			return (printf("\nprout\n"), 1);

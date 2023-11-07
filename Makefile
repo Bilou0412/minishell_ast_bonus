@@ -33,10 +33,11 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c | $(OBJS_DIR)
 all:			$(NAME)
 				
 clean:
-				$(MAKE) fclean -C $(LIBFT_DIR)
+				$(MAKE) clean -C $(LIBFT_DIR)
 
 fclean:			clean
 					rm -f $(NAME)
+					rm -f $(LIBFT)
 
 re:				fclean all
 

@@ -1,15 +1,5 @@
 #include "../../inc/minishell.h"
 
-char	*search_envl(char *var, t_vars *all)
-{
-	int	i;
-
-	i = 0;
-	while (all->envl[i] && ft_strncmp(var, all->envl[i], ft_strlen(var) - 1))
-		i++;
-	return (all->envl[i]);
-}
-
 int	export(char *var, t_vars *all)
 {
 	int size;

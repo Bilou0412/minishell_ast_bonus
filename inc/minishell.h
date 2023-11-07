@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/07 12:40:10 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/07 19:34:50 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_cmd
 {
 	t_files			*infiles;
 	t_files			*outfiles;
-	char			**argv;
+	char			**argv_cmd;
 	char			*cmd_path;
 	char			**envp_paths;
 
@@ -47,6 +47,8 @@ typedef struct s_vars
 	t_ast			*ast;
 	t_str_data		str_in;
 	t_cmd			cmd;
+	int				last_return_val;
+	int				nb_cmd;
 	char			**envp;
 	char			**envl;
 	char			**envp_paths;
@@ -61,6 +63,8 @@ void				print_tree(t_ast *ast, int depth);
 void				printtab(char **v);
 void				printtokens(t_tokens **head);
 
+void				count_cmd(t_vars *vars, t_ast *head);
+void				freevars(t_vars *vars, int i);
 int					read_ast(t_vars *vars, t_ast *current);
 int					here_doc_loop(t_cmd *cmd, t_tokens *curr);
 

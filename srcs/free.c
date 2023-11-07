@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:15:26 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/10/31 17:22:29 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/07 17:24:37 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,29 @@ void	free_tree(t_ast **ast)
 	free_tree(&(*ast)->right);
 	ft_lstclear(&(*ast)->tokens, &free);
 	free(*ast);
+}
+
+void	freetabs(char **tab)
+{
+	int	i;
+
+	i = 0;
+	if (!*tab)
+		return ;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
+}
+
+void	freevars(t_vars *vars, int i)
+{
+	free_tree(&vars->ast);
+	ft_lstclear(&vars->tokens, &free);
+	freetabs(vars->cmd.argv_cmd);
+	
+	
+		
 }

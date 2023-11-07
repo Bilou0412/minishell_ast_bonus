@@ -1,5 +1,5 @@
 #include "../../inc/minishell.h"
-
+ 
 char	*get_home(char **envl)
 {
 	int		i;
@@ -19,6 +19,7 @@ char	*get_home(char **envl)
 	}
     return (path_home);
 }
+
 int	cd(char *path, char **envl)
 {
 	char *path_home;

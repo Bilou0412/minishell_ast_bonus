@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:57:46 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/07 12:27:47 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/07 19:36:48 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,6 @@ int		ft_print_third_tab(char ***tab);
 char	*get_next_line(int fd);
 char	*ft_strjoin_gnl(char *s1, char *s2);
 int		ft_arraylen(char **array);
-char	**ft_arraydup(char **array)
+char	**ft_arraydup(char **array);
 
 #endif

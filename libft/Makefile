@@ -16,6 +16,7 @@ SRCS		=	srcs/ft_isalnum.c srcs/ft_isprint.c srcs/ft_memcmp.c  srcs/ft_putchar_fd
 					srcs/ft_tolower.c srcs/ft_bzero.c   srcs/ft_isascii.c srcs/ft_substr.c \
 					srcs/ft_strlen.c  srcs/ft_strrchr.c srcs/ft_strlcpy.c srcs/ft_strnstr.c srcs/ft_striteri.c \
 					srcs/ft_toupper.c srcs/ft_isdigit.c srcs/ft_memchr.c srcs/ft_strdup.c srcs/ft_putnbr_fd.c \
+					srcs/ft_arraydup.c srcs/ft_arraylen.c \
 
 OBJS		=	$(SRCS:.c=.o)
 

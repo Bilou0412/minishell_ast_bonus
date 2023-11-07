@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_arraydup.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 12:26:03 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/07 12:26:47 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/07 19:23:25 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char **ft_arraydup(char **array)
     i = 0;
     while (array[i])
         i++;
-    new_array = malloc(sizeof(char *) * (i + 1));
+    new_array = ft_calloc((i + 1), sizeof(char *));
     if(!new_array)
         return (NULL);
     i = 0;
