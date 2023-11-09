@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:57:46 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/07 19:36:48 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/09 18:36:36 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,9 @@ char	*get_next_line(int fd);
 char	*ft_strjoin_gnl(char *s1, char *s2);
 int		ft_arraylen(char **array);
 char	**ft_arraydup(char **array);
+size_t	ft_strlen_to_char(const char *str, char c);
+char	**ft_change_string_array(int i_of_change_str, char *str, char **array);
+char	**ft_ad_case_to_array(char **array);
+char	**ft_del_string_array(int i_of_del_str, char **array);
 
 #endif

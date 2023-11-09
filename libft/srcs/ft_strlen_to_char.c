@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_strlen_to_char.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/09 18:01:10 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/09 18:04:05 by soutin           ###   ########.fr       */
+/*   Created: 2023/11/09 07:52:59 by bmoudach          #+#    #+#             */
+/*   Updated: 2023/11/09 18:37:13 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "../inc/libft.h"
 
-int	pwd(void)
+size_t	ft_strlen_to_char(const char *str, char c)
 {
-	char	*cwd;
-	char	buff[PATH_MAX + 1];
+	size_t	i;
 
-	cwd = getcwd(buff, PATH_MAX + 1);
-	if (cwd != NULL)
-		printf("%s\n", cwd);
-	return (EXIT_SUCCESS);
+	i = 0;
+	while (str[i] != c && str[i] != '\0')
+		i++;
+	return (i);
 }
