@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/07 19:34:50 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/09 17:36:32 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_vars
 	t_tokens		*tokens;
 	t_ast			*ast;
 	t_str_data		str_in;
+	char			*prompt;
 	t_cmd			cmd;
 	int				last_return_val;
 	int				nb_cmd;
@@ -62,10 +63,9 @@ t_vars				*_vars(void);
 void				print_tree(t_ast *ast, int depth);
 void				printtab(char **v);
 void				printtokens(t_tokens **head);
+void				freetabs(char **tab);
 
-void				count_cmd(t_vars *vars, t_ast *head);
 void				freevars(t_vars *vars, int i);
-int					read_ast(t_vars *vars, t_ast *current);
 int					here_doc_loop(t_cmd *cmd, t_tokens *curr);
 
 void				free_tree(t_ast **ast);
@@ -77,5 +77,11 @@ t_tokens			*ft_lstlast(t_tokens **tok);
 void				ft_lstadd_back(t_tokens **lst, t_tokens *new);
 void				ft_lstdelone(t_tokens *lst, void (*del)(void *));
 void				ft_lstclear(t_tokens **lst, void (*del)(void *));
+
+int					read_ast(t_vars *vars, t_ast *current);
+void				count_cmd(t_vars *vars, t_ast *head);
+void				delete_file_tokens(t_tokens **head, t_tokens **curr);
+int					file_add_back(t_files **head, int new_fd);
+int					fill_cmd_argv(t_vars *vars, t_tokens *tokens);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 12:44:33 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/07 16:28:33 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/09 15:59:07 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,14 +101,14 @@ int	is_branch(t_tokens **curr_tok, t_ast **curr_node)
 	return (0);
 }
 
-int	launch_ast(t_tokens *head, t_ast **root)
+int	launch_ast(t_tokens **head, t_ast **root)
 {
 	t_tokens	*tmp;
 
 	*root = NULL;
-	tmp = head;
+	tmp = *head;
 	if (is_branch(&tmp, root) < 0)
 		return (-1);
-	head = NULL;
+	*head = NULL;
 	return (0);
 }

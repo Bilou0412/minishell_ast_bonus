@@ -9,6 +9,7 @@ SRCS		=	srcs/parser/tokens_utils.c \
 				srcs/parser/fill_ast.c \
 				srcs/parser/fill_ast_utils.c \
 				srcs/read_and_exec/read_ast.c \
+				srcs/read_and_exec/read_ast_utils.c \
 				srcs/read_and_exec/pipex.c \
 				srcs/read_and_exec/inits.c \
 				srcs/read_and_exec/inits_utils.c \

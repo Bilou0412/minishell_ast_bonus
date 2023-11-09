@@ -6,18 +6,18 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:15:26 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/07 17:24:37 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/09 18:00:13 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	ft_lstclear(t_tokens **lst, void (*del)(void*))
+void	ft_lstclear(t_tokens **lst, void (*del)(void *))
 {
 	t_tokens	*t;
 	t_tokens	*buf;
 
-	if (!lst)
+	if (!*lst)
 		return ;
 	t = *lst;
 	while (t)
@@ -29,7 +29,7 @@ void	ft_lstclear(t_tokens **lst, void (*del)(void*))
 	*lst = NULL;
 }
 
-void	ft_lstdelone(t_tokens *lst, void (*del)(void*))
+void	ft_lstdelone(t_tokens *lst, void (*del)(void *))
 {
 	if (!lst)
 		return ;
@@ -66,8 +66,10 @@ void	freevars(t_vars *vars, int i)
 {
 	free_tree(&vars->ast);
 	ft_lstclear(&vars->tokens, &free);
-	freetabs(vars->cmd.argv_cmd);
-	
-	
-		
+	if (vars->cmd.argv_cmd)
+		free(vars->cmd.argv_cmd);
+	if (vars->str_in.buff)
+		free(vars->str_in.buff);
+	if (vars->prompt)
+		free(vars->prompt);
 }

@@ -1,5 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/09 18:00:57 by soutin            #+#    #+#             */
+/*   Updated: 2023/11/09 18:04:20 by soutin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
- 
+
 char	*get_home(char **envl)
 {
 	int		i;
@@ -17,12 +29,12 @@ char	*get_home(char **envl)
 		}
 		i++;
 	}
-    return (path_home);
+	return (path_home);
 }
 
 int	cd(char *path, char **envl)
 {
-	char *path_home;
+	char	*path_home;
 
 	if (path)
 	{

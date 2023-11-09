@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_maker_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:23:40 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/07 08:24:35 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/09 18:00:34 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ int	char_is_quote(t_str_data *str_in, int *word_size, char *current)
 	{
 		if (*current == quote)
 			break ;
-		else if (*current == '\0')
-			return (ft_putstr_fd("quote error", 2), -1);
 		(*word_size)++;
 		*current = str_in->buff[str_in->curpos + *word_size];
+		if (*current == '\0')
+			return (-1);
 	}
 	return (0);
 }
@@ -64,7 +64,8 @@ int	check_char(t_str_data *str_in)
 	{
 		current = str_in->buff[str_in->curpos + word_size];
 		if (current == '\'' || current == '\"')
-			char_is_quote(str_in, &word_size, &current);
+			if (char_is_quote(str_in, &word_size, &current) < 0)
+				return (-1);
 		if ((current == ' ' || tok_type(&current) != WORD) || (current == '&'
 				&& str_in->buff[str_in->curpos + word_size + 1] == '&'))
 			break ;
