@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 10:34:24 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/10/25 17:40:56 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/10 20:04:55 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*ft_itoa(int n)
 
 	nb = (long int)n;
 	len = len_n(nb);
-	num_conv = malloc((len + 1) * sizeof(char));
+	num_conv = ft_calloc((len + 1), sizeof(char));
 	if (!num_conv)
 		return (NULL);
 	if (nb == 0)

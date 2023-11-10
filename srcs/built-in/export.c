@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 11:07:56 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/09 18:40:08 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/10 19:45:08 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	search_envl(char *var, t_vars *all)
+int	search_envl(t_vars *vars, char *var_name)
 {
 	int	i;
 	int	size_name_envl;
 	int	size_name_var;
 
 	i = 0;
-	size_name_var = ft_strlen_to_char(var, '=');
+	size_name_var = ft_strlen_to_char(var_name, '=');
 	while (all->envl[i])
 	{
 		size_name_envl = ft_strlen_to_char(all->envl[i], '=');
@@ -42,8 +42,8 @@ int	check_var_name(char *var)
 		return (-1);
 	while (var[i] && var[i] != '=')
 	{
-		if (ft_isalpha(var[i]) || var[i] == '_' || (var[i] == '+' && var[i
-					+ 1] == '='))
+		if (ft_isalpha(var[i]) || var[i] == '_'
+		|| (var[i] == '+' && var[i + 1] == '='))
 			i++;
 		else
 			return (1);

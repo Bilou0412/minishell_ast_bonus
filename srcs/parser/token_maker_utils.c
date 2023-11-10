@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_maker_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:23:40 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/10 14:07:10 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/10 22:42:30 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ char	*del_quote(char *word)
 		if (word[i] != quote)
 			size++;
 	}
-	word_unquoted = malloc(size + 1 * sizeof(char));
+	word_unquoted = ft_calloc(size + 1, sizeof(char));
 	if (!word_unquoted)
 		return (free(word), NULL);
 	i = 0;

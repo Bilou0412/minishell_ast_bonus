@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 21:04:57 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/10/25 17:42:50 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/10 20:05:08 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	len = ft_strlen(s1) + ft_strlen(s2);
 	len_s1 = ft_strlen(s1);
-	str = malloc((len + 1) * sizeof(char));
+	str = ft_calloc((len + 1), sizeof(char));
 	if (!str)
 		return (NULL);
 	ft_strlcpy(str, s1, len_s1 + 1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/10 16:55:40 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/10 21:23:41 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,25 +38,24 @@ typedef struct s_cmd
 	t_files			*infiles;
 	t_files			*outfiles;
 	char			**argv;
-	char			*cmd_path;
-	char			**envp_paths;
-
+	char			*path;
+	char			**env_paths;
+	int				nb_forks;
+	int				nb_pipes;
 }					t_cmd;
 
 typedef struct s_vars
 {
+	t_str_data		str_in;
 	t_tokens		*tokens;
 	t_ast			*ast;
-	t_str_data		str_in;
-	char			*prompt;
 	t_cmd			cmd;
+	char			*prompt;
 	int				last_return_val;
-	int				nb_cmd;
+	int				nb_pipes;
 	int				nb_forks;
-	int				i;
 	char			**envp;
 	char			**envl;
-	char			**envp_paths;
 	int				pipe_fd[2];
 	int				tmp_fd;
 	int				pid[1024];
@@ -89,11 +88,12 @@ void				count_cmd(t_vars *vars, t_ast *head);
 void				delete_file_tokens(t_tokens **head, t_tokens **curr);
 int					file_add_back(t_files **head, int new_fd);
 int					fill_cmd_argv(t_vars *vars, t_tokens *tokens);
-int					exec_cmd(t_vars *vars);
+int					exec_cmd(t_vars *vars, t_tokens **head);
 char				*search_envl(t_vars *vars, char *var_name);
 char				**init_paths(t_vars *vars);
-int					init_cmd_and_files(t_vars *vars, int i);
-int					waitchilds(t_vars *vars, int i);
-char				*cmdjoin(char *path, char *cmd);	
+int					init_cmd_and_files(t_vars *vars, t_tokens **head);
+int					waitchilds(t_vars *vars, int childmax);
+char				*cmdjoin(char *path, char *cmd);
+int					sort_cmd(t_vars *vars, t_tokens **head);
 
 #endif

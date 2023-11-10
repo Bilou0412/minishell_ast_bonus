@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:28:56 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/09 19:44:40 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/10 22:28:21 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	count_cmd(t_vars *vars, t_ast *head)
 	count_cmd(vars, head->left);
 	count_cmd(vars, head->right);
 	if ((head->tokens->type < 4 || head->tokens->type > 6))
-		vars->nb_cmd++;
+		vars->cmd.nb_pipes++;
 }
 
 void	delete_file_tokens(t_tokens **head, t_tokens **curr)
@@ -89,7 +89,9 @@ int	fill_cmd_argv(t_vars *vars, t_tokens *tokens)
 	tmp = tokens;
 	while (tmp)
 	{
-		vars->cmd.argv[i] = tokens->string;
+		vars->cmd.argv[i] = ft_strdup(tokens->string);
+		if (!vars->cmd.argv[i])
+			return (freetabs(vars->cmd.argv), -1);
 		tmp = tmp->next;
 		i++;
 	}

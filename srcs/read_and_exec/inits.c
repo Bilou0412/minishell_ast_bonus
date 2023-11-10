@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 19:20:32 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/10 14:38:14 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/10 22:21:25 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,19 @@ int	init_cmd_path(t_vars *vars)
 	int	i;
 
 	i = 0;
-	while (vars->envp_paths[i])
+	while (vars->cmd.env_paths[i])
 	{
-		if (vars->cmd.cmd_path)
-			free(vars->cmd.cmd_path);
-		vars->cmd.cmd_path = cmdjoin(vars->envp_paths[i], vars->cmd.argv[0]);
-		if (!vars->cmd.cmd_path)
+		vars->cmd.path = cmdjoin(vars->cmd.env_paths[i], vars->cmd.argv[0]);
+		if (!vars->cmd.path)
 			return (perror("join"), -1);
-		if (access(vars->cmd.cmd_path, F_OK | X_OK) == 0)
+		// printf("%s\n", vars->cmd.path);
+		if (access(vars->cmd.path, F_OK | X_OK) == 0)
 			return (0);
+		if (vars->cmd.path)
+			free(vars->cmd.path);
+		vars->cmd.path = NULL;
 		i++;
 	}
-	printf("la");
 	ft_printf("command not found: %s\n", vars->cmd.argv[0]);
 	return (-1);
 }
@@ -85,11 +86,14 @@ int	here_doc_loop(t_cmd *cmd, t_tokens *curr)
 	return (free(limiter), 0);
 }
 
-int	init_cmd_and_files(t_vars *vars, int i)
+int	init_cmd_and_files(t_vars *vars, t_tokens **head)
 {
+	
+	if (sort_cmd(vars, head) < 0)
+		return (-1);
 	if (path_to_argv(vars->cmd.argv) < 0)
-		return (freevars(vars, i), -1);
+		return (freevars(vars, 1), -1);
 	else if (init_cmd_path(vars) < 0)
-		return (freevars(vars, i), -1);
+		return (freevars(vars, 1), -1);
 	return (0);
 }

@@ -3,14 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   read_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:15:27 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/10 15:56:54 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/10 22:37:14 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+int	handle_files_2(t_cmd *cmd, t_tokens *arm)
+{
+	int	fd;
+
+	if (arm->type == GREAT)
+	{
+		fd = open(arm->next->string, O_WRONLY | O_TRUNC | O_CREAT, 0666);
+		if (fd < 0)
+			return (-1);
+		if (file_add_back(&cmd->outfiles, fd) < 0)
+			return (-1);
+	}
+	else if (arm->type == DGREAT)
+	{
+		fd = open(arm->next->string, O_WRONLY | O_APPEND | O_CREAT, 0666);
+		if (fd < 0)
+			return (-1);
+		if (file_add_back(&cmd->outfiles, fd) < 0)
+			return (-1);
+	}
+	return (0);
+}
 
 int	handle_files(t_cmd *cmd, t_tokens *arm)
 {
@@ -38,22 +61,8 @@ int	handle_files(t_cmd *cmd, t_tokens *arm)
 		if (file_add_back(&cmd->infiles, fd) < 0)
 			return (-1);
 	}
-	else if (arm->type == GREAT)
-	{
-		fd = open(arm->next->string, O_WRONLY | O_TRUNC | O_CREAT, 0666);
-		if (fd < 0)
-			return (-1);
-		if (file_add_back(&cmd->outfiles, fd) < 0)
-			return (-1);
-	}
-	else if (arm->type == DGREAT)
-	{
-		fd = open(arm->next->string, O_WRONLY | O_APPEND | O_CREAT, 0666);
-		if (fd < 0)
-			return (-1);
-		if (file_add_back(&cmd->outfiles, fd) < 0)
-			return (-1);
-	}
+	else if (handle_files_2(cmd, arm) < 0)
+		return (-1);
 	return (0);
 }
 
@@ -67,14 +76,14 @@ int	sort_cmd(t_vars *vars, t_tokens **head)
 		if (current->type < 4)
 		{
 			if (handle_files(&vars->cmd, current) < 0)
-				return (vars->last_return_val = 1, -1);
+				return (-1);
 			delete_file_tokens(head, &current);
 		}
 		else
 			current = current->next;
 	}
 	if (fill_cmd_argv(vars, *head) < 0)
-		return (vars->last_return_val = 1, -1);
+		return (-1);
 	return (0);
 }
 
@@ -106,7 +115,7 @@ int	and_(t_vars *vars, t_ast *curr)
 		return (1);
 	// if (curr->left->tokens->type == PIPE)
 	// 	close(vars->pipe_fd[0]);
-	 if (vars->last_return_val)
+	if (vars->last_return_val)
 		return (0);
 	if (read_ast(vars, curr->right))
 		return (1);
@@ -137,11 +146,9 @@ int	read_ast(t_vars *vars, t_ast *curr)
 	}
 	if ((curr->tokens->type < 4 || curr->tokens->type > 6))
 	{
-		if (sort_cmd(vars, &curr->tokens) < 0)
-			return (printf("\nprout\n"), 1);
-		if (exec_cmd(vars) < 0)
+		if (exec_cmd(vars, &curr->tokens) < 0)
 			return (1);
-		vars->i++;
+		vars->nb_forks++;
 	}
 	return (0);
 }
