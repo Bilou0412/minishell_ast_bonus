@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:15:27 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/09 20:49:54 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/10 15:56:54 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ int	or_(t_vars *vars, t_ast *curr)
 		return (1);
 	// if (curr->left->tokens->type == PIPE)
 	// 	close(vars->pipe_fd[0]);
-	// if (!vars->last_return_val)
-	// 	return (0);
+	if (!vars->last_return_val)
+		return (0);
 	if (read_ast(vars, curr->right))
 		return (1);
 	return (0);
@@ -106,8 +106,8 @@ int	and_(t_vars *vars, t_ast *curr)
 		return (1);
 	// if (curr->left->tokens->type == PIPE)
 	// 	close(vars->pipe_fd[0]);
-	// if (vars->last_return_val)
-	// 	return (0);
+	 if (vars->last_return_val)
+		return (0);
 	if (read_ast(vars, curr->right))
 		return (1);
 	return (0);

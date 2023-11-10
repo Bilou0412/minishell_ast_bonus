@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/10 14:48:34 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/10 16:55:40 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_vars
 	t_cmd			cmd;
 	int				last_return_val;
 	int				nb_cmd;
+	int				nb_forks;
 	int				i;
 	char			**envp;
 	char			**envl;
@@ -92,7 +93,7 @@ int					exec_cmd(t_vars *vars);
 char				*search_envl(t_vars *vars, char *var_name);
 char				**init_paths(t_vars *vars);
 int					init_cmd_and_files(t_vars *vars, int i);
-int					waitchilds(t_vars *vars);
+int					waitchilds(t_vars *vars, int i);
 char				*cmdjoin(char *path, char *cmd);	
 
 #endif

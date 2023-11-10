@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:19 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/10 14:36:11 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/10 16:54:46 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	read_inputs(t_vars *vars)
 			return (-1);
 		else if (read_ast(vars, vars->ast))
 			return (-1);
-		if (waitchilds(vars) < 0)
+		if (waitchilds(vars, vars->i) < 0)
 			return (-1);
 		// print_tree(vars->ast, 0);
 		freevars(vars, 0);

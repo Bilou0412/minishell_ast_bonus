@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   token_maker_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:23:40 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/09 18:00:34 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/10 14:07:10 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
+// renvois le type de content
 int	tok_type(char *content)
 {
 	if (!ft_strncmp(content, "||", 2))
@@ -40,6 +41,8 @@ int	char_is_quote(t_str_data *str_in, int *word_size, char *current)
 	char	quote;
 
 	quote = *current;
+	if(str_in->buff[str_in->curpos + *word_size + 1] == '\'' || str_in->buff[str_in->curpos + *word_size + 1] == '\"')
+		 
 	(*word_size)++;
 	*current = str_in->buff[str_in->curpos + *word_size];
 	while (*word_size + str_in->curpos < str_in->buff_size)

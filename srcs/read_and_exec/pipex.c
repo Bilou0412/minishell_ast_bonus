@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:13:52 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/10 14:45:20 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/10 16:55:25 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,24 +59,26 @@ void	in_out_pipe(t_vars *vars, int i)
 	}
 }
 
-int	waitchilds(t_vars *vars)
+int	waitchilds(t_vars *vars, int childmax)
 {
 	int	i;
 	int	status;
 
 	i = 0;
-	while (i < vars->nb_cmd)
+	while (i < childmax)
 	{
 		if (waitpid(vars->pid[i], &status, 0) < 0)
 			return (-1);
 		i++;
+		if (WEXITSTATUS(status))
+			vars->last_return_val = WEXITSTATUS(status);
 	}
 	return (0);
 }
 
 int	exec_cmd(t_vars *vars)
 {
-   vars->pid[vars->i] = fork();
+	vars->pid[vars->i] = fork();
 	if (vars->pid[vars->i] < 0)
 		return (perror("Fork"), -1);
 	if (!vars->pid[vars->i])
