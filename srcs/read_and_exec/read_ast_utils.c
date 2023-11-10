@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:28:56 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/09 17:42:06 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/09 19:44:40 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,6 @@ void	count_cmd(t_vars *vars, t_ast *head)
 		vars->nb_cmd++;
 }
 
-//  delete  the 2 next tokens from the list
-// ex: cat < infile
-// devient : cat
 void	delete_file_tokens(t_tokens **head, t_tokens **curr)
 {
 	t_tokens	*tmp;
@@ -86,16 +83,16 @@ int	fill_cmd_argv(t_vars *vars, t_tokens *tokens)
 	int			i;
 
 	i = 0;
-	vars->cmd.argv_cmd = ft_calloc(ft_lstsize(tokens) + 1, sizeof(char *));
-	if (!vars->cmd.argv_cmd)
+	vars->cmd.argv = ft_calloc(ft_lstsize(tokens) + 1, sizeof(char *));
+	if (!vars->cmd.argv)
 		return (-1);
 	tmp = tokens;
 	while (tmp)
 	{
-		vars->cmd.argv_cmd[i] = tokens->string;
+		vars->cmd.argv[i] = tokens->string;
 		tmp = tmp->next;
 		i++;
 	}
-	vars->cmd.argv_cmd[i] = NULL;
+	vars->cmd.argv[i] = NULL;
 	return (0);
 }

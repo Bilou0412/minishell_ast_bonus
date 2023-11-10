@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/09 17:36:32 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/10 14:48:34 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
 # include <sys/types.h>
+# include <sys/wait.h>
 # include <unistd.h>
 
 typedef struct s_files
@@ -35,7 +37,7 @@ typedef struct s_cmd
 {
 	t_files			*infiles;
 	t_files			*outfiles;
-	char			**argv_cmd;
+	char			**argv;
 	char			*cmd_path;
 	char			**envp_paths;
 
@@ -50,6 +52,7 @@ typedef struct s_vars
 	t_cmd			cmd;
 	int				last_return_val;
 	int				nb_cmd;
+	int				i;
 	char			**envp;
 	char			**envl;
 	char			**envp_paths;
@@ -78,10 +81,18 @@ void				ft_lstadd_back(t_tokens **lst, t_tokens *new);
 void				ft_lstdelone(t_tokens *lst, void (*del)(void *));
 void				ft_lstclear(t_tokens **lst, void (*del)(void *));
 
+int					launch_ast(t_vars *vars);
+
 int					read_ast(t_vars *vars, t_ast *current);
 void				count_cmd(t_vars *vars, t_ast *head);
 void				delete_file_tokens(t_tokens **head, t_tokens **curr);
 int					file_add_back(t_files **head, int new_fd);
 int					fill_cmd_argv(t_vars *vars, t_tokens *tokens);
+int					exec_cmd(t_vars *vars);
+char				*search_envl(t_vars *vars, char *var_name);
+char				**init_paths(t_vars *vars);
+int					init_cmd_and_files(t_vars *vars, int i);
+int					waitchilds(t_vars *vars);
+char				*cmdjoin(char *path, char *cmd);	
 
 #endif

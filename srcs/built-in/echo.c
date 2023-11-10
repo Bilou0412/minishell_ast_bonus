@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 11:07:58 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/09 18:39:41 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/09 18:58:11 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-#include <stdio.h>
-#include <string.h>
 
 void	print_for_echo(char *str_to_print)
 {
