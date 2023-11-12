@@ -13,6 +13,8 @@ SRCS		=	srcs/parser/tokens_utils.c \
 				srcs/read_and_exec/pipex.c \
 				srcs/read_and_exec/inits.c \
 				srcs/read_and_exec/inits_utils.c \
+				srcs/read_and_exec/builtin_exec.c \
+				srcs/built-in/cd.c \
 				srcs/print.c \
 				srcs/free.c \
 				srcs/main.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:15:27 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/10 22:37:14 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/12 11:49:55 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,9 +146,12 @@ int	read_ast(t_vars *vars, t_ast *curr)
 	}
 	if ((curr->tokens->type < 4 || curr->tokens->type > 6))
 	{
-		if (exec_cmd(vars, &curr->tokens) < 0)
-			return (1);
-		vars->nb_forks++;
+		if (!is_builtin(vars, &curr->tokens))
+		{
+			if (exec_cmd(vars, &curr->tokens) < 0)
+				return (1);
+			vars->nb_forks++;
+		}
 	}
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/10 21:23:41 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/12 11:49:04 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,8 @@ int					init_cmd_and_files(t_vars *vars, t_tokens **head);
 int					waitchilds(t_vars *vars, int childmax);
 char				*cmdjoin(char *path, char *cmd);
 int					sort_cmd(t_vars *vars, t_tokens **head);
+int					search_envl_index(char *var, t_vars *all);
+int					cd(t_tokens **head, char **envl);
+int					is_builtin(t_vars *vars, t_tokens **head);
 
 #endif

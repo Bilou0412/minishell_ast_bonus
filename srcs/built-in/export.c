@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 11:07:56 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/10 19:45:08 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/11 16:32:22 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	search_envl(t_vars *vars, char *var_name)
+int	search_envl_index(char *var, t_vars *all)
 {
 	int	i;
 	int	size_name_envl;
 	int	size_name_var;
 
 	i = 0;
-	size_name_var = ft_strlen_to_char(var_name, '=');
+	size_name_var = ft_strlen(var);
 	while (all->envl[i])
 	{
 		size_name_envl = ft_strlen_to_char(all->envl[i], '=');
@@ -59,7 +59,7 @@ int	export(char *var, t_vars *all)
 	size = ft_arraylen(all->envl);
 	if (check_var_name(var))
 		return (-1);
-	to_change = search_envl(var, all);
+	to_change = search_envl_index(var, all);
 	if (to_change > -1)
 	{
 		all->envl = ft_change_string_array(to_change, var, all->envl);

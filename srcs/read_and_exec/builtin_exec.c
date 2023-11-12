@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/09 11:07:50 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/12 11:48:08 by bmoudach         ###   ########.fr       */
+/*   Created: 2023/11/11 12:14:40 by bmoudach          #+#    #+#             */
+/*   Updated: 2023/11/12 10:08:44 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-
-int	unset(char *var, t_vars *all)
+int	is_builtin(t_vars *vars, t_tokens **head)
 {
-	int	to_del;
+	t_tokens *current;
 
-	to_del = search_envl_index(var, all);
-	if (to_del > -1)
+	current = *head;
+	if (!ft_strncmp(current->string, "cd", 3))
 	{
-		all->envl = ft_del_string_array(to_del, all->envl);
-		if (!all->envl)
-			return (-1);
+		if(cd(head,vars->envl) < 0)
+			vars->last_return_val = 1;
+		return (1);
 	}
 	return (0);
 }
