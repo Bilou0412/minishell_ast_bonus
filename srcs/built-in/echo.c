@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 11:07:58 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/09 18:58:11 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/12 17:10:29 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,49 +33,122 @@ void	print_for_echo(char *str_to_print)
 		}
 	}
 }
-
-char	*check_echo_option(char *option, char *string)
+char	get_quote_to_del(char *word)
 {
-	int		i;
-	char	*str_to_print;
-	char	*tmp;
+	int	i;
 
 	i = 0;
-	if (*option && !ft_strncmp("-n", option, 2))
+	while (word[i])
 	{
-		i = i + 2;
-		while (option[i] == 'n')
+		if (word[i] == '\'' || word[i] == '\"')
+			return (word[i]);
+		else
 			i++;
-		if (option[i] == '\0')
-			return (ft_strdup(string));
-		else if (option[i] == ' ')
-		{
-			i++;
-			return (ft_strjoin(option + i, string));
-		}
 	}
-	if (*option)
-	{
-		str_to_print = ft_strjoin(option, " ");
-		if (!str_to_print)
-			return (NULL);
-		tmp = ft_strjoin(str_to_print, string);
-		free(str_to_print);
-		if (!tmp)
-			return (NULL);
-		str_to_print = ft_strjoin(tmp, "\n");
-		free(tmp);
-		if (!str_to_print)
-			return (NULL);
-		return (str_to_print);
-	}
-	return (ft_strjoin(string, "\n"));
+	return (0);
 }
 
-int	echo(char *option, char *string)
+char	*del_quote(char *word)
 {
-	char	*str_to_print;
+	char	quote;
+	int		i;
+	int		size;
+	char	*word_unquoted;
 
+	i = 0;
+	size = 0;
+	quote = get_quote_to_del(word);
+	while (word[i++])
+	{
+		if (word[i] != quote)
+			size++;
+	}
+	word_unquoted = ft_calloc(size + 1, sizeof(char));
+	if (!word_unquoted)
+		return (free(word), NULL);
+	i = 0;
+	size = 0;
+	while (word[i++])
+	{
+		if (word[i] != quote)
+			word_unquoted[size++] = word[i];
+	}
+	return (word_unquoted[size] = '\0', free(word), word_unquoted);
+}
+
+int	is_option(t_tokens **head)
+{
+	t_tokens	*current;
+	char		*current_string;
+	int			i;
+
+	i = 0;
+	current = *head;
+	current = current->next;
+	while (current)
+	{
+		if (current->type == WORD)
+		{
+			current_string = del_quote(current->next);
+			if (!current_string)
+				return (NULL);
+			if (current_string[i] == '-')
+			{
+				i++;
+				while (current_string[i] == 'n')
+					i++;
+				if (!current_string[i])
+					return (1);
+			}
+			return (0);
+		}
+		current = current->next;
+	}
+	return (0);
+}
+char	**string_to_print(t_tokens **head)
+{
+	t_tokens	*current;
+	char		*current_string;
+	int			i;
+	int			option;
+
+	i = 0;
+	option = 0;
+	current = *head;
+	current = current->next;
+	while (current)
+	{
+		while (current->type == WORD)
+		{
+			current_string = del_quote(current->next);
+			if (!current_string)
+				return (NULL);
+			if (current_string[i] == '-')
+			{
+				i++;
+				while (current_string[i] == 'n')
+					i++;
+				if (!current_string[i])
+				{
+					current = current->next;
+					option = 1;
+				}
+				else
+					return ();
+			}
+		}
+		current = current->next;
+	}
+	return (0);
+}
+int	echo(t_tokens **head)
+{
+	int		option;
+	char	*string;
+
+	option = is_option(head);
+	string = string_to_print(head);
 	if (!option && !string)
 		return (ft_putchar_fd('\n', 1), 0);
 	else if (string && !option)

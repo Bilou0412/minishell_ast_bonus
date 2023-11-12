@@ -15,6 +15,10 @@ SRCS		=	srcs/parser/tokens_utils.c \
 				srcs/read_and_exec/inits_utils.c \
 				srcs/read_and_exec/builtin_exec.c \
 				srcs/built-in/cd.c \
+				srcs/built-in/env.c \
+				srcs/built-in/pwd.c \
+				srcs/built-in/export.c \
+				srcs/built-in/unset.c \
 				srcs/print.c \
 				srcs/free.c \
 				srcs/main.c \

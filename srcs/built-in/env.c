@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/09 11:07:50 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/12 18:21:21 by bmoudach         ###   ########.fr       */
+/*   Created: 2023/11/12 17:11:09 by bmoudach          #+#    #+#             */
+/*   Updated: 2023/11/12 17:12:18 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	unset(t_tokens **head, t_vars *all)
+int	env(char **envl)
 {
-	int		to_del;
-	char	*var;
+	int i;
 
-	var = get_next_word(head);
-	to_del = search_envl_index(var, all);
-	if (to_del > -1)
+	i = 0;
+	while (envl[i])
 	{
-		all->envl = ft_del_string_array(to_del, all->envl);
-		if (!all->envl)
-			return (-1);
+		ft_putstr_fd(envl[i], 1);
+		ft_putchar_fd('\n', 1);
+		i++;
 	}
 	return (0);
 }

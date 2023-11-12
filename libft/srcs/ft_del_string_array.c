@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 11:03:41 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/09 18:36:56 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/12 18:39:24 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,15 @@ char	**ft_del_string_array(int i_of_del_str, char **array)
 	{
 		if (i == i_of_del_str)
 			j++;
-		new_array[i] = ft_strdup(array[j]);
+		if (array[j])
+			new_array[i] = ft_strdup(array[j]);
 		if (!new_array)
 			return (ft_free_tab(array), new_array[i] = NULL, NULL);
-		i++;
-		j++;
+		if (array[j])
+		{
+			i++;
+			j++;
+		}
 	}
 	new_array[i] = NULL;
 	return (ft_free_tab(array), new_array);

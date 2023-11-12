@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/12 11:49:04 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/12 18:15:11 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,10 @@ char				*cmdjoin(char *path, char *cmd);
 int					sort_cmd(t_vars *vars, t_tokens **head);
 int					search_envl_index(char *var, t_vars *all);
 int					cd(t_tokens **head, char **envl);
+int					env(char **envl);
 int					is_builtin(t_vars *vars, t_tokens **head);
-
+int					pwd(void);
+int					export(t_tokens **head, t_vars *all);
+int					unset(t_tokens **head, t_vars *all);
+char				*get_next_word(t_tokens **head);
 #endif

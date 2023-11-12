@@ -6,24 +6,24 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 11:08:01 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/12 12:50:38 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/12 18:59:18 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-char *get_path(t_tokens **head)
+
+char	*get_path(t_tokens **head)
 {
-	t_tokens *current;
+	t_tokens	*current;
 
 	current = *head;
-	current = current->next;
-	while(current)
+	while (current)
 	{
-		if(current->type == WORD)
+		if (current->type == WORD)
 			return (current->string);
 		current = current->next;
 	}
-	return(NULL);
+	return (NULL);
 }
 char	*get_home(char **envl)
 {
@@ -47,23 +47,23 @@ char	*get_home(char **envl)
 
 int	cd(t_tokens **head, char **envl)
 {
-	char		*path;
-	char		*path_home;
+	char	*path;
+	char	*path_home;
 
 	path = get_path(head);
+	path_home = NULL;
 	if (path)
 	{
 		if (chdir(path))
-			return (perror("cd"),-1);
+			return (perror("cd"), -1);
 	}
 	else
 	{
 		path_home = get_home(envl);
-		printf("%s",path_home);
 		if (!path_home)
-			return (-1);
+			return (free(path_home), -1);
 		if (chdir(path_home))
-			return (-1);
+			return (free(path_home), -1);
 	}
-	return (0);
+	return (free(path_home), 0);
 }

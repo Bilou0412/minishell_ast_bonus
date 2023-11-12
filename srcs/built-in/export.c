@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 11:07:56 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/11 16:32:22 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/12 17:28:43 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,19 @@ int	search_envl_index(char *var, t_vars *all)
 	}
 	return (-1);
 }
+char *get_next_word(t_tokens **head)
+{
+	t_tokens *current;
+
+	current = *head;
+	while(current)
+	{
+		if(current->type == WORD)
+			return (current->string);
+		current = current->next;
+	}
+	return(NULL);
+}
 
 int	check_var_name(char *var)
 {
@@ -51,11 +64,13 @@ int	check_var_name(char *var)
 	return (0);
 }
 
-int	export(char *var, t_vars *all)
+int	export(t_tokens **head, t_vars *all)
 {
 	int	size;
 	int	to_change;
+	char	*var;	
 
+	var = get_next_word(head);
 	size = ft_arraylen(all->envl);
 	if (check_var_name(var))
 		return (-1);
