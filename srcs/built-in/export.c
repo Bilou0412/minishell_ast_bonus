@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 11:07:56 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/12 17:28:43 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/13 12:56:44 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	search_envl_index(char *var, t_vars *all)
 	int	size_name_var;
 
 	i = 0;
-	size_name_var = ft_strlen(var);
+	size_name_var = ft_strlen_to_char(var, '=');
 	while (all->envl[i])
 	{
 		size_name_envl = ft_strlen_to_char(all->envl[i], '=');
@@ -87,6 +87,8 @@ int	export(t_tokens **head, t_vars *all)
 		if (!all->envl)
 			return (0);
 		all->envl[size] = ft_strdup(var);
+		if(!all->envl[size])
+			return (-1);
 	}
 	return (0);
 }

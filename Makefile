@@ -19,6 +19,7 @@ SRCS		=	srcs/parser/tokens_utils.c \
 				srcs/built-in/pwd.c \
 				srcs/built-in/export.c \
 				srcs/built-in/unset.c \
+				srcs/built-in/exit.c \
 				srcs/print.c \
 				srcs/free.c \
 				srcs/main.c \

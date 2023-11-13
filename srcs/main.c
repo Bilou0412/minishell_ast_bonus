@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:19 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/10 22:31:21 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/13 17:02:16 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,6 @@ int	read_inputs(t_vars *vars)
 		vars->str_in.buff = readline(vars->prompt);
 		if (!vars->str_in.buff)
 			return (-1);
-		if (!ft_strncmp("exit", vars->str_in.buff, 5))
-		{
-			freevars(vars, 0);
-			return (0);
-		}
 		if (token_m(&vars->str_in, &vars->tokens) < 0)
 			printf("quote error");
 		else if (launch_ast(vars) < 0)
