@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:23:40 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/14 16:29:03 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/15 12:30:54 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	char_is_quote(t_str_data *str_in, int *word_size, char *current)
 
 	}		
 	if (*current == '\0')
-			return (-1);
+			return (printf("quote error\n"),-1);
 	return (0);
 }
 

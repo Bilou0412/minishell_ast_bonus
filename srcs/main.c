@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:19 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/14 16:13:32 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/15 13:14:43 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,15 @@ int	read_inputs(t_vars *vars)
 		vars->str_in.buff = readline(vars->prompt);
 		if (!vars->str_in.buff)
 			return (-1);
-		if (token_m(&vars->str_in, &vars->tokens) < 0)
-			printf("quote error\n");
-		else if (launch_ast(vars) < 0)
-			return (-1);
-		else if (read_ast(vars, vars->ast))
-			return (-1);
+		if (vars->str_in.buff[0])
+			add_history(vars->str_in.buff);
+		if (!token_m(&vars->str_in, &vars->tokens))
+		{
+			if (launch_ast(vars) < 0)
+				return (-1);
+			else if (read_ast(vars, vars->ast))
+				return (-1);
+		}
 		if (waitchilds(vars, vars->nb_forks) < 0)
 			return (-1);
 		// print_tree(vars->ast, 0);
@@ -114,12 +117,20 @@ int	setup_env(t_vars *vars, char **envp)
 		return (freetabs(vars->envl), -1);
 	return (0);
 }
+static void	ctrl_c(int sig)
+{
+	(void)sig;
+	write(2, "\n", 1);
+	rl_on_new_line();
+	rl_redisplay();
+}
 
 int	main(int c, char **v, char **envp)
 {
 	(void)v;
 	if (c != 1)
 		return (1);
+	signal(SIGINT, &ctrl_c);
 	if (setup_env(_vars(), envp) < 0)
 		return (-1);
 	if (read_inputs(_vars()) < 0)
