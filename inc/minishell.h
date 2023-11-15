@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/13 17:01:21 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/14 16:47:08 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_vars
 	t_cmd			cmd;
 	char			*prompt;
 	int				last_return_val;
-	int				nb_pipes;
+	int				*nb_pipes_g;
 	int				nb_forks;
 	char			**envp;
 	char			**envl;

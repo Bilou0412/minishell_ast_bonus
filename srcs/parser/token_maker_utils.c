@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_maker_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:23:40 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/10 22:42:30 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/14 16:29:03 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ int	char_is_quote(t_str_data *str_in, int *word_size, char *current)
 	char	quote;
 
 	quote = *current;
-	if(str_in->buff[str_in->curpos + *word_size + 1] == '\'' || str_in->buff[str_in->curpos + *word_size + 1] == '\"')
-		 
 	(*word_size)++;
 	*current = str_in->buff[str_in->curpos + *word_size];
 	while (*word_size + str_in->curpos < str_in->buff_size)
@@ -51,9 +49,10 @@ int	char_is_quote(t_str_data *str_in, int *word_size, char *current)
 			break ;
 		(*word_size)++;
 		*current = str_in->buff[str_in->curpos + *word_size];
-		if (*current == '\0')
+
+	}		
+	if (*current == '\0')
 			return (-1);
-	}
 	return (0);
 }
 

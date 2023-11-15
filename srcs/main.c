@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:19 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/13 17:02:16 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/14 16:13:32 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	read_inputs(t_vars *vars)
 		if (!vars->str_in.buff)
 			return (-1);
 		if (token_m(&vars->str_in, &vars->tokens) < 0)
-			printf("quote error");
+			printf("quote error\n");
 		else if (launch_ast(vars) < 0)
 			return (-1);
 		else if (read_ast(vars, vars->ast))
