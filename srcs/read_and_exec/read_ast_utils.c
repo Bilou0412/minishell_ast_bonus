@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:28:56 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/10 22:28:21 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/15 14:19:42 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	fill_cmd_argv(t_vars *vars, t_tokens *tokens)
 	tmp = tokens;
 	while (tmp)
 	{
-		vars->cmd.argv[i] = ft_strdup(tokens->string);
+		vars->cmd.argv[i] = ft_strdup(tmp->string);
 		if (!vars->cmd.argv[i])
 			return (freetabs(vars->cmd.argv), -1);
 		tmp = tmp->next;

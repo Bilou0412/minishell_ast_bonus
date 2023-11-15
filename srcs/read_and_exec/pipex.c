@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:13:52 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/14 18:33:29 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/15 14:12:16 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,15 @@ int	tough_choices(t_vars *vars, int i)
 
 void	in_out_pipe(t_vars *vars, t_tokens **head)
 {
+	int	i = 0;
 	if (init_cmd_and_files(vars, head) < 0)
 		exit(1);
+	while (vars->cmd.argv[i])
+	{
+		ft_putstr_fd(vars->cmd.argv[i], 2);
+		ft_putstr_fd("\n", 2);
+		i++;
+	}
 	if (tough_choices(vars, 1) < 0)
 		exit(1);
 	// if (close(vars->pipe_fd[1]) < 0 || close(vars->pipe_fd[0]) < 0)
@@ -95,7 +102,7 @@ int	exec_pipex(t_vars *vars)
 
 int	exec_cmd(t_vars *vars, t_tokens **head)
 {
-	vars->pid[vars->nb_forks] = fork();
+	// vars->pid[vars->nb_forks] = fork();
 	if (vars->pid[vars->nb_forks] < 0)
 		return (perror("Fork"), -1);
 	if (!vars->pid[vars->nb_forks])
