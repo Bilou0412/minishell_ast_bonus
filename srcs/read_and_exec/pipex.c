@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:13:52 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/13 17:05:58 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/14 18:33:29 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	exec_cmd(t_vars *vars, t_tokens **head)
 {
 	vars->pid[vars->nb_forks] = fork();
 	if (vars->pid[vars->nb_forks] < 0)
-		return (-1);
+		return (perror("Fork"), -1);
 	if (!vars->pid[vars->nb_forks])
 		in_out_pipe(vars, head);
 	return (0);

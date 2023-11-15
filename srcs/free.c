@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:15:26 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/10 21:47:29 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/14 18:33:05 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,13 @@ void	freevars(t_vars *vars, int i)
 	free_files(&vars->cmd.infiles);
 	free_files(&vars->cmd.outfiles);
 	if (vars->str_in.buff)
+	{
 		free(vars->str_in.buff);
+		vars->str_in.buff = NULL;
+	}
 	if (vars->prompt)
+	{
 		free(vars->prompt);
+		vars->prompt = NULL;
+	}
 }
