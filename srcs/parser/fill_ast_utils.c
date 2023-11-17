@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:20:03 by soutin            #+#    #+#             */
-/*   Updated: 2023/10/31 17:47:27 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/16 17:50:17 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	is_last_leaf(t_tokens *current)
 	t_tokens	*tmp;
 
 	tmp = current;
-	while (tmp->next && (tmp->next->type < 4 || tmp->next->type > 6))
+	while (tmp->next && tmp->next->type != 5 && tmp->next->type != 6)
 		tmp = tmp->next;
 	if (tmp->type == O_PARENTHESIS)
 		return (1);

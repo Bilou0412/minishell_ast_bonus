@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:28:56 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/15 14:19:42 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/17 16:01:20 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int	fill_cmd_argv(t_vars *vars, t_tokens *tokens)
 {
 	t_tokens	*tmp;
 	int			i;
+	char		*str;
 
 	i = 0;
 	vars->cmd.argv = ft_calloc(ft_lstsize(tokens) + 1, sizeof(char *));
@@ -89,10 +90,24 @@ int	fill_cmd_argv(t_vars *vars, t_tokens *tokens)
 	tmp = tokens;
 	while (tmp)
 	{
-		vars->cmd.argv[i] = ft_strdup(tmp->string);
+		while (tmp->string[i] && tmp->string)
+		if (tmp->string[0] == '$' && ft_strlen(tmp->string) > 1)
+		{
+			str = expand(vars, tmp->string + 1);
+			if (!str)
+				vars->cmd.argv[i] = ft_strdup("");
+			else
+			{
+				vars->cmd.argv[i] = ft_strdup(str);	
+			}
+		}
+		else
+		{
+			vars->cmd.argv[i] = ft_strdup(tmp->string);
+		}
 		if (!vars->cmd.argv[i])
 			return (freetabs(vars->cmd.argv), -1);
-		tmp = tmp->next;
+		tmp = tmp->next;	
 		i++;
 	}
 	vars->cmd.argv[i] = NULL;

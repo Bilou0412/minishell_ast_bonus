@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   inits.c                                            :+:      :+:    :+:   */
+/*   inits_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 19:20:32 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/14 18:24:26 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/16 14:14:56 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ int	init_cmd_path(t_vars *vars)
 		vars->cmd.path = cmdjoin(vars->cmd.env_paths[i], vars->cmd.argv[0]);
 		if (!vars->cmd.path)
 			return (perror("join"), -1);
-		// printf("%s\n", vars->cmd.path);
-		if (access(vars->cmd.path, F_OK | X_OK) == 0)
+		if (!access(vars->cmd.path, F_OK | X_OK))
 			return (0);
 		if (vars->cmd.path)
 			free(vars->cmd.path);
@@ -50,7 +49,6 @@ int	path_to_argv(t_cmd *cmd)
 			return (-1);
 		while (tmp[i + 1])
 			i++;
-		free(cmd->argv[0]);
 		cmd->argv[0] = ft_substr(tmp[i], 0, ft_strlen(tmp[i]));
 		freetabs(tmp);
 		if (!cmd->argv[0])
@@ -70,7 +68,6 @@ int	here_doc_loop(t_cmd *cmd, t_tokens *curr)
 	fd = open("here_doc", O_RDWR | O_TRUNC | O_CREAT, 0666);
 	if (fd < 0)
 		return (ft_printf("%s\n", strerror(errno)), -1);
-	printf("\nok\n");
 	limiter = curr->next->string;
 	while (1)
 	{
@@ -90,7 +87,6 @@ int	here_doc_loop(t_cmd *cmd, t_tokens *curr)
 
 int	init_cmd_and_files(t_vars *vars, t_tokens **head)
 {
-	
 	if (sort_cmd(vars, head) < 0)
 		return (-1);
 	if (path_to_argv(&vars->cmd) < 0)

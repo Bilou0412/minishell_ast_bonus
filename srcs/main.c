@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:19 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/15 13:14:43 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/16 19:18:31 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,6 @@ t_vars	*_vars(void)
 	static t_vars	vars;
 
 	return (&vars);
-}
-
-char	*search_envl(t_vars *vars, char *var_name)
-{
-	int	i;
-	int	size_name_envl;
-	int	size_name_var;
-
-	i = 0;
-	size_name_var = ft_strlen_to_char(var_name, '=');
-	while (vars->envl[i])
-	{
-		size_name_envl = ft_strlen_to_char(vars->envl[i], '=');
-		if (size_name_envl == size_name_var)
-		{
-			if (!ft_strncmp(var_name, vars->envl[i], size_name_envl))
-				return (vars->envl[i]);
-		}
-		i++;
-	}
-	return (NULL);
 }
 
 void	init_vars(t_vars *vars)
@@ -80,6 +59,16 @@ char	*get_prompt(char **prompt)
 	return (*prompt);
 }
 
+void	ctrl_c(int sig)
+{
+	(void)sig;
+	freevars(_vars(), 0);
+	write(2, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	// rl_redisplay();
+}
+
 int	read_inputs(t_vars *vars)
 {
 	while (1)
@@ -101,28 +90,10 @@ int	read_inputs(t_vars *vars)
 		}
 		if (waitchilds(vars, vars->nb_forks) < 0)
 			return (-1);
-		// print_tree(vars->ast, 0);
 		freevars(vars, 0);
+		write(2, "\n", 1);
 	}
 	return (0);
-}
-
-int	setup_env(t_vars *vars, char **envp)
-{
-	vars->envl = ft_arraydup(envp);
-	if (!vars->envl)
-		return (-1);
-	vars->cmd.env_paths = init_paths(vars);
-	if (!vars->cmd.env_paths)
-		return (freetabs(vars->envl), -1);
-	return (0);
-}
-static void	ctrl_c(int sig)
-{
-	(void)sig;
-	write(2, "\n", 1);
-	rl_on_new_line();
-	rl_redisplay();
 }
 
 int	main(int c, char **v, char **envp)

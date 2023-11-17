@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_maker_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:23:40 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/15 12:30:54 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/17 15:56:26 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,9 @@ int	char_is_quote(t_str_data *str_in, int *word_size, char *current)
 			break ;
 		(*word_size)++;
 		*current = str_in->buff[str_in->curpos + *word_size];
-
-	}		
+	}
 	if (*current == '\0')
-			return (printf("quote error\n"),-1);
+		return (printf("quote error\n"), -1);
 	return (0);
 }
 
@@ -68,8 +67,9 @@ int	check_char(t_str_data *str_in)
 		if (current == '\'' || current == '\"')
 			if (char_is_quote(str_in, &word_size, &current) < 0)
 				return (-1);
-		if ((current == ' ' || tok_type(&current) != WORD) || (current == '&'
-				&& str_in->buff[str_in->curpos + word_size + 1] == '&'))
+		if ((ft_strchr(" \t\n", current) || (tok_type(&current) != WORD && tok_type(&current) != DOLLARS))
+			|| (current == '&' && str_in->buff[str_in->curpos + word_size
+					+ 1] == '&'))
 			break ;
 		word_size++;
 	}

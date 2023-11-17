@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:15:27 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/12 11:49:55 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/17 15:41:16 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,14 +144,23 @@ int	read_ast(t_vars *vars, t_ast *curr)
 		if (or_(vars, curr))
 			return (1);
 	}
-	if ((curr->tokens->type < 4 || curr->tokens->type > 6))
+	if ((curr->tokens->type != 5 && curr->tokens->type != 6))
 	{
-		if (!is_builtin(vars, &curr->tokens))
-		{
-			if (exec_cmd(vars, &curr->tokens) < 0)
-				return (1);
-			vars->nb_forks++;
-		}
+		// vars->cmd.nb_pipes = count_pipes(curr->tokens);
+		// if (vars->cmd.nb_pipes)
+		// {
+		// 	if (exec_pipeline(vars, &curr->tokens) < 0)
+		// 		return (1);
+		// }
+		// else
+		// {
+			if (!is_builtin(vars, &curr->tokens))
+			{
+				if (exec_cmd(vars, &curr->tokens) < 0)
+						return (1);
+				vars->nb_forks++;
+			}
+		// }
 	}
 	return (0);
 }

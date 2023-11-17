@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:17:56 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/09 17:46:51 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/15 17:29:13 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	token_m(t_str_data *str_in, t_tokens **tok)
 		if (double_char_tok(str_in, tok))
 			str_in->curpos += 2;
 		else if (single_char_tok(str_in, tok)
-			|| str_in->buff[str_in->curpos] == ' ' )
+			|| ft_strchr(" \t\n", str_in->buff[str_in->curpos]))
 			str_in->curpos++;
 		else if (make_word(str_in, tok) < 0)
 			return (-1);

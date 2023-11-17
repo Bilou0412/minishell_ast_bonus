@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 12:44:33 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/10 14:37:04 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/17 15:57:24 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int	is_leaf(t_tokens **current, t_ast *node)
 
 	if (!*current)
 		return (0);
-	if ((*current)->type >= 4 && (*current)->type <= 6)
+	if ((*current)->type == 5 || (*current)->type == 6)
 		return (0);
-	if ((*current)->type < 4 || (*current)->type > 6)
+	if ((*current)->type != 5 && (*current)->type != 6)
 	{
 		if ((*current)->next && (*current)->next->type == O_PARENTHESIS)
 		{
@@ -87,7 +87,7 @@ int	is_branch(t_tokens **curr_tok, t_ast **curr_node)
 		return (0);
 	if (!ft_newleaf(curr_node, NULL))
 		return (-1);
-	if (((*curr_tok)->type < 4 || (*curr_tok)->type > 6)
+	if (((*curr_tok)->type != 5 && (*curr_tok)->type != 6)
 		&& (*curr_tok)->type != C_PARENTHESIS)
 	{
 		flag = leaf_position(curr_tok, curr_node);
@@ -106,5 +106,6 @@ int	launch_ast(t_vars *vars)
 	if (is_branch(&vars->tokens, &vars->ast) < 0)
 		return (-1);
 	count_cmd(vars, vars->ast);
+	print_tree(vars->ast, 0);
 	return (0);
 }

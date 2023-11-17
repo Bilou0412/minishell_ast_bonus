@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/13 16:56:49 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/15 21:47:35 by soutin           ###   ########.fr       */
+/*   Created: 2023/11/16 17:51:16 by soutin            #+#    #+#             */
+/*   Updated: 2023/11/16 17:57:28 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	exit_prog(t_vars *vars)
+char	*expand(t_vars *vars, char *name)
 {
-	if (waitchilds(vars, vars->nb_forks) < 0)
-		return (-1);
-	freevars(vars, 0);
-	exit(0);
+	char	*str;
+
+	str = search_envl(vars, name);
+	if (str)
+		return (str + ft_strlen(name) + 1);
+	return (NULL);
 }

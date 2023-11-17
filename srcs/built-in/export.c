@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 11:07:56 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/13 12:56:44 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/15 22:22:33 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,19 @@ int	search_envl_index(char *var, t_vars *all)
 	}
 	return (-1);
 }
-char *get_next_word(t_tokens **head)
+
+char	*get_next_word(t_tokens **head)
 {
-	t_tokens *current;
+	t_tokens	*current;
 
 	current = *head;
-	while(current)
+	while (current)
 	{
-		if(current->type == WORD)
+		if (current->type == WORD)
 			return (current->string);
 		current = current->next;
 	}
-	return(NULL);
+	return (NULL);
 }
 
 int	check_var_name(char *var)
@@ -55,8 +56,8 @@ int	check_var_name(char *var)
 		return (-1);
 	while (var[i] && var[i] != '=')
 	{
-		if (ft_isalpha(var[i]) || var[i] == '_'
-		|| (var[i] == '+' && var[i + 1] == '='))
+		if (ft_isalpha(var[i]) || var[i] == '_' || (var[i] == '+' && var[i
+				+ 1] == '='))
 			i++;
 		else
 			return (1);
@@ -66,9 +67,9 @@ int	check_var_name(char *var)
 
 int	export(t_tokens **head, t_vars *all)
 {
-	int	size;
-	int	to_change;
-	char	*var;	
+	int		size;
+	int		to_change;
+	char	*var;
 
 	var = get_next_word(head);
 	size = ft_arraylen(all->envl);
@@ -77,9 +78,9 @@ int	export(t_tokens **head, t_vars *all)
 	to_change = search_envl_index(var, all);
 	if (to_change > -1)
 	{
-		all->envl = ft_change_string_array(to_change, var, all->envl);
-		if (!all->envl)
+		if (ft_change_string_array(to_change, var, &all->envl) < 0)
 			return (-1);
+		
 	}
 	else
 	{
@@ -87,7 +88,7 @@ int	export(t_tokens **head, t_vars *all)
 		if (!all->envl)
 			return (0);
 		all->envl[size] = ft_strdup(var);
-		if(!all->envl[size])
+		if (!all->envl[size])
 			return (-1);
 	}
 	return (0);

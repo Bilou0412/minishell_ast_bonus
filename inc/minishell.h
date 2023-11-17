@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/15 12:53:04 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/16 20:19:22 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <linux/limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -26,7 +27,6 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-#include <signal.h>
 
 typedef struct s_files
 {
@@ -41,7 +41,6 @@ typedef struct s_cmd
 	char			**argv;
 	char			*path;
 	char			**env_paths;
-	int				nb_forks;
 	int				nb_pipes;
 }					t_cmd;
 
@@ -53,7 +52,6 @@ typedef struct s_vars
 	t_cmd			cmd;
 	char			*prompt;
 	int				last_return_val;
-	int				*nb_pipes_g;
 	int				nb_forks;
 	char			**envp;
 	char			**envl;
@@ -105,5 +103,11 @@ int					export(t_tokens **head, t_vars *all);
 int					unset(t_tokens **head, t_vars *all);
 char				*get_next_word(t_tokens **head);
 int					exit_prog(t_vars *vars);
+void				ctrl_c(int sig);
+int					setup_env(t_vars *vars, char **envp);
+void				free_files(t_files **lst);
+char				*expand(t_vars *vars, char *name);
+int					exec_pipeline(t_vars *vars, t_tokens **head);
+int					count_pipes(t_tokens *token);
 
 #endif

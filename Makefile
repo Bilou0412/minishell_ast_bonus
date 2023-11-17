@@ -3,7 +3,14 @@ OBJS_DIR	=	objs
 LIBFT_DIR	=	libft
 
 NAME		=	minishell
-SRCS		=	srcs/parser/tokens_utils.c \
+SRCS		=	srcs/built-in/cd.c \
+				srcs/built-in/env.c \
+				srcs/built-in/pwd.c \
+				srcs/built-in/export.c \
+				srcs/built-in/unset.c \
+				srcs/built-in/exit.c \
+				srcs/env/own_env.c \
+				srcs/parser/tokens_utils.c \
 				srcs/parser/token_maker.c \
 				srcs/parser/token_maker_utils.c \
 				srcs/parser/fill_ast.c \
@@ -11,15 +18,10 @@ SRCS		=	srcs/parser/tokens_utils.c \
 				srcs/read_and_exec/read_ast.c \
 				srcs/read_and_exec/read_ast_utils.c \
 				srcs/read_and_exec/pipex.c \
-				srcs/read_and_exec/inits.c \
-				srcs/read_and_exec/inits_utils.c \
+				srcs/read_and_exec/inits_cmd.c \
+				srcs/read_and_exec/inits_cmd_utils.c \
 				srcs/read_and_exec/builtin_exec.c \
-				srcs/built-in/cd.c \
-				srcs/built-in/env.c \
-				srcs/built-in/pwd.c \
-				srcs/built-in/export.c \
-				srcs/built-in/unset.c \
-				srcs/built-in/exit.c \
+				srcs/read_and_exec/expand.c \
 				srcs/print.c \
 				srcs/free.c \
 				srcs/main.c \
