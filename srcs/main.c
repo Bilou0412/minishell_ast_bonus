@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:19 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/16 19:18:31 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/17 19:00:05 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,18 @@ int	read_inputs(t_vars *vars)
 	}
 	return (0);
 }
-
+void nothing(int sig)
+{
+	(void)sig;
+	return ;
+}
 int	main(int c, char **v, char **envp)
 {
 	(void)v;
 	if (c != 1)
 		return (1);
 	signal(SIGINT, &ctrl_c);
+	signal(SIGQUIT,SIG_IGN);
 	if (setup_env(_vars(), envp) < 0)
 		return (-1);
 	if (read_inputs(_vars()) < 0)

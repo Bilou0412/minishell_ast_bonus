@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 11:07:58 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/15 21:55:36 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/17 16:36:58 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,6 @@ int	echo(t_tokens **head)
 		return (0);
 	else
 		str_to_print = check_echo_option(option, string);
-	print_for_echo(str_to_print);
+	print_for_echo(str_to_print)y;
 	return (free(str_to_print), 0);
 }
