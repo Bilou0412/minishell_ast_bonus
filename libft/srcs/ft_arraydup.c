@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 12:26:03 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/09 17:56:59 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/17 20:02:47 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	**ft_arraydup(char **array)
 	{
 		new_array[i] = ft_strdup(array[i]);
 		if (!new_array)
-			return (ft_free_tab(array), new_array[i] = NULL, NULL);
+			return (ft_free_tab(new_array), NULL);
 		i++;
 	}
 	new_array[i] = NULL;

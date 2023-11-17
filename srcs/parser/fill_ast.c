@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 12:44:33 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/17 15:57:24 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/17 20:53:14 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,6 @@ int	launch_ast(t_vars *vars)
 	if (is_branch(&vars->tokens, &vars->ast) < 0)
 		return (-1);
 	count_cmd(vars, vars->ast);
-	print_tree(vars->ast, 0);
+	// print_tree(vars->ast, 0);
 	return (0);
 }
