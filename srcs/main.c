@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:19 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/17 19:00:05 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/20 19:23:05 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	read_inputs(t_vars *vars)
 			else if (read_ast(vars, vars->ast))
 				return (-1);
 		}
-		if (waitchilds(vars, vars->nb_forks) < 0)
+		if (waitchilds(vars, vars->pid, vars->nb_forks) < 0)
 			return (-1);
 		freevars(vars, 0);
 		write(2, "\n", 1);

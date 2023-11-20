@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/16 20:19:22 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/20 19:22:39 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int					exec_cmd(t_vars *vars, t_tokens **head);
 char				*search_envl(t_vars *vars, char *var_name);
 char				**init_paths(t_vars *vars);
 int					init_cmd_and_files(t_vars *vars, t_tokens **head);
-int					waitchilds(t_vars *vars, int childmax);
+int					waitchilds(t_vars *vars, int *pid, int childmax);
 char				*cmdjoin(char *path, char *cmd);
 int					sort_cmd(t_vars *vars, t_tokens **head);
 int					search_envl_index(char *var, t_vars *all);
