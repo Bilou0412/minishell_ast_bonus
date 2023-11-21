@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:19 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/20 19:23:05 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/21 17:31:19 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ char	*get_prompt(char **prompt)
 void	ctrl_c(int sig)
 {
 	(void)sig;
-	freevars(_vars(), 0);
 	write(2, "\n", 1);
-	rl_replace_line("", 0);
+	freevars(_vars(), 0);
 	rl_on_new_line();
-	// rl_redisplay();
+	rl_redisplay();
+	rl_replace_line("", 0);
 }
 
 int	read_inputs(t_vars *vars)
@@ -91,11 +91,10 @@ int	read_inputs(t_vars *vars)
 		if (waitchilds(vars, vars->pid, vars->nb_forks) < 0)
 			return (-1);
 		freevars(vars, 0);
-		write(2, "\n", 1);
 	}
 	return (0);
 }
-void nothing(int sig)
+void	nothing(int sig)
 {
 	(void)sig;
 	return ;
@@ -106,7 +105,7 @@ int	main(int c, char **v, char **envp)
 	if (c != 1)
 		return (1);
 	signal(SIGINT, &ctrl_c);
-	signal(SIGQUIT,SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	if (setup_env(_vars(), envp) < 0)
 		return (-1);
 	if (read_inputs(_vars()) < 0)

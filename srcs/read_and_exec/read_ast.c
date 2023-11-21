@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:15:27 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/20 21:07:12 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/21 19:26:15 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,7 @@ int	handle_files(t_cmd *cmd, t_tokens *arm)
 {
 	int	fd;
 
-	if (!arm->next)
-		return (-1);
-	if (arm->next->type != WORD && arm->next->type != DOLLARS)
+	if (!arm->next || (arm->next->type != WORD && arm->next->type != DOLLARS))
 		return (-1);
 	if (arm->type == LESS)
 	{
@@ -82,10 +80,8 @@ int	sort_cmd(t_vars *vars, t_tokens **head)
 		else
 			current = current->next;
 	}
-	printtokens(head);
 	if (fill_cmd_argv(vars, *head) < 0)
 		return (-1);
-	// printtab(vars->cmd.argv);
 	return (0);
 }
 
@@ -93,14 +89,10 @@ int	or_(t_vars *vars, t_ast *curr)
 {
 	if (read_ast(vars, curr->left))
 		return (1);
-	if (curr->left->tokens->type == PIPE)
-		close(vars->pipe_fd[0]);
 	if (!vars->last_return_val)
 		return (0);
 	if (read_ast(vars, curr->right))
 		return (1);
-	if (curr->right->tokens->type == PIPE)
-		close(vars->pipe_fd[0]);
 	return (0);
 }
 
@@ -108,14 +100,10 @@ int	and_(t_vars *vars, t_ast *curr)
 {
 	if (read_ast(vars, curr->left))
 		return (1);
-	if (curr->left->tokens->type == PIPE)
-		close(vars->pipe_fd[0]);
 	if (vars->last_return_val)
 		return (0);
 	if (read_ast(vars, curr->right))
 		return (1);
-	if (curr->right->tokens->type == PIPE)
-		close(vars->pipe_fd[0]);
 	return (0);
 }
 
@@ -147,8 +135,7 @@ int	read_ast(t_vars *vars, t_ast *curr)
 		else
 		{
 			if (exec_cmd(vars, &curr->tokens) < 0)
-						return (1);
-			vars->nb_forks++;
+				return (1);
 		}
 	}
 	return (0);

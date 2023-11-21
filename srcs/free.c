@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:15:26 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/14 18:33:05 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/21 19:48:57 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,14 +87,6 @@ void	freevars(t_vars *vars, int i)
 {
 	free_tree(&vars->ast);
 	ft_lstclear(&vars->tokens, &free);
-	if (i)
-	{
-		freetabs(vars->cmd.argv);
-		freetabs(vars->envl);
-		if (vars->cmd.path)
-			free(vars->cmd.path);
-		freetabs(vars->cmd.env_paths);
-	}
 	free_files(&vars->cmd.infiles);
 	free_files(&vars->cmd.outfiles);
 	if (vars->str_in.buff)
@@ -106,5 +98,17 @@ void	freevars(t_vars *vars, int i)
 	{
 		free(vars->prompt);
 		vars->prompt = NULL;
+	}
+	if (i == free_builtin || i == free_full)
+	{
+		if (i == free_full)
+		{
+			freetabs(vars->envl);
+			freetabs(vars->cmd.env_paths);
+		}
+		freetabs(vars->cmd.argv);
+		if (vars->cmd.path)
+			free(vars->cmd.path);
+		
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 19:20:32 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/20 19:52:28 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/21 21:37:08 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,23 @@ int	init_cmd_path(t_vars *vars)
 	int	i;
 
 	i = 0;
+	if (path_to_argv(&vars->cmd) < 0)
+		return (freetabs(vars->cmd.env_paths), -1);
 	if (vars->cmd.path)
-		return (0);
+		return (freetabs(vars->cmd.env_paths), 0);
 	while (vars->cmd.env_paths[i])
 	{
 		vars->cmd.path = cmdjoin(vars->cmd.env_paths[i], vars->cmd.argv[0]);
 		if (!vars->cmd.path)
-			return (perror("join"), -1);
+			return (perror("join"), freetabs(vars->cmd.env_paths), -1);
 		if (!access(vars->cmd.path, F_OK | X_OK))
 			return (0);
-		if (vars->cmd.path)
-			free(vars->cmd.path);
+		free(vars->cmd.path);
 		vars->cmd.path = NULL;
 		i++;
 	}
 	ft_printf("command not found: %s\n", vars->cmd.argv[0]);
+	freetabs(vars->cmd.env_paths);
 	return (-1);
 }
 
@@ -89,9 +91,9 @@ int	init_cmd_and_files(t_vars *vars, t_tokens **head)
 {
 	if (sort_cmd(vars, head) < 0)
 		return (-1);
-	if (path_to_argv(&vars->cmd) < 0)
-		return (freevars(vars, 1), -1);
-	else if (init_cmd_path(vars) < 0)
+	if (is_builtin(vars, head))
+		return (freetabs(vars->cmd.env_paths), 0);	
+	if (init_cmd_path(vars) < 0)
 		return (freevars(vars, 1), -1);
 	return (0);
 }
