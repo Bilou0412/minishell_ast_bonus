@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:13:52 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/21 21:37:45 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/22 16:21:10 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	tough_choices(t_vars *vars, int i, int nb_cmds)
 		if (multiple_dup2(vars, 1, 0) < 0)
 			return (freevars(vars, 1), -1);
 	}
-	else if (i != 0)
+	else if (i != 0 && vars->cmd.nb_pipes > 1)
 	{
 		if (dup2(vars->tmp_fd, STDIN_FILENO) < 0)
 			return (freevars(vars, 1), -1);
@@ -64,7 +64,7 @@ int	tough_choices(t_vars *vars, int i, int nb_cmds)
 		if (multiple_dup2(vars, 0, 0) < 0)
 			return (freevars(vars, 1), -1);
 	}
-	else if (i != vars->cmd.nb_pipes)
+	else if (i != vars->cmd.nb_pipes && vars->cmd.nb_pipes > 1)
 		if (dup2(vars->pipe_fd[1], STDOUT_FILENO) < 0)
 			return (freevars(vars, 1), -1);
 	return (0);
@@ -92,10 +92,15 @@ void	in_out_pipe(t_vars *vars, t_tokens **head, int i)
 		exit(1);
 	if (tough_choices(vars, i, vars->cmd.nb_pipes + 1) < 0)
 		exit(1);
-	if (close(vars->pipe_fd[1]) < 0 || close(vars->pipe_fd[0]) < 0)
+	ft_putnbr_fd(vars->cmd.nb_pipes, 2);	
+	if (vars->cmd.nb_pipes )
 	{
-		freevars(vars, 1);
-		exit(1);
+		if (close(vars->pipe_fd[1]) < 0 || close(vars->pipe_fd[0]) < 0)
+		{
+			freevars(vars, 1);
+			exit(1);
+		}
+		
 	}
 	if (is_builtin_pipe(vars, head))
 	{
@@ -150,7 +155,7 @@ int	exec_pipeline(t_vars *vars, t_tokens **head)
 
 	i = 0;
 	initial_head = *head;
-	while (i <= vars->cmd.nb_pipes)
+	while (i < vars->cmd.nb_pipes + 1)
 	{
 		tmp = *head;
 		tmp2 = *head;
@@ -163,8 +168,9 @@ int	exec_pipeline(t_vars *vars, t_tokens **head)
 			free(tmp->next);
 			tmp->next = NULL;
 		}
-		if (pipe(vars->pipe_fd) < 0)
-			return (perror("pipe"), -1);
+		if (vars->cmd.nb_pipes)
+			if (pipe(vars->pipe_fd) < 0)
+				return (perror("pipe"), -1);
 		pid[i] = fork();
 		if (pid[i] < 0)
 			return (perror("Fork"), -1);
@@ -172,11 +178,14 @@ int	exec_pipeline(t_vars *vars, t_tokens **head)
 		{
 			in_out_pipe(vars, &tmp2, i);
 		}
-		if (close(vars->pipe_fd[1]) < 0)
-			return (-1);
-		if (i != 0)
-			close(vars->tmp_fd);
-		vars->tmp_fd = vars->pipe_fd[0];
+		if (vars->cmd.nb_pipes)
+		{
+			if (close(vars->pipe_fd[1]) < 0)
+				return (-1);
+			if (i != 0)
+				close(vars->tmp_fd);
+			vars->tmp_fd = vars->pipe_fd[0];
+		}
 		if (i < vars->cmd.nb_pipes)
 			tmp->next = *head;
 		i++;
@@ -184,7 +193,8 @@ int	exec_pipeline(t_vars *vars, t_tokens **head)
 	if (waitchilds(vars, pid, i) < 0)
 		return (-1);
 	*head = initial_head;
-	close(vars->pipe_fd[0]);
+	if (vars->cmd.nb_pipes)
+		close(vars->pipe_fd[0]);
 	return (0);
 }
 

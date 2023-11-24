@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:15:27 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/21 19:26:15 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/24 17:23:06 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	sort_cmd(t_vars *vars, t_tokens **head)
 	current = *head;
 	while (current && current->type != PIPE)
 	{
+		
 		if (current->type < 4)
 		{
 			if (handle_files(&vars->cmd, current) < 0)
@@ -127,16 +128,8 @@ int	read_ast(t_vars *vars, t_ast *curr)
 	else if ((curr->tokens->type != 5 && curr->tokens->type != 6))
 	{
 		vars->cmd.nb_pipes = count_pipes(curr->tokens);
-		if (vars->cmd.nb_pipes)
-		{
-			if (exec_pipeline(vars, &curr->tokens) < 0)
-				return (1);
-		}
-		else
-		{
-			if (exec_cmd(vars, &curr->tokens) < 0)
-				return (1);
-		}
+		if (exec_pipeline(vars, &curr->tokens) < 0)
+			return (1);
 	}
 	return (0);
 }
