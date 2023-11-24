@@ -1,2 +1,6 @@
-unset all env a voir
-nb pipe g 
+enlever les '"
+finir echo
+gestions errors
+$?
+leaks
+refacto

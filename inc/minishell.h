@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/16 20:19:22 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/21 21:35:46 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+
+# define free_full 1
+# define free_builtin 2
 
 typedef struct s_files
 {
@@ -91,13 +94,13 @@ int					exec_cmd(t_vars *vars, t_tokens **head);
 char				*search_envl(t_vars *vars, char *var_name);
 char				**init_paths(t_vars *vars);
 int					init_cmd_and_files(t_vars *vars, t_tokens **head);
-int					waitchilds(t_vars *vars, int childmax);
+int					waitchilds(t_vars *vars, int *pid, int childmax);
 char				*cmdjoin(char *path, char *cmd);
 int					sort_cmd(t_vars *vars, t_tokens **head);
 int					search_envl_index(char *var, t_vars *all);
 int					cd(t_tokens **head, t_vars *vars);
 int					env(char **envl);
-int					is_builtin(t_vars *vars, t_tokens **head);
+int					is_builtin_simple(t_vars *vars, t_tokens **head);
 int					pwd(void);
 int					export(t_tokens **head, t_vars *all);
 int					unset(t_tokens **head, t_vars *all);
@@ -109,5 +112,9 @@ void				free_files(t_files **lst);
 char				*expand(t_vars *vars, char *name);
 int					exec_pipeline(t_vars *vars, t_tokens **head);
 int					count_pipes(t_tokens *token);
+int					path_to_argv(t_cmd *cmd);
+int					multiple_dup2(t_vars *vars, int flag, int builtin);
+int					is_builtin_pipe(t_vars *vars, t_tokens **head);
+int	is_builtin(t_vars *vars, t_tokens **head);
 
 #endif

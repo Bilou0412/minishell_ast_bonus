@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 11:08:01 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/15 22:19:38 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/20 18:31:38 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,9 @@ int	refresh_pwd(t_vars *vars)
 	i = search_envl_index("PWD=", vars);
 	if (i > -1)
 	{
-		if (ft_change_string_array(i, pwd, &vars->envl) < 0)
-			return (free(pwd), -1);
+		vars->envl = ft_change_string_array(i, pwd, vars->envl);
+		if (!vars->envl)
+			return (free(pwd),-1);
 	}
 	else
 	{
@@ -87,9 +88,9 @@ int	refresh_old_pwd(t_vars *vars, char *pwd)
 	i = search_envl_index("OLDPWD=", vars);
 	if (i > -1)
 	{
-		ft_change_string_array(i, old_pwd, &vars->envl);
+		vars->envl = ft_change_string_array(i, pwd, vars->envl);
 		if (!vars->envl)
-			return (free(old_pwd), -1);
+			return (free(pwd),-1);
 	}
 	else
 	{

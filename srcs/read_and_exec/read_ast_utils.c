@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:28:56 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/17 19:47:29 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/21 19:39:58 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	fill_cmd_argv_2(t_vars *vars, t_tokens **tmp, int i)
 	{
 		vars->cmd.argv[i] = ft_substr((*tmp)->string, 0, j);
 		if (!vars->cmd.argv[i])
-			return (freetabs(vars->cmd.argv), -1);
+			return (-1);
 	}
 	if ((*tmp)->string[j] && (*tmp)->string[j] == '$' && ft_strlen((*tmp)->string + j) > 1)
 	{
@@ -100,7 +100,7 @@ int	fill_cmd_argv_2(t_vars *vars, t_tokens **tmp, int i)
 		else
 			vars->cmd.argv[i] = ft_strjoin_gnl(vars->cmd.argv[i], str);	
 		if (!vars->cmd.argv[i])
-			return (freetabs(vars->cmd.argv), -1);
+			return (-1);
 	}
 	return (0);
 }

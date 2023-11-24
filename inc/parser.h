@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 13:40:29 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/10 14:48:44 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/20 17:43:38 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ enum				e_token_type
 	ERRORLVL,
 	DOLLARS,
 	LIMITER,
-	RESERVEDW,
-	FILEM,
 	INDEFINE,
 };
 

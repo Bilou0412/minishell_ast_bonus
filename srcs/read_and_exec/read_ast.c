@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:15:27 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/17 15:41:16 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/21 19:26:15 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,7 @@ int	handle_files(t_cmd *cmd, t_tokens *arm)
 {
 	int	fd;
 
-	if (!arm->next)
-		return (-1);
-	if (arm->next->type != WORD && arm->next->type != DOLLARS)
+	if (!arm->next || (arm->next->type != WORD && arm->next->type != DOLLARS))
 		return (-1);
 	if (arm->type == LESS)
 	{
@@ -71,7 +69,7 @@ int	sort_cmd(t_vars *vars, t_tokens **head)
 	t_tokens	*current;
 
 	current = *head;
-	while (current)
+	while (current && current->type != PIPE)
 	{
 		if (current->type < 4)
 		{
@@ -87,21 +85,10 @@ int	sort_cmd(t_vars *vars, t_tokens **head)
 	return (0);
 }
 
-int	pipex(t_vars *vars, t_ast *curr)
-{
-	if (read_ast(vars, curr->left))
-		return (1);
-	if (read_ast(vars, curr->right))
-		return (1);
-	return (0);
-}
-
 int	or_(t_vars *vars, t_ast *curr)
 {
 	if (read_ast(vars, curr->left))
 		return (1);
-	// if (curr->left->tokens->type == PIPE)
-	// 	close(vars->pipe_fd[0]);
 	if (!vars->last_return_val)
 		return (0);
 	if (read_ast(vars, curr->right))
@@ -113,8 +100,6 @@ int	and_(t_vars *vars, t_ast *curr)
 {
 	if (read_ast(vars, curr->left))
 		return (1);
-	// if (curr->left->tokens->type == PIPE)
-	// 	close(vars->pipe_fd[0]);
 	if (vars->last_return_val)
 		return (0);
 	if (read_ast(vars, curr->right))
@@ -129,12 +114,7 @@ int	read_ast(t_vars *vars, t_ast *curr)
 	if ((curr->tokens->type > 3 && curr->tokens->type < 7))
 		if (!curr->right || !curr->left)
 			return (1);
-	if (curr->tokens->type == PIPE)
-	{
-		if (pipex(vars, curr))
-			return (1);
-	}
-	else if (curr->tokens->type == AND)
+	if (curr->tokens->type == AND)
 	{
 		if (and_(vars, curr))
 			return (1);
@@ -144,23 +124,19 @@ int	read_ast(t_vars *vars, t_ast *curr)
 		if (or_(vars, curr))
 			return (1);
 	}
-	if ((curr->tokens->type != 5 && curr->tokens->type != 6))
+	else if ((curr->tokens->type != 5 && curr->tokens->type != 6))
 	{
-		// vars->cmd.nb_pipes = count_pipes(curr->tokens);
-		// if (vars->cmd.nb_pipes)
-		// {
-		// 	if (exec_pipeline(vars, &curr->tokens) < 0)
-		// 		return (1);
-		// }
-		// else
-		// {
-			if (!is_builtin(vars, &curr->tokens))
-			{
-				if (exec_cmd(vars, &curr->tokens) < 0)
-						return (1);
-				vars->nb_forks++;
-			}
-		// }
+		vars->cmd.nb_pipes = count_pipes(curr->tokens);
+		if (vars->cmd.nb_pipes)
+		{
+			if (exec_pipeline(vars, &curr->tokens) < 0)
+				return (1);
+		}
+		else
+		{
+			if (exec_cmd(vars, &curr->tokens) < 0)
+				return (1);
+		}
 	}
 	return (0);
 }

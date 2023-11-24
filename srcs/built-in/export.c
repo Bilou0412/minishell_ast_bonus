@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 11:07:56 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/15 22:22:33 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/20 18:46:33 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ int	export(t_tokens **head, t_vars *all)
 	to_change = search_envl_index(var, all);
 	if (to_change > -1)
 	{
-		if (ft_change_string_array(to_change, var, &all->envl) < 0)
+		all->envl = ft_change_string_array(to_change, var, all->envl);
+		if (!all->envl)
 			return (-1);
-		
 	}
 	else
 	{
