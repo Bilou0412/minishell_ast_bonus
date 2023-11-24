@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:15:27 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/24 17:23:06 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/24 22:36:42 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,6 @@ int	read_ast(t_vars *vars, t_ast *curr)
 	}
 	else if ((curr->tokens->type != 5 && curr->tokens->type != 6))
 	{
-		vars->cmd.nb_pipes = count_pipes(curr->tokens);
 		if (exec_pipeline(vars, &curr->tokens) < 0)
 			return (1);
 	}

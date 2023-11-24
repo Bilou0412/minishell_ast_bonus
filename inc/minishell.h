@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/21 21:35:46 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/24 23:00:13 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int					fill_cmd_argv(t_vars *vars, t_tokens *tokens);
 int					exec_cmd(t_vars *vars, t_tokens **head);
 char				*search_envl(t_vars *vars, char *var_name);
 char				**init_paths(t_vars *vars);
-int					init_cmd_and_files(t_vars *vars, t_tokens **head);
+int					init_cmd_and_files(t_vars *vars, t_tokens **head, int i);
 int					waitchilds(t_vars *vars, int *pid, int childmax);
 char				*cmdjoin(char *path, char *cmd);
 int					sort_cmd(t_vars *vars, t_tokens **head);
@@ -115,6 +115,8 @@ int					count_pipes(t_tokens *token);
 int					path_to_argv(t_cmd *cmd);
 int					multiple_dup2(t_vars *vars, int flag, int builtin);
 int					is_builtin_pipe(t_vars *vars, t_tokens **head);
-int	is_builtin(t_vars *vars, t_tokens **head);
+int					is_builtin(t_vars *vars, t_tokens **head);
+int					exec_builtin(t_vars *vars, t_tokens **head, int ispipe);
+int	tough_choices(t_vars *vars, int i);
 
 #endif

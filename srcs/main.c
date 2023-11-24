@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:19 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/21 17:31:19 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/24 21:40:44 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	init_vars(t_vars *vars)
 	vars->nb_forks = 0;
 	vars->ast = NULL;
 	vars->tokens = NULL;
+	vars->cmd.env_paths = NULL;
 	vars->cmd.argv = NULL;
 	vars->cmd.path = NULL;
 	vars->cmd.infiles = NULL;
