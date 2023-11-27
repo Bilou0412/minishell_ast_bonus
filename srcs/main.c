@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:19 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/24 21:40:44 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/27 15:36:00 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ t_vars	*_vars(void)
 void	init_vars(t_vars *vars)
 {
 	vars->str_in.buff = NULL;
-	vars->cmd.nb_pipes = 0;
 	vars->nb_forks = 0;
 	vars->ast = NULL;
 	vars->tokens = NULL;
+	vars->cmd.nb_pipes = 0;
 	vars->cmd.env_paths = NULL;
 	vars->cmd.argv = NULL;
 	vars->cmd.path = NULL;
@@ -110,8 +110,10 @@ int	main(int c, char **v, char **envp)
 	if (setup_env(_vars(), envp) < 0)
 		return (-1);
 	if (read_inputs(_vars()) < 0)
+	{
+		freevars(_vars(), 1);
 		return (1);
-	freetabs(_vars()->envl);
-	freetabs(_vars()->cmd.env_paths);
+	}
+	freevars(_vars(), 1);
 	return (0);
 }

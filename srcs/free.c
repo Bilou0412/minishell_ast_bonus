@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:15:26 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/24 20:25:36 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/27 16:04:46 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	freetabs(char **tab)
 	int	i;
 
 	i = 0;
-	if (!*tab)
+	if (!tab || !*tab)
 		return ;
 	while (tab[i])
 	{
@@ -82,33 +82,35 @@ void	free_files(t_files **lst)
 	}
 	*lst = NULL;
 }
+void	super_free(char **__ptr)
+{
+	if (*__ptr)
+	{
+		free(*__ptr);
+		*__ptr = NULL;
+	}	
+}
 
 void	freevars(t_vars *vars, int i)
 {
-	free_tree(&vars->ast);
-	ft_lstclear(&vars->tokens, &free);
+	if (i != FREE_BUILTIN)
+	{
+		free_tree(&vars->ast);
+		ft_lstclear(&vars->tokens, &free);
+	}
 	free_files(&vars->cmd.infiles);
 	free_files(&vars->cmd.outfiles);
-	if (vars->str_in.buff)
+	super_free(&vars->str_in.buff);
+	super_free(&vars->prompt);
+	if (i == FREE_BUILTIN || i == FREE_FULL)
 	{
-		free(vars->str_in.buff);
-		vars->str_in.buff = NULL;
-	}
-	if (vars->prompt)
-	{
-		free(vars->prompt);
-		vars->prompt = NULL;
-	}
-	if (i == free_builtin || i == free_full)
-	{
-		if (i == free_full)
+		freetabs(vars->cmd.argv);
+		super_free(&vars->cmd.path);
+		if (i == FREE_FULL)
 		{
 			freetabs(vars->envl);
 			freetabs(vars->cmd.env_paths);
+			rl_clear_history();
 		}
-		freetabs(vars->cmd.argv);
-		if (vars->cmd.path)
-			free(vars->cmd.path);
-		
 	}
 }

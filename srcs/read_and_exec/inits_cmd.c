@@ -6,11 +6,33 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 19:20:32 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/24 23:30:48 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/27 16:46:38 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+int	sort_cmd(t_vars *vars, t_tokens **head)
+{
+	t_tokens	*current;
+
+	current = *head;
+	while (current && current->type != PIPE)
+	{
+		
+		if (current->type < 4)
+		{
+			if (handle_files(&vars->cmd, current) < 0)
+				return (-1);
+			delete_file_tokens(head, &current);
+		}
+		else
+			current = current->next;
+	}
+	if (fill_cmd_argv(vars, *head) < 0)
+		return (-1);
+	return (0);
+}
 
 int	init_cmd_path(t_vars *vars)
 {
@@ -62,44 +84,24 @@ int	path_to_argv(t_cmd *cmd)
 	return (0);
 }
 
-int	here_doc_loop(t_cmd *cmd, t_tokens *curr)
-{
-	char	*buf;
-	int		fd;
-	char	*limiter;
-
-	buf = NULL;
-	fd = open("here_doc", O_RDWR | O_TRUNC | O_CREAT, 0666);
-	if (fd < 0)
-		return (ft_printf("%s\n", strerror(errno)), -1);
-	limiter = curr->next->string;
-	while (1)
-	{
-		buf = readline("heredoc> ");
-		if (!buf)
-			return (close(fd), -1);
-		ft_putstr_fd(buf, fd);
-		if (!ft_strncmp(buf, limiter, ft_strlen(limiter)))
-			break ;
-		free(buf);
-	}
-	ft_putstr_fd(NULL, fd);
-	free(buf);
-	close(fd);
-	return (0);
-}
-
 int	init_cmd_and_files(t_vars *vars, t_tokens **head, int i)
 {
-	if (sort_cmd(vars, head) < 0)
+	if (sort_cmd(vars, head) < 0 || init_cmd_path(vars) < 0)
+	{
+		if (i > 0)
+			close(vars->tmp_fd);
+		if (vars->cmd.nb_pipes)
+		{
+			close(vars->pipe_fd[1]);
+			close(vars->pipe_fd[0]);
+		}
+		ft_lstclear(head, &free);
 		return (freevars(vars, 1), -1);
-	// if (is_builtin(vars, head))
-	// 	return (0);	
-	if (init_cmd_path(vars) < 0)
-		return (freevars(vars, 1), -1);
+	}
+	// ft_lstclear(head, &free);
 	if (tough_choices(vars, i) < 0)
 		return (freevars(vars, 1), -1);
-	if (vars->cmd.nb_pipes )
+	if (vars->cmd.nb_pipes)
 		if (close(vars->pipe_fd[1]) < 0 || close(vars->pipe_fd[0]) < 0)
 			return (freevars(vars, 1), -1);
 	return (0);

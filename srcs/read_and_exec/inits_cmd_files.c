@@ -1,28 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_ast_utils.c                                   :+:      :+:    :+:   */
+/*   init_cmd_files.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:28:56 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/21 19:39:58 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/27 15:54:36 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	count_cmd(t_vars *vars, t_ast *head)
+int	here_doc_loop(t_cmd *cmd, t_tokens *curr)
 {
-	t_ast	*tmp;
+	char	*buf;
+	int		fd;
+	char	*limiter;
 
-	tmp = head;
-	if (!head)
-		return ;
-	count_cmd(vars, head->left);
-	count_cmd(vars, head->right);
-	if ((head->tokens->type < 4 || head->tokens->type > 6))
-		vars->cmd.nb_pipes++;
+	buf = NULL;
+	fd = open("here_doc", O_RDWR | O_TRUNC | O_CREAT, 0666);
+	if (fd < 0)
+		return (ft_printf("%s\n", strerror(errno)), -1);
+	limiter = curr->next->string;
+	while (1)
+	{
+		buf = readline("heredoc> ");
+		if (!buf)
+			return (close(fd), -1);
+		ft_putstr_fd(buf, fd);
+		if (!ft_strncmp(buf, limiter, ft_strlen(limiter)))
+			break ;
+		free(buf);
+	}
+	ft_putstr_fd(NULL, fd);
+	free(buf);
+	close(fd);
+	return (0);
 }
 
 void	delete_file_tokens(t_tokens **head, t_tokens **curr)
@@ -77,51 +91,54 @@ int	file_add_back(t_files **head, int new_fd)
 	return (0);
 }
 
-int	fill_cmd_argv_2(t_vars *vars, t_tokens **tmp, int i)
+int	handle_files_2(t_cmd *cmd, t_tokens *arm)
 {
-	int		j;
-	char	*str;
+	int	fd;
 
-	j = 0;
-	str = NULL;
-	while ((*tmp)->string[j] && (*tmp)->string[j] != '$')
-		j++;
-	if (j)
+	if (arm->type == GREAT)
 	{
-		vars->cmd.argv[i] = ft_substr((*tmp)->string, 0, j);
-		if (!vars->cmd.argv[i])
+		fd = open(arm->next->string, O_WRONLY | O_TRUNC | O_CREAT, 0666);
+		if (fd < 0)
+			return (-1);
+		if (file_add_back(&cmd->outfiles, fd) < 0)
 			return (-1);
 	}
-	if ((*tmp)->string[j] && (*tmp)->string[j] == '$' && ft_strlen((*tmp)->string + j) > 1)
+	else if (arm->type == DGREAT)
 	{
-		str = expand(vars, (*tmp)->string + j + 1);
-		if (!str)
-			vars->cmd.argv[i] = ft_strjoin_gnl(vars->cmd.argv[i], "");
-		else
-			vars->cmd.argv[i] = ft_strjoin_gnl(vars->cmd.argv[i], str);	
-		if (!vars->cmd.argv[i])
+		fd = open(arm->next->string, O_WRONLY | O_APPEND | O_CREAT, 0666);
+		if (fd < 0)
+			return (-1);
+		if (file_add_back(&cmd->outfiles, fd) < 0)
 			return (-1);
 	}
 	return (0);
 }
 
-int	fill_cmd_argv(t_vars *vars, t_tokens *tokens)
+int	handle_files(t_cmd *cmd, t_tokens *arm)
 {
-	t_tokens	*tmp;
-	int			i;
+	int	fd;
 
-	i = 0;
-	vars->cmd.argv = ft_calloc(ft_lstsize(tokens) + 1, sizeof(char *));
-	if (!vars->cmd.argv)
+	if (!arm->next && arm->next->type != WORD)
 		return (-1);
-	tmp = tokens;
-	while (tmp)
+	if (arm->type == LESS)
 	{
-		if (fill_cmd_argv_2(vars, &tmp, i) < 0)
+		fd = open(arm->next->string, O_RDONLY);
+		if (fd < 0)
 			return (-1);
-		tmp = tmp->next;	
-		i++;
+		if (file_add_back(&cmd->infiles, fd) < 0)
+			return (-1);
 	}
-	vars->cmd.argv[i] = NULL;
+	else if (arm->type == DLESS)
+	{
+		if (here_doc_loop(cmd, arm) < 0)
+			return (-1);
+		fd = open("here_doc", O_RDONLY);
+		if (fd < 0)
+			return (-1);
+		if (file_add_back(&cmd->infiles, fd) < 0)
+			return (-1);
+	}
+	else if (handle_files_2(cmd, arm) < 0)
+		return (-1);
 	return (0);
 }

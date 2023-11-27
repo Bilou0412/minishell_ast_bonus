@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/24 23:00:13 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/27 16:04:25 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-# define free_full 1
-# define free_builtin 2
+# define FREE_FULL 1
+# define FREE_BUILTIN 2
 
 typedef struct s_files
 {
@@ -100,7 +100,6 @@ int					sort_cmd(t_vars *vars, t_tokens **head);
 int					search_envl_index(char *var, t_vars *all);
 int					cd(t_tokens **head, t_vars *vars);
 int					env(char **envl);
-int					is_builtin_simple(t_vars *vars, t_tokens **head);
 int					pwd(void);
 int					export(t_tokens **head, t_vars *all);
 int					unset(t_tokens **head, t_vars *all);
@@ -115,8 +114,13 @@ int					count_pipes(t_tokens *token);
 int					path_to_argv(t_cmd *cmd);
 int					multiple_dup2(t_vars *vars, int flag, int builtin);
 int					is_builtin_pipe(t_vars *vars, t_tokens **head);
-int					is_builtin(t_vars *vars, t_tokens **head);
+int					is_builtin(char *word);
 int					exec_builtin(t_vars *vars, t_tokens **head, int ispipe);
-int	tough_choices(t_vars *vars, int i);
+int					tough_choices(t_vars *vars, int i);
+int					handle_files(t_cmd *cmd, t_tokens *arm);
+t_tokens			*duplicate_current_cmd(t_vars *vars, t_tokens **head,
+						int current_cmd);
+int					multiple_dup2(t_vars *vars, int flag, int builtin);
+int					waitchilds(t_vars *vars, int *pid, int childmax);
 
 #endif

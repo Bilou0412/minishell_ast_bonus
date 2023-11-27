@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   inits_utils.c                                      :+:      :+:    :+:   */
+/*   inits_cmd_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 22:52:15 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/10 21:27:45 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/27 15:47:27 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,29 @@ char	**init_paths(t_vars *vars)
 	return (env_path);
 }
 
+
+int	fill_cmd_argv(t_vars *vars, t_tokens *tokens)
+{
+	t_tokens	*tmp;
+	int			i;
+
+	i = 0;
+	vars->cmd.argv = ft_calloc(ft_lstsize(tokens) + 1, sizeof(char *));
+	if (!vars->cmd.argv)
+		return (-1);
+	tmp = tokens;
+	while (tmp)
+	{
+		vars->cmd.argv[i] = ft_strdup(tmp->string);
+		if (!vars->cmd.argv[i])
+			return (-1);
+		tmp = tmp->next;	
+		i++;
+	}
+	vars->cmd.argv[i] = NULL;
+	return (0);
+}
+
 char	*cmdjoin(char *path, char *cmd)
 {
 	char	*new;
@@ -45,12 +68,3 @@ char	*cmdjoin(char *path, char *cmd)
 	free(tmp);
 	return (new);
 }
-
-// int	init_vars(t_vars *vars, char **envp)
-// {
-// 	vars->envp = envp;
-// 	vars->envp_paths = init_paths(envp);
-// 	if (!vars->envp_paths)
-// 		return (-1);
-// 	return (0);
-// }

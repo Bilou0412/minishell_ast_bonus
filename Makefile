@@ -16,9 +16,10 @@ SRCS		=	srcs/built-in/cd.c \
 				srcs/parser/fill_ast.c \
 				srcs/parser/fill_ast_utils.c \
 				srcs/read_and_exec/read_ast.c \
-				srcs/read_and_exec/read_ast_utils.c \
 				srcs/read_and_exec/pipex.c \
+				srcs/read_and_exec/pipex_utils.c \
 				srcs/read_and_exec/inits_cmd.c \
+				srcs/read_and_exec/inits_cmd_files.c \
 				srcs/read_and_exec/inits_cmd_utils.c \
 				srcs/read_and_exec/builtin_exec.c \
 				srcs/read_and_exec/expand.c \
@@ -41,7 +42,7 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c | $(OBJS_DIR)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 all:			$(NAME)
-				
+
 clean:
 				$(MAKE) clean -C $(LIBFT_DIR)
 
@@ -50,5 +51,8 @@ fclean:			clean
 					rm -f $(LIBFT)
 
 re:				fclean all
+
+# leaks:			all
+#     				valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=del.supp ./minishell
 
 .PHONY:			all clean fclean re
