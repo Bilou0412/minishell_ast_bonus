@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:16:58 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/07 08:24:30 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/26 18:35:42 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_tokens	*ft_lstlast(t_tokens **tok)
 	return (tmp);
 }
 
-t_tokens	*ft_lstnew(char *content, int type)
+t_tokens	*ft_lstnew(char *content, int type, int *expand)
 {
 	t_tokens	*new;
 
@@ -44,6 +44,7 @@ t_tokens	*ft_lstnew(char *content, int type)
 		return (NULL);
 	new->string = content;
 	new->type = type;
+	new->expand = expand;
 	new->next = NULL;
 	return (new);
 }

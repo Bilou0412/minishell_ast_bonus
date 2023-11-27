@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/27 16:04:25 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/27 20:24:08 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int					here_doc_loop(t_cmd *cmd, t_tokens *curr);
 
 void				free_tree(t_ast **ast);
 
-t_tokens			*ft_lstnew(char *content, int type);
+t_tokens			*ft_lstnew(char *content, int type, int *expand);
 void				ft_lstadd_front(t_tokens **lst, t_tokens *new);
 int					ft_lstsize(t_tokens *lst);
 t_tokens			*ft_lstlast(t_tokens **tok);
@@ -108,7 +108,8 @@ int					exit_prog(t_vars *vars);
 void				ctrl_c(int sig);
 int					setup_env(t_vars *vars, char **envp);
 void				free_files(t_files **lst);
-char				*expand(t_vars *vars, char *name);
+int					expand(t_tokens **head, t_vars *vars);
+
 int					exec_pipeline(t_vars *vars, t_tokens **head);
 int					count_pipes(t_tokens *token);
 int					path_to_argv(t_cmd *cmd);
@@ -122,5 +123,8 @@ t_tokens			*duplicate_current_cmd(t_vars *vars, t_tokens **head,
 						int current_cmd);
 int					multiple_dup2(t_vars *vars, int flag, int builtin);
 int					waitchilds(t_vars *vars, int *pid, int childmax);
+int					*char_to_expand(char *str);
+void				del_char(char *address, char char_to_del);
+int					browse_lst_and_expand(t_tokens **head, t_vars *vars);
 
 #endif

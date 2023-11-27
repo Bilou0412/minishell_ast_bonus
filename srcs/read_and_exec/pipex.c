@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:13:52 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/27 19:54:12 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/27 20:33:51 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,12 @@ int	exec_pipeline(t_vars *vars, t_tokens **head)
 
 	i = 0;
 	vars->cmd.nb_pipes = count_pipes(*head);
+	if (browse_lst_and_expand(head, vars) < 0)
+	{
+		return (-1);
+		
+	}
+	printtokens(head);
 	if (is_builtin_simple(vars, head))
 		return (0);
 	while (i < vars->cmd.nb_pipes + 1)

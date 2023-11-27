@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:58:09 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/27 16:28:21 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/27 20:23:18 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	dup_toks(t_tokens **new_lst, t_tokens *current)
 	buff = ft_strdup(current->string);
 	if (!buff)
 		return (-1);	
-	new_token = ft_lstnew(buff, current->type);
+	new_token = ft_lstnew(buff, current->type, current->expand);
 	if (!new_token)
 		return (ft_lstclear(new_lst, &free), -1);
 	ft_lstadd_back(new_lst, new_token);

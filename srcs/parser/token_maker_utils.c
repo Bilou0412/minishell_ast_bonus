@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:23:40 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/17 15:56:26 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/27 20:56:01 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,21 +38,29 @@ int	tok_type(char *content)
 
 int	char_is_quote(t_str_data *str_in, int *word_size, char *current)
 {
+	int		in_quote;
 	char	quote;
 
 	quote = *current;
-	(*word_size)++;
-	*current = str_in->buff[str_in->curpos + *word_size];
-	while (*word_size + str_in->curpos < str_in->buff_size)
+	in_quote = true;
+	*current = str_in->buff[str_in->curpos + ++(*word_size)];
+	while (*current)
 	{
-		if (*current == quote)
+		if (*current == quote && in_quote == true)
+			in_quote = false;
+		else if (ft_strchr("\'\"", *current) && in_quote == false)
+		{
+			in_quote = true;
+			quote = *current;
+		}
+		else if (ft_strchr("<>|& ", *current) && in_quote == false)
 			break ;
-		(*word_size)++;
-		*current = str_in->buff[str_in->curpos + *word_size];
+		*current = str_in->buff[str_in->curpos + ++(*word_size)];
 	}
-	if (*current == '\0')
-		return (printf("quote error\n"), -1);
-	return (0);
+	if (in_quote == true)
+		return (printf("error quote\n"), -1);
+	else
+		return (0);
 }
 
 int	check_char(t_str_data *str_in)
@@ -67,54 +75,54 @@ int	check_char(t_str_data *str_in)
 		if (current == '\'' || current == '\"')
 			if (char_is_quote(str_in, &word_size, &current) < 0)
 				return (-1);
-		if ((ft_strchr(" \t\n", current) || (tok_type(&current) != WORD && tok_type(&current) != DOLLARS))
+		if ((ft_strchr(" \t\n", current) || (tok_type(&current) != WORD))
 			|| (current == '&' && str_in->buff[str_in->curpos + word_size
-					+ 1] == '&'))
+				+ 1] == '&'))
 			break ;
 		word_size++;
 	}
 	return (word_size);
 }
 
-char	get_quote_to_del(char *word)
+void	del_char(char *address, char char_to_del)
 {
-	int	i;
-
-	i = 0;
-	while (word[i])
+	while (*address != '\0' && *address != char_to_del)
+		address++;
+	if (*address == char_to_del)
 	{
-		if (word[i] == '\'' || word[i] == '\"')
-			return (word[i]);
-		else
-			i++;
+		while (*address != '\0')
+		{
+			*address = *(address + 1);
+			address++;
+		}
 	}
-	return (0);
 }
 
-char	*del_quote(char *word)
+int	del_quote(char *str)
 {
+	int		in_quote;
 	char	quote;
 	int		i;
-	int		size;
-	char	*word_unquoted;
 
 	i = 0;
-	size = 0;
-	quote = get_quote_to_del(word);
-	while (word[i++])
+	quote = 0;
+	in_quote = false;
+	while (str[i])
 	{
-		if (word[i] != quote)
-			size++;
+		if (ft_strchr("\'\"", str[i]) && in_quote == false)
+		{
+			in_quote = true;
+			quote = str[i];
+			del_char(str + i, quote);
+			i--;
+		}
+		else if (str[i] == quote && in_quote == true)
+		{
+			in_quote = false;
+			del_char(str + i, quote);
+			i--;
+		}
+		i++;
 	}
-	word_unquoted = ft_calloc(size + 1, sizeof(char));
-	if (!word_unquoted)
-		return (free(word), NULL);
-	i = 0;
-	size = 0;
-	while (word[i++])
-	{
-		if (word[i] != quote)
-			word_unquoted[size++] = word[i];
-	}
-	return (word_unquoted[size] = '\0', free(word), word_unquoted);
+	return (0);
 }

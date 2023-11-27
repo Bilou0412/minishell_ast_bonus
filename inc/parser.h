@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 13:40:29 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/20 17:43:38 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/27 20:54:04 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ enum				e_token_type
 	C_PARENTHESIS,
 	WORD,
 	ERRORLVL,
-	DOLLARS,
 	LIMITER,
 	INDEFINE,
 };
@@ -35,6 +34,7 @@ typedef struct s_tokens
 {
 	char			*string;
 	int				type;
+	int				*expand;
 	struct s_tokens	*next;
 }					t_tokens;
 
@@ -54,7 +54,7 @@ typedef struct s_ast
 
 int					token_m(t_str_data *str_in, t_tokens **tok);
 int					check_char(t_str_data *str_in);
-char				*del_quote(char *word);
+int					del_quote(char *str);
 int					tok_type(char *content);
 
 int					is_branch(t_tokens **curr_tok, t_ast **curr_node);

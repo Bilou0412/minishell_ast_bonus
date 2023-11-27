@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 22:52:15 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/27 15:47:27 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/27 20:19:49 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**init_paths(t_vars *vars)
 	tmp = NULL;
 	tmp = search_envl(vars, "PATH");
 	tmp = ft_substr(tmp, 5, ft_strlen(tmp));
-	if (!tmp)
+	if (*tmp == '\0')
 	{
 		return (NULL);
 	}
