@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 17:51:16 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/28 20:28:37by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/29 17:21:58 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ int	expand(t_tokens **head, t_vars *vars)
 	if (!string_to_add)
 		return (-1);
 	str = ft_strjoin_gnl(str, string_to_add);
+	// super_free(&tmp->string);
 	tmp->string = str;
 	return (0);
 }
@@ -139,7 +140,7 @@ int	*char_to_expand(char *str)
 	number_of_dollars = count_char_in_str(str, '$');
 	if (!number_of_dollars)
 		return (NULL);
-	expand = ft_calloc(number_of_dollars, sizeof(int));
+	expand = ft_calloc(number_of_dollars + 1, sizeof(int));
 	if (!expand)
 		return (NULL);
 	i = 0;
@@ -177,6 +178,7 @@ int	*char_to_expand(char *str)
 			expand[number_of_dollars]++;
 		i++;
 	}
+	expand[number_of_dollars + 1] = -1;
 	return (expand);
 }
 

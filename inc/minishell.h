@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/28 15:41:07 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/29 17:22:25 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void				freetabs(char **tab);
 
 void				freevars(t_vars *vars, int i);
 int					here_doc_loop(t_cmd *cmd, t_tokens *curr);
+void				super_free(char **__ptr);
 
 void				free_tree(t_ast **ast);
 

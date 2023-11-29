@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:15:26 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/27 16:04:46 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/29 16:34:31 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,18 @@ void	ft_lstclear(t_tokens **lst, void (*del)(void *))
 
 void	ft_lstdelone(t_tokens *lst, void (*del)(void *))
 {
+	int	i;
+
+	i = 0;
 	if (!lst)
 		return ;
 	(*del)(lst->string);
 	lst->string = NULL;
+	if (lst->expand)
+	{
+		free(lst->expand);
+		lst->expand = NULL;
+	}
 	free(lst);
 	lst = NULL;
 }
@@ -55,7 +63,7 @@ void	freetabs(char **tab)
 	int	i;
 
 	i = 0;
-	if (!tab || !*tab)
+	if (!tab)
 		return ;
 	while (tab[i])
 	{

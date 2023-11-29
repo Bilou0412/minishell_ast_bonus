@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:58:09 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/27 20:23:18 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/29 15:56:31 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	multiple_dup2(t_vars *vars, int in, int builtin)
 				return (-1);
 			tmp = tmp->next;
 		}
-		free_files(&vars->cmd.infiles);
 	}
 	else
 	{
@@ -40,7 +39,6 @@ int	multiple_dup2(t_vars *vars, int in, int builtin)
 				return (-1);
 			tmp = tmp->next;
 		}
-		free_files(&vars->cmd.outfiles);
 	}
 	return (0);
 }
@@ -63,18 +61,38 @@ int	waitchilds(t_vars *vars, int *pid, int childmax)
 
 int	dup_toks(t_tokens **new_lst, t_tokens *current)
 {
-	char	*buff;
+	char		*new_string;
 	t_tokens	*new_token;
+	int			*new_expand;
+	int			i;
 
-	buff = ft_strdup(current->string);
-	if (!buff)
-		return (-1);	
-	new_token = ft_lstnew(buff, current->type, current->expand);
+	i = 0;
+	new_expand = NULL;
+	new_string = ft_strdup(current->string);
+	if (!new_string)
+		return (-1);
+	if (current->expand)
+	{
+		while (current->expand[i] != -1)
+			i++;
+		new_expand = ft_calloc(i, sizeof(int));
+		i = 0;
+		while (current->expand[i] != -1)
+		{
+			new_expand[i] = current->expand[i];
+			i++;
+		}
+		if (!new_expand)
+			return (free(new_string), -1);
+	}
+
+	new_token = ft_lstnew(new_string, current->type, new_expand);
 	if (!new_token)
 		return (ft_lstclear(new_lst, &free), -1);
 	ft_lstadd_back(new_lst, new_token);
 	return (0);
 }
+
 t_tokens	*duplicate_current_cmd(t_vars *vars, t_tokens **head, int current_cmd)
 {
 	t_tokens	*tmp;

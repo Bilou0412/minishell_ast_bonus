@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 19:20:32 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/27 16:46:38 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/29 14:34:07 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	sort_cmd(t_vars *vars, t_tokens **head)
 	current = *head;
 	while (current && current->type != PIPE)
 	{
-		
 		if (current->type < 4)
 		{
 			if (handle_files(&vars->cmd, current) < 0)
@@ -36,28 +35,29 @@ int	sort_cmd(t_vars *vars, t_tokens **head)
 
 int	init_cmd_path(t_vars *vars)
 {
-	int	i;
+	int		i;
+	char	**env_paths;
 
 	i = 0;
 	if (path_to_argv(&vars->cmd) < 0)
 		return (-1);
 	if (vars->cmd.path)
 		return (0);
-	vars->cmd.env_paths = init_paths(vars);
-	if (!vars->cmd.env_paths)
+	env_paths = init_paths(vars);
+	if (!env_paths)
 		return (-1);
-	while (vars->cmd.env_paths[i])
+	while (env_paths[i])
 	{
-		vars->cmd.path = cmdjoin(vars->cmd.env_paths[i], vars->cmd.argv[0]);
+		vars->cmd.path = cmdjoin(env_paths[i], vars->cmd.argv[0]);
 		if (!vars->cmd.path)
-			return (perror("join"), -1);
+			return (freetabs(env_paths), perror("join"), -1);
 		if (!access(vars->cmd.path, F_OK | X_OK))
-			return (0);
-		free(vars->cmd.path);
-		vars->cmd.path = NULL;
+			return (freetabs(env_paths), 0);
+		super_free(&vars->cmd.path);
 		i++;
 	}
 	ft_printf("command not found: %s\n", vars->cmd.argv[0]);
+	freetabs(env_paths);
 	return (-1);
 }
 
@@ -86,7 +86,7 @@ int	path_to_argv(t_cmd *cmd)
 
 int	init_cmd_and_files(t_vars *vars, t_tokens **head, int i)
 {
-	if (sort_cmd(vars, head) < 0 || init_cmd_path(vars) < 0)
+	if (sort_cmd(vars, head) < 0 || (!is_builtin(vars->cmd.argv[0]) && init_cmd_path(vars) < 0))
 	{
 		if (i > 0)
 			close(vars->tmp_fd);
@@ -100,7 +100,7 @@ int	init_cmd_and_files(t_vars *vars, t_tokens **head, int i)
 	}
 	// ft_lstclear(head, &free);
 	if (tough_choices(vars, i) < 0)
-		return (freevars(vars, 1), -1);
+		return (ft_lstclear(head, &free), freevars(vars, 1), -1);
 	if (vars->cmd.nb_pipes)
 		if (close(vars->pipe_fd[1]) < 0 || close(vars->pipe_fd[0]) < 0)
 			return (freevars(vars, 1), -1);

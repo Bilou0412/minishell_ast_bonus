@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:15:27 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/27 15:47:40 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/29 15:22:06 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ int	read_ast(t_vars *vars, t_ast *curr)
 	{
 		if (exec_pipeline(vars, &curr->tokens) < 0)
 			return (1);
+		if (vars->cmd.nb_pipes)
+			if (close(vars->pipe_fd[0]) < 0)
+				return (-1);
 	}
 	return (0);
 }
