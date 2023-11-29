@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/29 17:22:25 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/29 23:41:33 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+#include <termios.h>
 
 # define FREE_FULL 1
 # define FREE_BUILTIN 2
@@ -61,6 +62,8 @@ typedef struct s_vars
 	int				pipe_fd[2];
 	int				tmp_fd;
 	int				pid[1024];
+	struct termios	original;
+	
 }					t_vars;
 
 t_vars				*_vars(void);

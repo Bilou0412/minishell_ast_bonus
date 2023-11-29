@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_maker.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:17:56 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/25 21:58:54 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/29 23:09:52 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,12 @@ int	token_m(t_str_data *str_in, t_tokens **tok)
 				str_in->buff[str_in->curpos]))
 			str_in->curpos++;
 		else if (make_word(str_in, tok) < 0)
+		{
+			ft_lstclear(tok, &free);
+			super_free(&str_in->buff);
 			return (-1);
+		}
 	}
+	super_free(&str_in->buff);
 	return (0);
 }

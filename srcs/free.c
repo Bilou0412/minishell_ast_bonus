@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:15:26 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/29 16:34:31 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/29 23:11:03 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,6 @@ void	freevars(t_vars *vars, int i)
 	}
 	free_files(&vars->cmd.infiles);
 	free_files(&vars->cmd.outfiles);
-	super_free(&vars->str_in.buff);
-	super_free(&vars->prompt);
 	if (i == FREE_BUILTIN || i == FREE_FULL)
 	{
 		freetabs(vars->cmd.argv);

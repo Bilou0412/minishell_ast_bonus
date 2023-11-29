@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:20:03 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/16 17:50:17 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/29 23:16:13 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_ast	*ft_newleaf(t_ast **node, t_tokens **current)
 	{
 		*node = ft_calloc(1, sizeof(**node));
 		if (!*node)
-			return (NULL);
+			exit_prog(_vars());
 		if (current)
 		{
 			(*node)->tokens = *current;

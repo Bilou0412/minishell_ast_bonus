@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 12:44:33 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/29 17:08:49 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/29 23:50:53 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int	is_leaf(t_tokens **current, t_ast *node)
 
 	if (!*current)
 		return (0);
-	if ((*current)->type == 5 || (*current)->type == 6)
+	if ((*current)->type >= 4 && (*current)->type <= 6)
 		return (0);
-	if ((*current)->type != 5 && (*current)->type != 6)
+	if ((*current)->type < 4 || (*current)->type > 6)
 	{
 		if ((*current)->next && (*current)->next->type == O_PARENTHESIS)
 		{
@@ -29,8 +29,7 @@ int	is_leaf(t_tokens **current, t_ast *node)
 			free(tmp->string);
 			free(tmp);
 		}
-		if (!ft_newleaf(&node, current))
-			return (-1);
+		ft_newleaf(&node, current);
 		if (is_leaf(current, node) < 0)
 			return (-1);
 	}
@@ -47,10 +46,8 @@ int	leaf_position(t_tokens **curr_tok, t_ast **curr_node)
 	}
 	else
 	{
-		if (!ft_newleaf(&(*curr_node)->right, NULL))
-			return (-1);
-		if (is_leaf(curr_tok, (*curr_node)->right) < 0)
-			return (-1);
+		ft_newleaf(&(*curr_node)->right, NULL);
+		is_leaf(curr_tok, (*curr_node)->right);
 	}
 	return (1);
 }
@@ -65,47 +62,43 @@ int	new_branch(t_tokens **curr_tok, t_ast **curr_node)
 		*curr_tok = (*curr_tok)->next;
 		free(tmp->string);
 		free(tmp);
-		if (is_branch(curr_tok, &(*curr_node)->right) < 0)
-			return (-1);
+		is_branch(curr_tok, &(*curr_node)->right);
 	}
 	if (*curr_tok)
 	{
 		(*curr_node)->tokens = *curr_tok;
 		*curr_tok = (*curr_tok)->next;
 		(*curr_node)->tokens->next = NULL;
-		if (is_branch(curr_tok, &(*curr_node)->left) < 0)
-			return (-1);
+		is_branch(curr_tok, &(*curr_node)->left);
 	}
 	return (0);
 }
 
 int	is_branch(t_tokens **curr_tok, t_ast **curr_node)
 {
-	int	flag;
-
 	if (!*curr_tok)
 		return (0);
-	if (!ft_newleaf(curr_node, NULL))
-		return (-1);
-	if (((*curr_tok)->type != 5 && (*curr_tok)->type != 6)
+	ft_newleaf(curr_node, NULL);
+	if (((*curr_tok)->type < 4 || (*curr_tok)->type > 6)
 		&& (*curr_tok)->type != C_PARENTHESIS)
 	{
-		flag = leaf_position(curr_tok, curr_node);
-		if (flag < 0)
-			return (-1);
-		if (!flag)
+		if (!leaf_position(curr_tok, curr_node))
 			return (0);
 	}
-	if (new_branch(curr_tok, curr_node) < 0)
-		return (-1);
+	new_branch(curr_tok, curr_node);
 	return (0);
 }
 
 int	launch_ast(t_vars *vars)
 {
-	if (is_branch(&vars->tokens, &vars->ast) < 0)
-		return (-1);
-	// print_tree(vars->ast, 0);
+	is_branch(&vars->tokens, &vars->ast);
+	print_tree(vars->ast, 0);
+	tcsetattr(STDIN_FILENO, TCSANOW, &vars->original);
 	// printtokens(&vars->tokens);
+	if (read_ast(vars, vars->ast))
+				return (-1);
+	if (waitchilds(vars, vars->pid, vars->nb_forks) < 0)
+			return (-1);
+	freevars(vars, 0);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:19 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/28 16:44:42 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/29 23:51:00 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,18 +80,13 @@ int	read_inputs(t_vars *vars)
 		vars->str_in.buff = readline(vars->prompt);
 		if (!vars->str_in.buff)
 			return (-1);
+		super_free(&vars->prompt);
 		if (vars->str_in.buff[0])
 			add_history(vars->str_in.buff);
-		if (!token_m(&vars->str_in, &vars->tokens))
-		{
+		token_m(&vars->str_in, &vars->tokens);
+		if (vars->tokens)
 			if (launch_ast(vars) < 0)
 				return (-1);
-			else if (read_ast(vars, vars->ast))
-				return (-1);
-		}
-		if (waitchilds(vars, vars->pid, vars->nb_forks) < 0)
-			return (-1);
-		freevars(vars, 0);
 	}
 	return (0);
 }
@@ -107,6 +102,7 @@ int	main(int c, char **v, char **envp)
 		return (1);
 	signal(SIGINT, &ctrl_c);
 	signal(SIGQUIT, SIG_IGN);
+	tcgetattr(STDIN_FILENO, &_vars()->original);
 	if (setup_env(_vars(), envp) < 0)
 		return (-1);
 	if (read_inputs(_vars()) < 0)
