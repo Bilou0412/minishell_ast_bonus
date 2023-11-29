@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 12:14:40 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/27 16:40:16 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/28 15:47:09 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	choose_the_one_2(t_vars *vars, t_tokens **head)
 {
 	if (!ft_strncmp((*head)->string, "pwd", 4))
 	{
-		if (pwd() < 0)
+		if (pwd(vars->cmd.argv) < 0)
 			return (-1);
 	}
 	else if (!ft_strncmp((*head)->string, "export", 7))
@@ -39,18 +39,17 @@ int	choose_the_one_2(t_vars *vars, t_tokens **head)
 
 int	choose_the_one(t_vars *vars, t_tokens **head)
 {
-	
 	if (!ft_strncmp((*head)->string, "cd", 3))
 	{
 		if (cd(&(*head)->next, vars) < 0)
 			return (-1);
 	}
-//	else if (!ft_strncmp((*head)->string, "echo", 5))
-	//{
-		//if (echo(head, vars->envl) < 0)
-			//return (-1);
-		//return (0);
-//	}
+	else if (!ft_strncmp((*head)->string, "echo", 5))
+	{
+		if (echo(vars->cmd.argv) < 0)
+			return (-1);
+		return (0);
+	}
 	else if (!ft_strncmp((*head)->string, "env", 4))
 	{
 		if (env(vars->envl) < 0)

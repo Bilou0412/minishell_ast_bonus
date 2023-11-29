@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/27 20:24:08 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/28 15:41:07 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int					sort_cmd(t_vars *vars, t_tokens **head);
 int					search_envl_index(char *var, t_vars *all);
 int					cd(t_tokens **head, t_vars *vars);
 int					env(char **envl);
-int					pwd(void);
+int					pwd(char **arg_cmd);
 int					export(t_tokens **head, t_vars *all);
 int					unset(t_tokens **head, t_vars *all);
 char				*get_next_word(t_tokens **head);
@@ -126,5 +126,6 @@ int					waitchilds(t_vars *vars, int *pid, int childmax);
 int					*char_to_expand(char *str);
 void				del_char(char *address, char char_to_del);
 int					browse_lst_and_expand(t_tokens **head, t_vars *vars);
+int					echo(char **arg_cmd);
 
 #endif

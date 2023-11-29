@@ -1,6 +1,6 @@
-enlever les '"
 finir echo
 gestions errors
 $?
 leaks
 refacto
+ls|>out

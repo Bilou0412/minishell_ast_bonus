@@ -6,80 +6,69 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 11:07:58 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/17 16:36:58 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/28 17:02:40 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	print_for_echo(char *str_to_print)
+int	print_for_echo(char **arg_cmd, int start)
 {
-	char	c;
+	int	i;
 
-	c = 0;
-	while (*str_to_print)
+	i = start;
+	while (arg_cmd[i])
 	{
-		if (ft_strchr("\'\"", *str_to_print) && c == 0)
-		{
-			c = *str_to_print;
-			str_to_print++;
-		}
-		else if (c != '\0' && c == *str_to_print)
-			str_to_print++;
-		else
-		{
-			ft_putchar_fd(*str_to_print, 1);
-			str_to_print++;
-		}
+		printf("%s", arg_cmd[i]);
+		i++;
+		if (arg_cmd[i])
+			printf(" ");
 	}
-}
-
-int	is_option(t_tokens **head)
-{
-	t_tokens	*current;
-	char		*current_string;
-	int			i;
-
-	i = 0;
-	current = *head;
-	current = current->next;
-	while (current)
-	{
-		if (current->type == WORD)
-		{
-			current_string = del_quote(current->next);
-			if (!current_string)
-				return (NULL);
-			if (current_string[i] == '-')
-			{
-				i++;
-				while (current_string[i] == 'n')
-					i++;
-				if (!current_string[i])
-					return (1);
-			}
-			return (0);
-		}
-		current = current->next;
-	}
+	if (start == 1)
+		printf("\n");
 	return (0);
 }
 
-int	echo(t_tokens **head)
+int	option_newline(char **arg_cmd)
 {
-	int		option;
-	char	*string;
+	int	i;
+	int	j;
 
-	option = is_option(head);
-	string = string_to_print(head);
-	if (!option && !string)
-		return (ft_putchar_fd('\n', 1), 0);
-	else if (string && !option)
-		return (print_for_echo(string), ft_putchar_fd('\n', 1), 0);
-	else if (!string && !ft_strncmp("-n", option, 3))
-		return (0);
-	else
-		str_to_print = check_echo_option(option, string);
-	print_for_echo(str_to_print)y;
-	return (free(str_to_print), 0);
+	i = 1;
+	j = 0;
+	while (arg_cmd[i])
+	{
+		if (arg_cmd[i][0] == '-')
+		{
+			j++;
+			while (arg_cmd[i][j])
+			{
+				if (arg_cmd[i][j] != 'n' && arg_cmd[i][j] != '\0')
+					return (i);
+				j++;
+			}
+		}
+		else
+			return (i);
+		j = 0;
+		i++;
+	}
+	return (i);
+}
+
+int	echo(char **arg_cmd)
+{
+	int	i;
+	int	nb_arg;
+
+	i = 0;
+	nb_arg = ft_arraylen(arg_cmd);
+	if (nb_arg == 1)
+		ft_putchar('\n');
+	else if (i < nb_arg)
+	{
+		i = option_newline(arg_cmd);
+		print_for_echo(arg_cmd, i);
+	}
+	return (0);
 }

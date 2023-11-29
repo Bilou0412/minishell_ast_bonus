@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:13:52 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/27 20:33:51 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/28 15:43:35 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@ int	is_builtin_simple(t_vars *vars, t_tokens **head)
 		return (0);
 	if (is_builtin(tmp->string))
 	{
-		exec_builtin(vars, head, 0);
+		if(exec_builtin(vars, head, 0) < 0)
+			return (-1);
 		freevars(vars, 2);
 		return (1);
 				
@@ -115,11 +116,7 @@ int	exec_pipeline(t_vars *vars, t_tokens **head)
 	i = 0;
 	vars->cmd.nb_pipes = count_pipes(*head);
 	if (browse_lst_and_expand(head, vars) < 0)
-	{
 		return (-1);
-		
-	}
-	printtokens(head);
 	if (is_builtin_simple(vars, head))
 		return (0);
 	while (i < vars->cmd.nb_pipes + 1)

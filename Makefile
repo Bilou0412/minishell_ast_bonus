@@ -9,6 +9,7 @@ SRCS		=	srcs/built-in/cd.c \
 				srcs/built-in/export.c \
 				srcs/built-in/unset.c \
 				srcs/built-in/exit.c \
+				srcs/built-in/echo.c \
 				srcs/env/own_env.c \
 				srcs/parser/tokens_utils.c \
 				srcs/parser/token_maker.c \

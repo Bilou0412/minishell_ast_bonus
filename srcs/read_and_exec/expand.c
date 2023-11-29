@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 17:51:16 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/27 21:07:10 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/28 20:28:37by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ int	*char_to_expand(char *str)
 	number_of_dollars = count_char_in_str(str, '$');
 	if (!number_of_dollars)
 		return (NULL);
-	expand = ft_calloc(number_of_dollars , sizeof(int));
+	expand = ft_calloc(number_of_dollars, sizeof(int));
 	if (!expand)
 		return (NULL);
 	i = 0;
@@ -160,12 +160,18 @@ int	*char_to_expand(char *str)
 			quote = 0;
 			dollars = 0;
 		}
+		else if (str[i] == ' ')
+			dollars = 0;
 		else if (str[i] == '$')
 		{
+			if(dollars)
 			number_of_dollars++;
 			expand[number_of_dollars] = 0;
 			if (quote != '\'')
+			{
 				dollars = 1;
+				expand[number_of_dollars]++;
+			}
 		}
 		else if (dollars == 1)
 			expand[number_of_dollars]++;
