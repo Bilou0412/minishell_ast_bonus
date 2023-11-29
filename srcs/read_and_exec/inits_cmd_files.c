@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_cmd_files.c                                   :+:      :+:    :+:   */
+/*   inits_cmd_files.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:28:56 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/27 15:54:36 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/28 16:07:31 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	handle_files_2(t_cmd *cmd, t_tokens *arm)
 {
 	int	fd;
 
-	if (arm->type == GREAT)
+	if (arm->type == GREAT || arm->type == CLOBBER)
 	{
 		fd = open(arm->next->string, O_WRONLY | O_TRUNC | O_CREAT, 0666);
 		if (fd < 0)

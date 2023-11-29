@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:13:52 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/27 20:33:51 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/29 17:01:06 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	tough_choices(t_vars *vars, int i)
 		if (multiple_dup2(vars, 0, 0) < 0)
 			return (-1);
 	}
-	else if (i != vars->cmd.nb_pipes && vars->cmd.nb_pipes)
+	else if (i != vars->cmd.nb_pipes)
 		if (dup2(vars->pipe_fd[1], STDOUT_FILENO) < 0)
 			return (-1);
 	return (0);
@@ -43,7 +43,7 @@ void	in_out_pipe(t_vars *vars, t_tokens **head, int i)
 
 	if (init_cmd_and_files(vars, head, i) < 0)
 		exit(1);
-	if (is_builtin(vars->cmd.argv[0]))
+	if (vars->cmd.argv && is_builtin(vars->cmd.argv[0]))
 	{
 		flag = exec_builtin(vars, head, 1);
 		ft_lstclear(head, &free);
@@ -115,11 +115,7 @@ int	exec_pipeline(t_vars *vars, t_tokens **head)
 	i = 0;
 	vars->cmd.nb_pipes = count_pipes(*head);
 	if (browse_lst_and_expand(head, vars) < 0)
-	{
 		return (-1);
-		
-	}
-	printtokens(head);
 	if (is_builtin_simple(vars, head))
 		return (0);
 	while (i < vars->cmd.nb_pipes + 1)
@@ -131,7 +127,6 @@ int	exec_pipeline(t_vars *vars, t_tokens **head)
 			if (pipe(vars->pipe_fd) < 0)
 				return (perror("pipe"), -1);
 		pid[i] = fork();
-		// sleep(5);
 		if (pid[i] < 0)
 			return (perror("Fork"), -1);
 		if (!pid[i])
@@ -150,12 +145,7 @@ int	exec_pipeline(t_vars *vars, t_tokens **head)
 	}
 	if (waitchilds(vars, pid, i) < 0)
 		return (-1);
-	if (vars->cmd.nb_pipes)
-	{
-		// if (close(vars->tmp_fd) < 0)
-		// 	return (-1);
-		if (close(vars->pipe_fd[0]) < 0)
-			return (-1);
-	}
+	// if (vars->cmd.nb_pipes)
+	// 	close(vars->tmp_fd);
 	return (0);
 }

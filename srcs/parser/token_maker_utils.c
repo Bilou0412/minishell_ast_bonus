@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:23:40 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/27 20:56:01 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/28 16:08:37 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	tok_type(char *content)
 		return (DLESS);
 	if (!ft_strncmp(content, ">>", 2))
 		return (DGREAT);
+	if (!ft_strncmp(content, ">|", 2))
+		return (CLOBBER);
 	if (content[0] == '<')
 		return (LESS);
 	if (content[0] == '>')

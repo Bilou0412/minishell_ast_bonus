@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/27 20:24:08 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/28 15:39:26 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void				freetabs(char **tab);
 
 void				freevars(t_vars *vars, int i);
 int					here_doc_loop(t_cmd *cmd, t_tokens *curr);
+void				super_free(char **__ptr);
 
 void				free_tree(t_ast **ast);
 

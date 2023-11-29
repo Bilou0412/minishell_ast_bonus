@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 13:40:29 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/27 20:54:04 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/28 16:08:01 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ enum				e_token_type
 	WORD,
 	ERRORLVL,
 	LIMITER,
+	CLOBBER,
 	INDEFINE,
 };
 

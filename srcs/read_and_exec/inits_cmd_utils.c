@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 22:52:15 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/27 20:19:49 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/29 14:05:59 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,19 @@ char	**init_paths(t_vars *vars)
 
 	tmp = NULL;
 	tmp = search_envl(vars, "PATH");
-	tmp = ft_substr(tmp, 5, ft_strlen(tmp));
-	if (*tmp == '\0')
-	{
+	if(!tmp)
 		return (NULL);
-	}
+	if (!*tmp)
+		return (super_free(&tmp), NULL);
+	tmp = ft_substr(tmp, 5, ft_strlen(tmp + 5));
+	if (!tmp)
+		return (NULL);
 	env_path = ft_split(tmp, ':');
 	if (!env_path)
 		return (free(tmp), NULL);
 	free(tmp);
 	return (env_path);
 }
-
 
 int	fill_cmd_argv(t_vars *vars, t_tokens *tokens)
 {
