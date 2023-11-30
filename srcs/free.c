@@ -6,13 +6,13 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:15:26 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/29 23:11:03 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/30 18:36:51 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	ft_lstclear(t_tokens **lst, void (*del)(void *))
+void	ft_tokclear(t_tokens **lst, void (*del)(void *))
 {
 	t_tokens	*t;
 	t_tokens	*buf;
@@ -23,13 +23,13 @@ void	ft_lstclear(t_tokens **lst, void (*del)(void *))
 	while (t)
 	{
 		buf = t->next;
-		ft_lstdelone(t, del);
+		ft_tokdelone(t, del);
 		t = buf;
 	}
 	*lst = NULL;
 }
 
-void	ft_lstdelone(t_tokens *lst, void (*del)(void *))
+void	ft_tokdelone(t_tokens *lst, void (*del)(void *))
 {
 	int	i;
 
@@ -40,11 +40,9 @@ void	ft_lstdelone(t_tokens *lst, void (*del)(void *))
 	lst->string = NULL;
 	if (lst->expand)
 	{
-		free(lst->expand);
-		lst->expand = NULL;
+		ft_collector(lst->expand, true);
 	}
-	free(lst);
-	lst = NULL;
+	ft_collector(lst, true);
 }
 
 void	free_tree(t_ast **ast)
@@ -53,8 +51,8 @@ void	free_tree(t_ast **ast)
 		return ;
 	free_tree(&(*ast)->left);
 	free_tree(&(*ast)->right);
-	ft_lstclear(&(*ast)->tokens, &free);
-	free(*ast);
+	ft_tokclear(&(*ast)->tokens, &free);
+	ft_collector(*ast, true);
 	*ast = NULL;
 }
 
@@ -67,10 +65,10 @@ void	freetabs(char **tab)
 		return ;
 	while (tab[i])
 	{
-		free(tab[i]);
+		ft_collector(tab[i], true);
 		i++;
 	}
-	free(tab);
+	ft_collector(tab, true);
 	tab = NULL;
 }
 
@@ -85,12 +83,12 @@ void	free_files(t_files **lst)
 	while (t)
 	{
 		buf = t->next;
-		free(t);
+		ft_collector(t, true);
 		t = buf;
 	}
 	*lst = NULL;
 }
-void	super_free(char **__ptr)
+void	super_free(void **__ptr)
 {
 	if (*__ptr)
 	{
@@ -104,18 +102,17 @@ void	freevars(t_vars *vars, int i)
 	if (i != FREE_BUILTIN)
 	{
 		free_tree(&vars->ast);
-		ft_lstclear(&vars->tokens, &free);
+		ft_tokclear(&vars->tokens, &free);
 	}
 	free_files(&vars->cmd.infiles);
 	free_files(&vars->cmd.outfiles);
 	if (i == FREE_BUILTIN || i == FREE_FULL)
 	{
 		freetabs(vars->cmd.argv);
-		super_free(&vars->cmd.path);
+		ft_collector(vars->cmd.path, true);
 		if (i == FREE_FULL)
 		{
 			freetabs(vars->envl);
-			freetabs(vars->cmd.env_paths);
 			rl_clear_history();
 		}
 	}

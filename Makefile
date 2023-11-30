@@ -27,6 +27,7 @@ SRCS		=	srcs/built-in/cd.c \
 				srcs/print.c \
 				srcs/free.c \
 				srcs/main.c \
+				srcs/signals_functions.c \
 
 OBJS		=	$(SRCS:$(SRCS)/%.c=$(OBJS_DIR)/%.o)
 LIBFT		=	libft/libft.a

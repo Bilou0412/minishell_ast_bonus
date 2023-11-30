@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 12:44:33 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/29 23:50:53 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/30 16:27:28 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int	is_leaf(t_tokens **current, t_ast *node)
 		{
 			tmp = (*current)->next;
 			(*current)->next = tmp->next;
-			free(tmp->string);
-			free(tmp);
+			ft_collector(tmp->string, true);
+			ft_collector(tmp, true);
 		}
 		ft_newleaf(&node, current);
 		if (is_leaf(current, node) < 0)
@@ -60,8 +60,8 @@ int	new_branch(t_tokens **curr_tok, t_ast **curr_node)
 	{
 		tmp = *curr_tok;
 		*curr_tok = (*curr_tok)->next;
-		free(tmp->string);
-		free(tmp);
+		ft_collector(tmp->string, true);
+		ft_collector(tmp, true);
 		is_branch(curr_tok, &(*curr_node)->right);
 	}
 	if (*curr_tok)

@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:20:03 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/29 23:16:13 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/30 16:11:54 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,7 @@ t_ast	*ft_newleaf(t_ast **node, t_tokens **current)
 		tmp = (*current)->next;
 	if (!*node)
 	{
-		*node = ft_calloc(1, sizeof(**node));
-		if (!*node)
-			exit_prog(_vars());
+		*node = (t_ast*)ft_collector(ft_calloc(1, sizeof(**node)), false);
 		if (current)
 		{
 			(*node)->tokens = *current;
@@ -49,7 +47,7 @@ t_ast	*ft_newleaf(t_ast **node, t_tokens **current)
 		return (*node);
 	}
 	(*current)->next = NULL;
-	ft_lstadd_front(&(*node)->tokens, *current);
+	ft_tokadd_front(&(*node)->tokens, *current);
 	*current = tmp;
 	return (*node);
 }

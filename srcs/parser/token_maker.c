@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:17:56 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/29 23:09:52 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/30 16:47:51 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,8 @@ int	content_to_token(char *content, t_tokens **tok, int type, int *expand)
 {
 	t_tokens	*node;
 
-	node = ft_lstnew(content, type, expand);
-	if (!node)
-	{
-		free(content);
-		freevars(_vars(), 0);
-		exit(1);
-	}
-	ft_lstadd_front(tok, node);
+	node = (t_tokens*)ft_collector(ft_toknew(content, type, expand), false);
+	ft_tokadd_front(tok, node);
 	return (0);
 }
 
@@ -34,12 +28,7 @@ int	single_char_tok(t_str_data *str_in, t_tokens **tok)
 
 	if (ft_strchr("<>|()", str_in->buff[str_in->curpos]))
 	{
-		content = ft_substr(str_in->buff, str_in->curpos, 1);
-		if (!content)
-		{
-			freevars(_vars(), 0);
-			exit(1);
-		}
+		content = (char*)ft_collector(ft_substr(str_in->buff, str_in->curpos, 1), false);
 		type = tok_type(content);
 		content_to_token(content, tok, type, (int*)0);
 		return (1);
@@ -58,12 +47,7 @@ int	double_char_tok(t_str_data *str_in, t_tokens **tok)
 			+ curpos, "&&", 2) || !ft_strncmp(str_in->buff + curpos, "<<", 2)
 		|| !ft_strncmp(str_in->buff + curpos, ">>", 2))
 	{
-		content = ft_substr(str_in->buff, str_in->curpos, 2);
-		if (!content)
-		{
-			freevars(_vars(), 0);
-			exit(1);
-		}
+		content = (char*)ft_collector(ft_substr(str_in->buff, str_in->curpos, 2), false);
 		type = tok_type(content);
 		content_to_token(content, tok, type, (int*)0);
 		return (1);
@@ -83,12 +67,7 @@ int	make_word(t_str_data *str_in, t_tokens **tok)
 		return (-1);
 	else if (!size_word)
 		return (str_in->curpos += 2, 0);
-	word = ft_substr(str_in->buff, str_in->curpos, size_word);
-	if (!word)
-	{
-		freevars(_vars(), 0);
-		exit(1);
-	}
+	word = (char*)ft_collector(ft_substr(str_in->buff, str_in->curpos, size_word), false);
 	str_in->curpos += size_word;
 	expand = char_to_expand(word);
 	if (expand)
@@ -111,11 +90,11 @@ int	token_m(t_str_data *str_in, t_tokens **tok)
 			str_in->curpos++;
 		else if (make_word(str_in, tok) < 0)
 		{
-			ft_lstclear(tok, &free);
-			super_free(&str_in->buff);
+			ft_tokclear(tok, &free);
+			ft_collector((str_in->buff), true);
 			return (-1);
 		}
 	}
-	super_free(&str_in->buff);
+	ft_collector(str_in->buff, true);
 	return (0);
 }

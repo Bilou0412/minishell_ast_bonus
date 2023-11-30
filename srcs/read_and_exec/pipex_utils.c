@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:58:09 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/29 15:56:31 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/30 17:12:07 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,64 +59,3 @@ int	waitchilds(t_vars *vars, int *pid, int childmax)
 	return (0);
 }
 
-int	dup_toks(t_tokens **new_lst, t_tokens *current)
-{
-	char		*new_string;
-	t_tokens	*new_token;
-	int			*new_expand;
-	int			i;
-
-	i = 0;
-	new_expand = NULL;
-	new_string = ft_strdup(current->string);
-	if (!new_string)
-		return (-1);
-	if (current->expand)
-	{
-		while (current->expand[i] != -1)
-			i++;
-		new_expand = ft_calloc(i, sizeof(int));
-		i = 0;
-		while (current->expand[i] != -1)
-		{
-			new_expand[i] = current->expand[i];
-			i++;
-		}
-		if (!new_expand)
-			return (free(new_string), -1);
-	}
-
-	new_token = ft_lstnew(new_string, current->type, new_expand);
-	if (!new_token)
-		return (ft_lstclear(new_lst, &free), -1);
-	ft_lstadd_back(new_lst, new_token);
-	return (0);
-}
-
-t_tokens	*duplicate_current_cmd(t_vars *vars, t_tokens **head, int current_cmd)
-{
-	t_tokens	*tmp;
-	t_tokens	*new_lst;
-	int			i;
-	
-	i = 0;
-	tmp = *head;
-	new_lst = NULL;
-	while (i < current_cmd)
-	{
-		while (tmp && tmp->type != PIPE)
-			tmp = tmp->next;
-		if (tmp)
-			tmp = tmp->next;
-		i++;
-	}
-	while (tmp)
-	{
-		if (dup_toks(&new_lst, tmp) < 0)
-			return (NULL);
-		if (tmp->next && tmp->next->type == PIPE)
-			break;
-		tmp = tmp->next;
-	}
-	return (new_lst);
-}

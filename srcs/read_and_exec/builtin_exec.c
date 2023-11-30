@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 12:14:40 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/28 15:47:09 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/30 15:27:37 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ int	choose_the_one_2(t_vars *vars, t_tokens **head)
 			return (-1);
 	}
 	else if (!ft_strncmp((*head)->string, "exit", 5))
-	{
-		if (exit_prog(vars) < 0)
-			return (-1);
-	}
+		exit_prog();
 	else if (!ft_strncmp((*head)->string, "unset", 6))
 	{
 		if (unset(&(*head)->next, vars) < 0)
@@ -60,7 +57,7 @@ int	choose_the_one(t_vars *vars, t_tokens **head)
 	return (0);
 }
 
-int	exec_builtin(t_vars *vars, t_tokens **head, int ispipe)
+int	exec_builtin(t_vars *vars, t_tokens **head, bool ispipe)
 {
 	t_tokens	*current;
 	int			save;
@@ -70,28 +67,24 @@ int	exec_builtin(t_vars *vars, t_tokens **head, int ispipe)
 	if (!ispipe)
 	{
 		if (sort_cmd(vars, head) < 0)
-			return (-1);
+			exit_prog();
 		if (vars->cmd.outfiles)
 		{
 			save = dup(1);
-			if (!save)
-				return (-1);
-			if (multiple_dup2(vars, 0, 1) < 0)
-				return (-1);
+			if (!save || multiple_dup2(vars, 0, 1) < 0)
+				exit_prog();
 		}
 	}
 	if (choose_the_one(vars, head) < 0)
 	{
 		vars->last_return_val = 1;
-		return (-1);
+		if (save)
+			close(save);
+		exit_prog();
 	}
-	if (vars->cmd.outfiles && !ispipe)
-	{
-		if (dup2(save, STDOUT_FILENO) < 0)
-			return (-1);
-		if (close(save) < 0)
-			return (-1);
-	}
+	if (vars->cmd.outfiles && !ispipe
+		&& (dup2(save, STDOUT_FILENO) < 0 || close(save) < 0))
+			exit_prog();
 	return (0);
 }
 

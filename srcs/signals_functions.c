@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_arraydup.c                                      :+:      :+:    :+:   */
+/*   signals_functions.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/07 12:26:03 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/30 18:49:10 by soutin           ###   ########.fr       */
+/*   Created: 2023/11/30 15:23:01 by soutin            #+#    #+#             */
+/*   Updated: 2023/11/30 15:24:07 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/libft.h"
+#include  "minishell.h"
 
-char	**ft_arraydup(char **array)
+void	ctrl_c(int sig)
 {
-	int		i;
-	char	**new_array;
+	(void)sig;
+	write(2, "\n", 1);
+	freevars(_vars(), 0);
+	rl_on_new_line();
+	rl_redisplay();
+	rl_replace_line("", 0);
+}
 
-	i = 0;
-	while (array[i])
-		i++;
-	new_array = (char**)ft_collector(ft_calloc((i + 1), sizeof(char *)), false);
-	i = 0;
-	while (array[i])
-	{
-		new_array[i] = (char*)ft_collector(ft_strdup(array[i]), false);
-		i++;
-	}
-	new_array[i] = NULL;
-	return (new_array);
+void	nothing(int sig)
+{
+	(void)sig;
+	return ;
 }

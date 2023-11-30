@@ -1,32 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_arraydup.c                                      :+:      :+:    :+:   */
+/*   ft_lstiter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/07 12:26:03 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/30 18:49:10 by soutin           ###   ########.fr       */
+/*   Created: 2023/05/15 21:05:27 by soutin            #+#    #+#             */
+/*   Updated: 2023/11/30 17:34:35 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/libft.h"
 
-char	**ft_arraydup(char **array)
+void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
-	int		i;
-	char	**new_array;
-
-	i = 0;
-	while (array[i])
-		i++;
-	new_array = (char**)ft_collector(ft_calloc((i + 1), sizeof(char *)), false);
-	i = 0;
-	while (array[i])
+	while (lst)
 	{
-		new_array[i] = (char*)ft_collector(ft_strdup(array[i]), false);
-		i++;
+		(*f)(lst->content);
+		lst = lst->next;
 	}
-	new_array[i] = NULL;
-	return (new_array);
 }

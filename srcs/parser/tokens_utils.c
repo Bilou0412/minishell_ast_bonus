@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:16:58 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/26 18:35:42 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/30 15:43:44 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	ft_lstsize(t_tokens *lst)
+int	ft_toksize(t_tokens *lst)
 {
 	int	i;
 
@@ -25,7 +25,7 @@ int	ft_lstsize(t_tokens *lst)
 	return (i);
 }
 
-t_tokens	*ft_lstlast(t_tokens **tok)
+t_tokens	*ft_toklast(t_tokens **tok)
 {
 	t_tokens	*tmp;
 
@@ -35,7 +35,7 @@ t_tokens	*ft_lstlast(t_tokens **tok)
 	return (tmp);
 }
 
-t_tokens	*ft_lstnew(char *content, int type, int *expand)
+t_tokens	*ft_toknew(char *content, int type, int *expand)
 {
 	t_tokens	*new;
 
@@ -49,7 +49,7 @@ t_tokens	*ft_lstnew(char *content, int type, int *expand)
 	return (new);
 }
 
-void	ft_lstadd_back(t_tokens **tok, t_tokens *new)
+void	ft_tokadd_back(t_tokens **tok, t_tokens *new)
 {
 	t_tokens	*tmp;
 
@@ -59,13 +59,13 @@ void	ft_lstadd_back(t_tokens **tok, t_tokens *new)
 			*tok = new;
 		else
 		{
-			tmp = ft_lstlast(tok);
+			tmp = ft_toklast(tok);
 			tmp->next = new;
 		}
 	}
 }
 
-void	ft_lstadd_front(t_tokens **tok, t_tokens *new)
+void	ft_tokadd_front(t_tokens **tok, t_tokens *new)
 {
 	if (tok)
 	{
