@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:19 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/28 16:44:42 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/30 18:48:49 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,32 +42,20 @@ char	*get_prompt(char **prompt)
 
 	tmp = NULL;
 	*prompt = NULL;
-	buffer = getcwd(NULL, 0);
+	buffer = (char*)ft_collector(getcwd(NULL, 0), false);
 	if (!buffer)
-		return (NULL);
+		exit_prog();
 	i = ft_strlen(buffer);
 	while (i >= 0 && buffer[i] != '/')
 		i--;
 	i++;
-	tmp = ft_substr(buffer, i, ft_strlen(buffer + i));
+	tmp = (char*)ft_collector(ft_substr(buffer, i, ft_strlen(buffer + i)), false);
 	if (!tmp)
-		return (NULL);
-	*prompt = ft_strjoin(tmp, "> ");
-	if (!prompt)
-		return (NULL);
-	free(buffer);
-	free(tmp);
+		(free(buffer), exit_prog());
+	*prompt = (char*)ft_collector(ft_strjoin(tmp, "> "), false);
+	ft_collector(buffer, true);
+	ft_collector(tmp, true);
 	return (*prompt);
-}
-
-void	ctrl_c(int sig)
-{
-	(void)sig;
-	write(2, "\n", 1);
-	freevars(_vars(), 0);
-	rl_on_new_line();
-	rl_redisplay();
-	rl_replace_line("", 0);
 }
 
 int	read_inputs(t_vars *vars)
@@ -77,29 +65,18 @@ int	read_inputs(t_vars *vars)
 		init_vars(vars);
 		if (!get_prompt(&vars->prompt))
 			return (-1);
-		vars->str_in.buff = readline(vars->prompt);
-		if (!vars->str_in.buff)
-			return (-1);
+		vars->str_in.buff = (char*)ft_collector(readline(vars->prompt), false);
+		ft_collector(vars->prompt, true);
 		if (vars->str_in.buff[0])
 			add_history(vars->str_in.buff);
-		if (!token_m(&vars->str_in, &vars->tokens))
-		{
+		token_m(&vars->str_in, &vars->tokens);
+		if (vars->tokens)
 			if (launch_ast(vars) < 0)
 				return (-1);
-			else if (read_ast(vars, vars->ast))
-				return (-1);
-		}
-		if (waitchilds(vars, vars->pid, vars->nb_forks) < 0)
-			return (-1);
-		freevars(vars, 0);
 	}
 	return (0);
 }
-void	nothing(int sig)
-{
-	(void)sig;
-	return ;
-}
+
 int	main(int c, char **v, char **envp)
 {
 	(void)v;
@@ -107,6 +84,7 @@ int	main(int c, char **v, char **envp)
 		return (1);
 	signal(SIGINT, &ctrl_c);
 	signal(SIGQUIT, SIG_IGN);
+	tcgetattr(STDIN_FILENO, &_vars()->original);
 	if (setup_env(_vars(), envp) < 0)
 		return (-1);
 	if (read_inputs(_vars()) < 0)

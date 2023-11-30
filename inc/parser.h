@@ -6,14 +6,14 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 13:40:29 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/28 16:08:01 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/30 16:41:54 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-enum				e_token_type
+enum			e_token_type
 {
 	LESS,
 	DLESS,

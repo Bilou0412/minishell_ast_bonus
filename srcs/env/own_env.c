@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 19:18:53 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/28 16:34:23 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/30 18:44:58 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,8 @@ char	*search_envl(t_vars *vars, char *var_name)
 	int	i;
 	int	size_name_envl;
 	int	size_name_var;
-	// char *str;
 
 	i = 0;
-	// str = ft_calloc(1, sizeof(char));
-	// if (!str);
-	// 	return (NULL);
-	// *str = '\0';
 	size_name_var = ft_strlen_to_char(var_name, '=');
 	while (vars->envl[i])
 	{
@@ -35,13 +30,11 @@ char	*search_envl(t_vars *vars, char *var_name)
 		}
 		i++;
 	}
-	return (ft_strdup(""));
+	return (ft_collector(ft_strdup(""), false));
 }
 
 int	setup_env(t_vars *vars, char **envp)
 {
 	vars->envl = ft_arraydup(envp);
-	if (!vars->envl)
-		return (-1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 19:20:32 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/29 14:34:07 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/30 18:49:19 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	sort_cmd(t_vars *vars, t_tokens **head)
 	t_tokens	*current;
 
 	current = *head;
-	while (current && current->type != PIPE)
+	while (current)
 	{
 		if (current->type < 4)
 		{
@@ -28,8 +28,7 @@ int	sort_cmd(t_vars *vars, t_tokens **head)
 		else
 			current = current->next;
 	}
-	if (fill_cmd_argv(vars, *head) < 0)
-		return (-1);
+	fill_cmd_argv(vars, *head);
 	return (0);
 }
 
@@ -49,11 +48,9 @@ int	init_cmd_path(t_vars *vars)
 	while (env_paths[i])
 	{
 		vars->cmd.path = cmdjoin(env_paths[i], vars->cmd.argv[0]);
-		if (!vars->cmd.path)
-			return (freetabs(env_paths), perror("join"), -1);
 		if (!access(vars->cmd.path, F_OK | X_OK))
 			return (freetabs(env_paths), 0);
-		super_free(&vars->cmd.path);
+		ft_collector(vars->cmd.path, true);
 		i++;
 	}
 	ft_printf("command not found: %s\n", vars->cmd.argv[0]);
@@ -71,14 +68,10 @@ int	path_to_argv(t_cmd *cmd)
 	{
 		cmd->path = cmd->argv[0];
 		tmp = ft_split(cmd->argv[0], '/');
-		if (!tmp)
-			return (-1);
 		while (tmp[i + 1])
 			i++;
-		cmd->argv[0] = ft_substr(tmp[i], 0, ft_strlen(tmp[i]));
+		cmd->argv[0] = (char*)ft_collector(ft_substr(tmp[i], 0, ft_strlen(tmp[i])), false);
 		freetabs(tmp);
-		if (!cmd->argv[0])
-			return (-1);
 		return (0);
 	}
 	return (0);
@@ -95,14 +88,12 @@ int	init_cmd_and_files(t_vars *vars, t_tokens **head, int i)
 			close(vars->pipe_fd[1]);
 			close(vars->pipe_fd[0]);
 		}
-		ft_lstclear(head, &free);
-		return (freevars(vars, 1), -1);
+		return (-1);
 	}
-	// ft_lstclear(head, &free);
 	if (tough_choices(vars, i) < 0)
-		return (ft_lstclear(head, &free), freevars(vars, 1), -1);
+		return (-1);
 	if (vars->cmd.nb_pipes)
 		if (close(vars->pipe_fd[1]) < 0 || close(vars->pipe_fd[0]) < 0)
-			return (freevars(vars, 1), -1);
+			return (-1);
 	return (0);
 }

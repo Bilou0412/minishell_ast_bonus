@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:52:15 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/10 20:06:41 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/30 18:47:26 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,18 @@ char	**ft_split(char const *s, char c)
 		return (NULL);
 	j = 0;
 	max_size = count_array(s, c);
-	array = ft_calloc((max_size + 1), sizeof(char **));
-	if (!array)
-		return (NULL);
+	array = (char**)ft_collector(ft_calloc((max_size + 1), sizeof(char **)), false);
 	array[max_size] = NULL;
 	while (max_size--)
 	{
 		while (*s == c)
 			s++;
-		array[j] = ft_substr(s, 0, ft_strchr(s, c) - s);
-		if (!array[j++])
-			return (NULL);
+		array[j] = (char*)ft_collector(ft_substr(s, 0, ft_strchr(s, c) - s), false);
+		j++;
 		while (*s != c && *s != '\0')
 			s++;
 	}
+	array[j] = NULL;
 	return (array);
 }
 
