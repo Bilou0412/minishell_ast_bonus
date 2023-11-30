@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   inits_cmd_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 22:52:15 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/30 18:49:16 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/30 21:01:00 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "minishell.h"
 
 char	**init_paths(t_vars *vars)
 {

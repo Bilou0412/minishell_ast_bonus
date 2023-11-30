@@ -6,11 +6,11 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 11:07:58 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/28 17:02:40 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/30 15:04:51 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "minishell.h"
 
 int	print_for_echo(char **arg_cmd, int start)
 {

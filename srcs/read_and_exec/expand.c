@@ -6,11 +6,11 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 17:51:16 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/29 17:21:58 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/30 15:19:36 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "minishell.h"
 
 int	count_char_in_str(char *str, char c)
 {

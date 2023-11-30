@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   inits_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 19:20:32 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/30 18:49:19 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/30 21:01:13 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "minishell.h"
 
 int	sort_cmd(t_vars *vars, t_tokens **head)
 {

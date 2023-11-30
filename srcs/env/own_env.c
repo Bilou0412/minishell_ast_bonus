@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   own_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 19:18:53 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/30 18:44:58 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/30 20:59:57 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "minishell.h"
 
 char	*search_envl(t_vars *vars, char *var_name)
 {

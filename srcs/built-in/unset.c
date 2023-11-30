@@ -6,11 +6,11 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 11:07:50 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/12 18:21:21 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/30 15:04:51 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "minishell.h"
 
 int	unset(t_tokens **head, t_vars *all)
 {

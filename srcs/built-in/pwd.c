@@ -6,11 +6,11 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 18:55:42 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/28 15:44:46 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/11/30 15:04:51 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "minishell.h"
 
 int	pwd(char **arg_cmd)
 {

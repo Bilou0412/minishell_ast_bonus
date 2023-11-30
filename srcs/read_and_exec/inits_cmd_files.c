@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   inits_cmd_files.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:28:56 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/30 17:39:01 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/30 21:00:44 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "minishell.h"
 
 int	here_doc_loop(t_cmd *cmd, t_tokens *curr)
 {

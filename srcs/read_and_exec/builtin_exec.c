@@ -3,20 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 12:14:40 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/30 15:27:37 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/30 21:00:31 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "minishell.h"
 
 int	choose_the_one_2(t_vars *vars, t_tokens **head)
 {
 	if (!ft_strncmp((*head)->string, "pwd", 4))
 	{
 		if (pwd(vars->cmd.argv) < 0)
+			return (-1);
+	}
+	else if (!ft_strncmp((*head)->string, "export", 7))
+	{
+		if (clear(&(*head)->next, vars) < 0)
 			return (-1);
 	}
 	else if (!ft_strncmp((*head)->string, "export", 7))
@@ -91,6 +96,8 @@ int	exec_builtin(t_vars *vars, t_tokens **head, bool ispipe)
 int	is_builtin(char *word)
 {
 	if (!ft_strncmp(word, "cd", 3))
+		return (1);
+	else if (!ft_strncmp(word, "clear", 6))
 		return (1);
 	else if (!ft_strncmp(word, "echo", 5))
 		return (1);

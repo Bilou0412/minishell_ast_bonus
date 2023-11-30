@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   token_maker.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:17:56 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/30 16:47:51 by soutin           ###   ########.fr       */
+/*   Updated: 2023/11/30 21:00:11 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "minishell.h"
 
 int	content_to_token(char *content, t_tokens **tok, int type, int *expand)
 {
