@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:19 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/30 21:02:07 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/01 17:47:42 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,18 @@ char	*get_prompt(char **prompt)
 
 	tmp = NULL;
 	*prompt = NULL;
-	buffer = (char*)ft_collector(getcwd(NULL, 0), false);
+	buffer = (char *)ft_collector(getcwd(NULL, 0), false);
 	if (!buffer)
 		exit_prog();
 	i = ft_strlen(buffer);
 	while (i >= 0 && buffer[i] != '/')
 		i--;
 	i++;
-	tmp = (char*)ft_collector(ft_substr(buffer, i, ft_strlen(buffer + i)), false);
+	tmp = (char *)ft_collector(ft_substr(buffer, i, ft_strlen(buffer + i)),
+			false);
 	if (!tmp)
 		(free(buffer), exit_prog());
-	*prompt = (char*)ft_collector(ft_strjoin(tmp, "> "), false);
+	*prompt = (char *)ft_collector(ft_strjoin(tmp, "> "), false);
 	ft_collector(buffer, true);
 	ft_collector(tmp, true);
 	return (*prompt);
@@ -65,7 +66,7 @@ int	read_inputs(t_vars *vars)
 		init_vars(vars);
 		if (!get_prompt(&vars->prompt))
 			return (-1);
-		vars->str_in.buff = (char*)ft_collector(readline(vars->prompt), false);
+		vars->str_in.buff = (char *)ft_collector(readline(vars->prompt), false);
 		ft_collector(vars->prompt, true);
 		if (vars->str_in.buff[0])
 			add_history(vars->str_in.buff);
@@ -85,7 +86,7 @@ int	main(int c, char **v, char **envp)
 	signal(SIGINT, &ctrl_c);
 	signal(SIGQUIT, SIG_IGN);
 	tcgetattr(STDIN_FILENO, &_vars()->original);
-	if (setup_env(_vars(), envp) < 0)
+	if (setup_env(&_vars()->envl, envp) < 0)
 		return (-1);
 	if (read_inputs(_vars()) < 0)
 	{

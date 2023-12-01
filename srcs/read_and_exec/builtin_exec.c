@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 12:14:40 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/30 21:00:31 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/01 17:49:42 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,8 @@ int	choose_the_one_2(t_vars *vars, t_tokens **head)
 		if (pwd(vars->cmd.argv) < 0)
 			return (-1);
 	}
-	else if (!ft_strncmp((*head)->string, "export", 7))
-	{
-		if (clear(&(*head)->next, vars) < 0)
-			return (-1);
-	}
+	//else if (!ft_strncmp((*head)->string, "clear", 6))
+	//	clear();
 	else if (!ft_strncmp((*head)->string, "export", 7))
 	{
 		if (export(&(*head)->next, vars) < 0)
@@ -54,8 +51,7 @@ int	choose_the_one(t_vars *vars, t_tokens **head)
 	}
 	else if (!ft_strncmp((*head)->string, "env", 4))
 	{
-		if (env(vars->envl) < 0)
-			return (-1);
+		env(&vars->envl);
 	}
 	else if (choose_the_one_2(vars, head) < 0)
 		return (-1);
@@ -87,9 +83,9 @@ int	exec_builtin(t_vars *vars, t_tokens **head, bool ispipe)
 			close(save);
 		exit_prog();
 	}
-	if (vars->cmd.outfiles && !ispipe
-		&& (dup2(save, STDOUT_FILENO) < 0 || close(save) < 0))
-			exit_prog();
+	if (vars->cmd.outfiles && !ispipe && (dup2(save, STDOUT_FILENO) < 0
+			|| close(save) < 0))
+		exit_prog();
 	return (0);
 }
 
@@ -97,8 +93,8 @@ int	is_builtin(char *word)
 {
 	if (!ft_strncmp(word, "cd", 3))
 		return (1);
-	else if (!ft_strncmp(word, "clear", 6))
-		return (1);
+	// else if (!ft_strncmp(word, "clear", 6))
+	// 	return (1);
 	else if (!ft_strncmp(word, "echo", 5))
 		return (1);
 	else if (!ft_strncmp(word, "env", 4))

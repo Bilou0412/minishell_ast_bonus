@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/30 16:44:05 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/01 17:44:08 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,13 @@ typedef struct s_cmd
 	int				nb_pipes;
 }					t_cmd;
 
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}					t_env;
+
 typedef struct s_vars
 {
 	t_str_data		str_in;
@@ -59,7 +66,7 @@ typedef struct s_vars
 	int				last_return_val;
 	int				nb_forks;
 	char			**envp;
-	char			**envl;
+	t_env			*envl;
 	int				pipe_fd[2];
 	int				tmp_fd;
 	int				pid[1024];
@@ -82,9 +89,8 @@ void				freevars(t_vars *vars, int i);
 
 int					exit_prog(void);
 void				ctrl_c(int sig);
-int					setup_env(t_vars *vars, char **envp);
-char				*search_envl(t_vars *vars, char *var_name);
-
+int					setup_env(t_env **envl, char **envp);
+char				*search_envl(t_env **envl, char *key);
 t_tokens			*ft_toknew(char *content, int type, int *expand);
 void				ft_tokadd_front(t_tokens **lst, t_tokens *new);
 int					ft_toksize(t_tokens *lst);
@@ -124,11 +130,12 @@ int					waitchilds(t_vars *vars, int *pid, int childmax);
 char				*get_next_word(t_tokens **head);
 
 int					cd(t_tokens **head, t_vars *vars);
-int					env(char **envl);
+void				env(t_env **envl);
 int					pwd(char **arg_cmd);
 int					export(t_tokens **head, t_vars *all);
 int					unset(t_tokens **head, t_vars *all);
 int					echo(char **arg_cmd);
+void				clear(void);
 
 int					*char_to_expand(char *str);
 void				del_char(char *address, char char_to_del);
@@ -136,5 +143,6 @@ int					browse_lst_and_expand(t_tokens **head, t_vars *vars);
 
 void				ctrl_c(int sig);
 void				nothing(int sig);
+char				**env_to_tab(t_env **envl);
 
 #endif

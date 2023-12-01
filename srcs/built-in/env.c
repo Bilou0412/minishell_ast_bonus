@@ -6,22 +6,20 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 17:11:09 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/30 15:04:51 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/01 17:43:23 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	env(char **envl)
+void	env(t_env **envl)
 {
-	int	i;
+	t_env	*tmp;
 
-	i = 0;
-	while (envl[i])
+	tmp = *envl;
+	while (tmp)
 	{
-		ft_putstr_fd(envl[i], 1);
-		ft_putchar_fd('\n', 1);
-		i++;
+		printf("%s=%s/n", tmp->key, tmp->value);
+		tmp = tmp->next;
 	}
-	return (0);
 }

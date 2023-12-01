@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:46:52 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/10 20:06:19 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/01 17:15:26 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*ft_strjoin_gnl(char *s1, char *s2)
 			return (NULL);
 		ft_strlcpy(str, s1, ft_strlen(s1) + 1);
 		ft_strlcat(str, s2, size + 1);
-		free(s1);
+		ft_collector(s1, true);
 	}
 	return (str);
 }

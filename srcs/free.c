@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:15:26 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/30 21:01:56 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/01 17:47:10 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,25 @@ void	freetabs(char **tab)
 	tab = NULL;
 }
 
+void	free_envl(t_env **lst)
+{
+	t_env	*t;
+	t_env	*buf;
+
+	if (!*lst)
+		return ;
+	t = *lst;
+	while (t)
+	{
+		buf = t->next;
+		ft_collector(t->key, true);
+		ft_collector(t->value, true);
+		ft_collector(t, true);
+		t = buf;
+	}
+	*lst = NULL;
+}
+
 void	free_files(t_files **lst)
 {
 	t_files	*t;
@@ -112,7 +131,7 @@ void	freevars(t_vars *vars, int i)
 		ft_collector(vars->cmd.path, true);
 		if (i == FREE_FULL)
 		{
-			freetabs(vars->envl);
+			free_envl(&vars->envl);
 			rl_clear_history();
 		}
 	}

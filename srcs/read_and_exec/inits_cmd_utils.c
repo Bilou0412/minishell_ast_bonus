@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 22:52:15 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/30 21:01:00 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/01 17:42:32 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ char	**init_paths(t_vars *vars)
 
 	env_path = NULL;
 	tmp = NULL;
-	tmp = search_envl(vars, "PATH");
-	if (*tmp)
+	tmp = search_envl(&vars->envl, "PATH");
+	if (tmp)
 	{
 		tmp = (char*)ft_collector(ft_substr(tmp, 5, ft_strlen(tmp + 5)), false);
 		env_path = ft_split(tmp, ':');
