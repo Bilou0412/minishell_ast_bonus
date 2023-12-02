@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:13:52 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/01 17:40:38 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/02 15:56:10 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,10 @@ int	exec_pipeline(t_vars *vars, t_tokens **head)
 	i = 0;
 	vars->cmd.nb_pipes = count_pipes(*head);
 	vars->envp = env_to_tab(&vars->envl);
+	// printtab(vars->envp);
+	// printf("--------------------------------------------\n");
+	// ft_change_string_array(1, "okkokokokokokok", vars->envp);
+	// printtab(vars->envp);
 	if (is_builtin_simple(vars, head))
 		return (0);
 	while (i < vars->cmd.nb_pipes + 1)

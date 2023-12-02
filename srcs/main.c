@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:19 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/01 17:47:42 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/01 22:23:25 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ char	*get_prompt(char **prompt)
 	ft_collector(tmp, true);
 	return (*prompt);
 }
+//e1 | e2 || e3 | (e4 || e5 && e7) | e6 | e7 || e8
 
 int	read_inputs(t_vars *vars)
 {

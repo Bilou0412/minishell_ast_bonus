@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 12:14:40 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/01 17:49:42 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/02 15:58:58 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,7 @@ int	choose_the_one(t_vars *vars, t_tokens **head)
 		return (0);
 	}
 	else if (!ft_strncmp((*head)->string, "env", 4))
-	{
 		env(&vars->envl);
-	}
 	else if (choose_the_one_2(vars, head) < 0)
 		return (-1);
 	return (0);

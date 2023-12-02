@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inits_cmd_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 22:52:15 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/01 17:42:32 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/02 16:02:00 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ char	**init_paths(t_vars *vars)
 	{
 		tmp = (char*)ft_collector(ft_substr(tmp, 5, ft_strlen(tmp + 5)), false);
 		env_path = ft_split(tmp, ':');
+		ft_collector(tmp, true);
 	}
-	ft_collector(tmp, true);
 	return (env_path);
 }
 

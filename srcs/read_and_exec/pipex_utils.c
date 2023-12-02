@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:58:09 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/30 21:01:32 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/02 16:16:14 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,30 +15,25 @@
 int	multiple_dup2(t_vars *vars, int in, int builtin)
 {
 	t_files	*tmp;
+	int		std_fd;
 
 	if (in)
 	{
 		tmp = vars->cmd.infiles;
-		while (tmp)
-		{
-			if (dup2(tmp->fd, STDIN_FILENO) < 0)
-				return (-1);
-			if (close(tmp->fd) < 0)
-				return (-1);
-			tmp = tmp->next;
-		}
+		std_fd = STDIN_FILENO;
 	}
 	else
 	{
 		tmp = vars->cmd.outfiles;
-		while (tmp)
-		{
-			if (dup2(tmp->fd, STDOUT_FILENO) < 0)
-				return (-1);
-			if (close(tmp->fd) < 0)
-				return (-1);
-			tmp = tmp->next;
-		}
+		std_fd = STDOUT_FILENO;
+	}
+	while (tmp)
+	{
+		if (dup2(tmp->fd, std_fd) < 0)
+			return (-1);
+		if (close(tmp->fd) < 0)
+			return (-1);	
+		tmp = tmp->next;
 	}
 	return (0);
 }

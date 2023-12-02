@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:15:26 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/01 17:47:10 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/02 16:32:49 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_tokclear(t_tokens **lst, void (*del)(void *))
+void	ft_tokclear(t_tokens **lst)
 {
 	t_tokens	*t;
 	t_tokens	*buf;
@@ -23,25 +23,19 @@ void	ft_tokclear(t_tokens **lst, void (*del)(void *))
 	while (t)
 	{
 		buf = t->next;
-		ft_tokdelone(t, del);
+		ft_tokdelone(t);
 		t = buf;
 	}
 	*lst = NULL;
 }
 
-void	ft_tokdelone(t_tokens *lst, void (*del)(void *))
+void	ft_tokdelone(t_tokens *lst)
 {
-	int	i;
-
-	i = 0;
 	if (!lst)
 		return ;
-	(*del)(lst->string);
-	lst->string = NULL;
+	ft_collector(lst->string, true);
 	if (lst->expand)
-	{
 		ft_collector(lst->expand, true);
-	}
 	ft_collector(lst, true);
 }
 
@@ -51,7 +45,7 @@ void	free_tree(t_ast **ast)
 		return ;
 	free_tree(&(*ast)->left);
 	free_tree(&(*ast)->right);
-	ft_tokclear(&(*ast)->tokens, &free);
+	ft_tokclear(&(*ast)->tokens);
 	ft_collector(*ast, true);
 	*ast = NULL;
 }
@@ -65,6 +59,7 @@ void	freetabs(char **tab)
 		return ;
 	while (tab[i])
 	{
+		// printf("argv : %p\n", tab[i]);
 		ft_collector(tab[i], true);
 		i++;
 	}
@@ -121,14 +116,15 @@ void	freevars(t_vars *vars, int i)
 	if (i != FREE_BUILTIN)
 	{
 		free_tree(&vars->ast);
-		ft_tokclear(&vars->tokens, &free);
+		ft_tokclear(&vars->tokens);
 	}
 	free_files(&vars->cmd.infiles);
 	free_files(&vars->cmd.outfiles);
 	if (i == FREE_BUILTIN || i == FREE_FULL)
 	{
+		// printf("ast_tok : %p\n", vars->ast->tokens);
 		freetabs(vars->cmd.argv);
-		ft_collector(vars->cmd.path, true);
+		freetabs(vars->envp);
 		if (i == FREE_FULL)
 		{
 			free_envl(&vars->envl);

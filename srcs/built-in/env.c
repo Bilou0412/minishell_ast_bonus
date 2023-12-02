@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 17:11:09 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/01 17:43:23 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/02 15:58:02 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	env(t_env **envl)
 	tmp = *envl;
 	while (tmp)
 	{
-		printf("%s=%s/n", tmp->key, tmp->value);
+		printf("%s=%s\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
 }

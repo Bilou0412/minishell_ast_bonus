@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/01 17:44:08 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/01 21:54:27 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "execution.h"
 # include "libft.h"
 # include "parser.h"
 # include <errno.h>
@@ -96,8 +95,8 @@ void				ft_tokadd_front(t_tokens **lst, t_tokens *new);
 int					ft_toksize(t_tokens *lst);
 t_tokens			*ft_toklast(t_tokens **tok);
 void				ft_tokadd_back(t_tokens **lst, t_tokens *new);
-void				ft_tokdelone(t_tokens *lst, void (*del)(void *));
-void				ft_tokclear(t_tokens **lst, void (*del)(void *));
+void				ft_tokdelone(t_tokens *lst);
+void				ft_tokclear(t_tokens **lst);
 int					file_add_back(t_files **head, int new_fd);
 void				delete_file_tokens(t_tokens **head, t_tokens **curr);
 void				free_files(t_files **lst);

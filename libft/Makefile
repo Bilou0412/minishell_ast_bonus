@@ -9,7 +9,7 @@ SRCS		=	srcs/ft_isalnum.c srcs/ft_isprint.c srcs/ft_memcmp.c  srcs/ft_putchar_fd
 					srcs/ft_putstr_fd.c srcs/ft_strjoin.c srcs/ft_strmapi.c srcs/ft_strtrim.c srcs/ft_striteri.c \
 					srcs/ft_printf.c srcs/ft_putchar.c srcs/ft_puthexa.c srcs/ft_putnbr.c srcs/ft_putptr.c srcs/ft_putstr.c \
 					srcs/ft_put_text.c srcs/ft_put_unsigned.c srcs/get_next_line.c srcs/ft_last_index.c srcs/ft_free_tab.c \
-					srcs/ft_free_third_tab.c srcs/ft_print_third_tab.c srcs/ft_print_tab.c srcs/get_next_line_utils.c \
+					srcs/ft_free_third_tab.c srcs/ft_print_third_tab.c srcs/ft_print_tab.c srcs/ft_strjoin_gnl.c \
 					srcs/ft_isalnum.c srcs/ft_isprint.c srcs/ft_memcmp.c srcs/ft_putchar_fd.c \
 					srcs/ft_strncmp.c srcs/ft_isalpha.c srcs/ft_calloc.c srcs/ft_strjoin.c srcs/ft_strtrim.c \
 					srcs/ft_strchr.c srcs/ft_memmove.c srcs/ft_memcpy.c srcs/ft_strlcat.c srcs/ft_itoa.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 16:50:50 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/30 15:19:36 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/02 19:07:23 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,12 @@ void	print_tree(t_ast *ast, int depth)
 	print_tree(ast->right, depth + 1);
 	while (i < depth)
 	{
-		ft_printf("   ");
+		ft_printf("    ");
 		i++;
 	}
 	printtokens(&ast->tokens);
-	printf("\n");
+	// if (!strcmp(ast->tokens->string, "echo3"))
+		
+	// printf("\n");
 	print_tree(ast->left, depth + 1);
 }
