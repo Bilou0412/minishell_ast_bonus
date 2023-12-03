@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 13:40:29 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/30 16:41:54 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/03 20:55:49 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int					del_quote(char *str);
 int					tok_type(char *content);
 
 int					is_branch(t_tokens **curr_tok, t_ast **curr_node);
-t_ast				*ft_newleaf(t_ast **node, t_tokens **current);
+void				ft_newleaf(t_ast **node, t_tokens **current);
 int					is_last_leaf(t_tokens *current);
 
 #endif

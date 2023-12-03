@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:20:03 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/01 23:22:29 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/03 20:56:42 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,10 @@ int	is_last_leaf(t_tokens *current)
 	return (0);
 }
 
-t_ast	*ft_newleaf(t_ast **node, t_tokens **current)
+void	ft_newleaf(t_ast **node, t_tokens **current)
 {
 	t_tokens	*tmp;
 
-	if (current)
-		tmp = (*current)->next;
 	if (!*node)
 	{
 		*node = (t_ast*)ft_collector(ft_calloc(1, sizeof(**node)), false);
@@ -44,10 +42,12 @@ t_ast	*ft_newleaf(t_ast **node, t_tokens **current)
 			(*node)->tokens = NULL;
 		(*node)->left = NULL;
 		(*node)->right = NULL;
-		return (*node);
 	}
-	(*current)->next = NULL;
-	ft_tokadd_front(&(*node)->tokens, *current);
-	*current = tmp;
-	return (*node);
+	else if (*current)
+	{
+		tmp = (*current)->next;
+		(*current)->next = NULL;
+		ft_tokadd_front(&(*node)->tokens, *current);
+		*current = tmp;
+	}
 }
