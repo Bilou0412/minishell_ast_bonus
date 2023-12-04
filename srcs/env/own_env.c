@@ -6,13 +6,13 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 19:18:53 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/01 17:39:46 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/04 17:46:35 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*search_envl(t_env **envl, char *key)
+t_env	*search_envl(t_env **envl, char *key)
 {
 	t_env	*tmp;
 
@@ -20,10 +20,10 @@ char	*search_envl(t_env **envl, char *key)
 	while (tmp)
 	{
 		if (!ft_strncmp(tmp->key, key, ft_strlen(key)))
-			return (tmp->value);
+			return (tmp);
 		tmp = tmp->next;
 	}
-	return (NULL);	
+	return (NULL);
 }
 
 t_env	*ft_env_new(char *key, char *value)
@@ -76,12 +76,12 @@ int	setup_env(t_env **envl, char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		key_len = ft_strlen_to_char(envp[i] , '=');
+		key_len = ft_strlen_to_char(envp[i], '=');
 		key = (char *)ft_collector(ft_substr(envp[i], 0, key_len), false);
 		if (key_len == ft_strlen(envp[i]))
 			value = ft_collector(ft_strdup(""), false);
 		else
-			value = (char *)ft_collector(ft_strdup(envp[i] + key_len), false);
+			value = (char *)ft_collector(ft_strdup(envp[i] + key_len + 1), false);
 		ft_env_add_back(envl, (t_env *)ft_collector(ft_env_new(key, value),
 				false));
 		i++;
@@ -89,7 +89,7 @@ int	setup_env(t_env **envl, char **envp)
 	return (0);
 }
 
-char **env_to_tab(t_env **envl)
+char	**env_to_tab(t_env **envl)
 {
 	t_env	*tmp;
 	char	**envp;
@@ -102,13 +102,14 @@ char **env_to_tab(t_env **envl)
 		i++;
 		tmp = tmp->next;
 	}
-	envp = (char **)ft_collector(ft_calloc(i + 1, sizeof(char*)),false);
+	envp = (char **)ft_collector(ft_calloc(i + 1, sizeof(char *)), false);
 	tmp = *envl;
 	i = 0;
 	while (tmp)
 	{
-		envp[i] = (char *)ft_collector(ft_strjoin(tmp->key, "="),false);
-		envp[i] = (char *)ft_collector(ft_strjoin_gnl(envp[i], tmp->value),false);
+		envp[i] = (char *)ft_collector(ft_strjoin(tmp->key, "="), false);
+		envp[i] = (char *)ft_collector(ft_strjoin_gnl(envp[i], tmp->value),
+				false);
 		i++;
 		tmp = tmp->next;
 	}

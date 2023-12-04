@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:15:26 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/01 17:47:10 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/04 17:19:49 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ void	ft_tokdelone(t_tokens *lst, void (*del)(void *))
 	i = 0;
 	if (!lst)
 		return ;
-	(*del)(lst->string);
-	lst->string = NULL;
+	ft_collector(lst->string, true);
 	if (lst->expand)
 	{
 		ft_collector(lst->expand, true);
@@ -113,7 +112,7 @@ void	super_free(void **__ptr)
 	{
 		free(*__ptr);
 		*__ptr = NULL;
-	}	
+	}
 }
 
 void	freevars(t_vars *vars, int i)
@@ -128,11 +127,12 @@ void	freevars(t_vars *vars, int i)
 	if (i == FREE_BUILTIN || i == FREE_FULL)
 	{
 		freetabs(vars->cmd.argv);
-		ft_collector(vars->cmd.path, true);
 		if (i == FREE_FULL)
 		{
 			free_envl(&vars->envl);
+			ft_collector(vars->cmd.path, true);
 			rl_clear_history();
+			ft_collector(&vars->envp, true);
 		}
 	}
 }

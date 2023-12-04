@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/01 17:44:08 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:37:02 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void				freevars(t_vars *vars, int i);
 int					exit_prog(void);
 void				ctrl_c(int sig);
 int					setup_env(t_env **envl, char **envp);
-char				*search_envl(t_env **envl, char *key);
+t_env				*search_envl(t_env **envl, char *key);
 t_tokens			*ft_toknew(char *content, int type, int *expand);
 void				ft_tokadd_front(t_tokens **lst, t_tokens *new);
 int					ft_toksize(t_tokens *lst);
@@ -132,8 +132,7 @@ char				*get_next_word(t_tokens **head);
 int					cd(t_tokens **head, t_vars *vars);
 void				env(t_env **envl);
 int					pwd(char **arg_cmd);
-int					export(t_tokens **head, t_vars *all);
-int					unset(t_tokens **head, t_vars *all);
+int					export(char **arg_cmd, t_env **envl);
 int					echo(char **arg_cmd);
 void				clear(void);
 
@@ -144,5 +143,8 @@ int					browse_lst_and_expand(t_tokens **head, t_vars *vars);
 void				ctrl_c(int sig);
 void				nothing(int sig);
 char				**env_to_tab(t_env **envl);
+void				ft_env_add_back(t_env **tok, t_env *new);
+t_env				*ft_env_new(char *key, char *value);
+int					unset(char **cmd, t_env **envl);
 
 #endif

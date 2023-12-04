@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 17:51:16 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/01 17:48:10 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/04 17:53:18 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	**get_array_of_value_to_expand(t_tokens **head, t_vars *vars)
 			if (!var_to_find_in_env)
 				return (NULL);
 			value_of_var_to_expand[number_of_dollars] = ft_strdup(search_envl(&vars->envl,
-					var_to_find_in_env));
+					var_to_find_in_env)->value);
 			if (!value_of_var_to_expand[number_of_dollars]
 				&& tmp->expand[number_of_dollars])
 				return (ft_free_tab(value_of_var_to_expand), NULL);

@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 12:14:40 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/01 17:49:42 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:38:43 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,18 @@ int	choose_the_one_2(t_vars *vars, t_tokens **head)
 		if (pwd(vars->cmd.argv) < 0)
 			return (-1);
 	}
-	//else if (!ft_strncmp((*head)->string, "clear", 6))
-	//	clear();
+	else if (!ft_strncmp((*head)->string, "clear", 6))
+		clear();
 	else if (!ft_strncmp((*head)->string, "export", 7))
 	{
-		if (export(&(*head)->next, vars) < 0)
+		if (export(vars->cmd.argv, &vars->envl) < 0)
 			return (-1);
 	}
 	else if (!ft_strncmp((*head)->string, "exit", 5))
 		exit_prog();
 	else if (!ft_strncmp((*head)->string, "unset", 6))
 	{
-		if (unset(&(*head)->next, vars) < 0)
+		if (unset(vars->cmd.argv, &vars->envl) < 0)
 			return (-1);
 	}
 	return (0);
@@ -93,8 +93,8 @@ int	is_builtin(char *word)
 {
 	if (!ft_strncmp(word, "cd", 3))
 		return (1);
-	// else if (!ft_strncmp(word, "clear", 6))
-	// 	return (1);
+	else if (!ft_strncmp(word, "clear", 6))
+		return (1);
 	else if (!ft_strncmp(word, "echo", 5))
 		return (1);
 	else if (!ft_strncmp(word, "env", 4))
