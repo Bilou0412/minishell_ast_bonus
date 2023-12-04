@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 12:14:40 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/04 18:38:43 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/04 23:13:41 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	choose_the_one(t_vars *vars, t_tokens **head)
 {
 	if (!ft_strncmp((*head)->string, "cd", 3))
 	{
-		if (cd(&(*head)->next, vars) < 0)
+		if (cd(vars->cmd.argv, &vars->envl) < 0)
 			return (-1);
 	}
 	else if (!ft_strncmp((*head)->string, "echo", 5))
@@ -50,9 +50,7 @@ int	choose_the_one(t_vars *vars, t_tokens **head)
 		return (0);
 	}
 	else if (!ft_strncmp((*head)->string, "env", 4))
-	{
 		env(&vars->envl);
-	}
 	else if (choose_the_one_2(vars, head) < 0)
 		return (-1);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 19:18:53 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/04 17:46:35 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/04 23:32:12 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ int	setup_env(t_env **envl, char **envp)
 		if (key_len == ft_strlen(envp[i]))
 			value = ft_collector(ft_strdup(""), false);
 		else
-			value = (char *)ft_collector(ft_strdup(envp[i] + key_len + 1), false);
+			value = (char *)ft_collector(ft_strdup(envp[i] + key_len + 1),
+					false);
 		ft_env_add_back(envl, (t_env *)ft_collector(ft_env_new(key, value),
 				false));
 		i++;

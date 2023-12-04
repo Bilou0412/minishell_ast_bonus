@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/04 18:37:02 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/04 23:12:57 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,8 +128,8 @@ char				*cmdjoin(char *path, char *cmd);
 int					waitchilds(t_vars *vars, int *pid, int childmax);
 
 char				*get_next_word(t_tokens **head);
+int					cd(char **cmd_arg, t_env **envl);
 
-int					cd(t_tokens **head, t_vars *vars);
 void				env(t_env **envl);
 int					pwd(char **arg_cmd);
 int					export(char **arg_cmd, t_env **envl);
