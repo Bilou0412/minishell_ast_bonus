@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:15:27 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/01 22:17:29 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/05 17:34:03 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,11 @@ int	read_ast(t_vars *vars, t_ast *curr)
 	// if ((curr->tokens->type > 3 && curr->tokens->type < 7)
 	// 	&& (!curr->right || !curr->left))
 	// 		return (1);
-	if (curr->tokens->type == AND && and_(vars, curr))
+	if (curr->type == AND && and_(vars, curr))
 		return (1);
-	else if (curr->tokens->type == OR && or_(vars, curr))
+	else if (curr->type == OR && or_(vars, curr))
 		return (1);
-	else if (curr->tokens->type == PIPE && pipex(vars, curr))
+	else if (curr->type == PIPE && pipex(vars, curr))
 		return (1);
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/01 21:54:27 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/05 19:21:09 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
+# include <signal.h>
+# include <sys/types.h>
 
 # define FREE_FULL 1
 # define FREE_BUILTIN 2
@@ -61,7 +63,6 @@ typedef struct s_vars
 	t_tokens		*tokens;
 	t_ast			*ast;
 	t_cmd			cmd;
-	char			*prompt;
 	int				last_return_val;
 	int				nb_forks;
 	char			**envp;
@@ -143,5 +144,7 @@ int					browse_lst_and_expand(t_tokens **head, t_vars *vars);
 void				ctrl_c(int sig);
 void				nothing(int sig);
 char				**env_to_tab(t_env **envl);
+
+void				shrek_print(void);
 
 #endif

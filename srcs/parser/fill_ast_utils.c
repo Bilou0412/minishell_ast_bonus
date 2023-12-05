@@ -6,48 +6,44 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:20:03 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/03 20:56:42 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/05 15:53:14 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	is_last_leaf(t_tokens *current)
+t_ast	*ft_astnew(t_node_type type, t_ast *left, t_ast *right)
 {
-	t_tokens	*tmp;
+	t_ast	*new;
 
-	tmp = current;
-	while (tmp->next && (tmp->next->type < PIPE || tmp->next->type > AND))
-		tmp = tmp->next;
-	if (tmp->type == O_PARENTHESIS)
-		return (1);
-	if (!tmp->next)
-		return (1);
-	return (0);
+	new = (t_ast *)ft_collector(ft_calloc(1, sizeof(t_ast)), false);
+	new->tokens = NULL;
+	new->type = type;
+	new->left = left;
+	new->right = right;
+	return (new);
 }
 
-void	ft_newleaf(t_ast **node, t_tokens **current)
+bool	is_ope(int type)
+{
+	if (type >= PIPE && type <= AND)
+		return (true);
+	return (false);
+}
+
+int	value_prec(int type)
+{
+	if (type == OR || type == AND)
+		return (0);
+	return (1);
+}
+
+void	del_a_tok_and_move_forward(t_tokens **curr_tok)
 {
 	t_tokens	*tmp;
 
-	if (!*node)
-	{
-		*node = (t_ast*)ft_collector(ft_calloc(1, sizeof(**node)), false);
-		if (current)
-		{
-			(*node)->tokens = *current;
-			(*node)->tokens->next = NULL;
-		}
-		else
-			(*node)->tokens = NULL;
-		(*node)->left = NULL;
-		(*node)->right = NULL;
-	}
-	else if (*current)
-	{
-		tmp = (*current)->next;
-		(*current)->next = NULL;
-		ft_tokadd_front(&(*node)->tokens, *current);
-		*current = tmp;
-	}
+	tmp = *curr_tok;
+	*curr_tok = (*curr_tok)->next;
+	ft_collector(tmp->string, true);
+	ft_collector(tmp, true);
 }

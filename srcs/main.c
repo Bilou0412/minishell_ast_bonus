@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:19 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/01 22:23:25 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/05 19:57:39 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,41 +34,27 @@ void	init_vars(t_vars *vars)
 	vars->last_return_val = 0;
 }
 
-char	*get_prompt(char **prompt)
-{
-	int		i;
-	char	*buffer;
-	char	*tmp;
-
-	tmp = NULL;
-	*prompt = NULL;
-	buffer = (char *)ft_collector(getcwd(NULL, 0), false);
-	if (!buffer)
-		exit_prog();
-	i = ft_strlen(buffer);
-	while (i >= 0 && buffer[i] != '/')
-		i--;
-	i++;
-	tmp = (char *)ft_collector(ft_substr(buffer, i, ft_strlen(buffer + i)),
-			false);
-	if (!tmp)
-		(free(buffer), exit_prog());
-	*prompt = (char *)ft_collector(ft_strjoin(tmp, "> "), false);
-	ft_collector(buffer, true);
-	ft_collector(tmp, true);
-	return (*prompt);
-}
 //e1 | e2 || e3 | (e4 || e5 && e7) | e6 | e7 || e8
+
+// int	ft_fd_collector(int fd, bool clean)
+// {
+// 	static t_list	*list;
+	
+// 	int	tmp;
+	
+// 	if (fd)
+// 	{
+// 		ft_lstadd_back(&list, ft_lstnew(NULL, fd));
+// 	}
+	
+// }
 
 int	read_inputs(t_vars *vars)
 {
 	while (1)
 	{
 		init_vars(vars);
-		if (!get_prompt(&vars->prompt))
-			return (-1);
-		vars->str_in.buff = (char *)ft_collector(readline(vars->prompt), false);
-		ft_collector(vars->prompt, true);
+		vars->str_in.buff = (char *)ft_collector(readline("zebishell>"), false);
 		if (vars->str_in.buff[0])
 			add_history(vars->str_in.buff);
 		token_m(&vars->str_in, &vars->tokens);
@@ -84,6 +70,7 @@ int	main(int c, char **v, char **envp)
 	(void)v;
 	if (c != 1)
 		return (1);
+	shrek_print();
 	signal(SIGINT, &ctrl_c);
 	signal(SIGQUIT, SIG_IGN);
 	tcgetattr(STDIN_FILENO, &_vars()->original);

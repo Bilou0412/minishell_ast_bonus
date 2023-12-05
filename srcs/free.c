@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:15:26 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/02 16:32:49 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/04 17:20:48 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,6 @@ void	freevars(t_vars *vars, int i)
 	free_files(&vars->cmd.outfiles);
 	if (i == FREE_BUILTIN || i == FREE_FULL)
 	{
-		// printf("ast_tok : %p\n", vars->ast->tokens);
 		freetabs(vars->cmd.argv);
 		freetabs(vars->envp);
 		if (i == FREE_FULL)

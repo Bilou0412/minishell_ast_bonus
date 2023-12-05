@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:17:56 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/01 21:38:11 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/04 21:25:47 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	content_to_token(char *content, t_tokens **tok, int type, int *expand)
 	t_tokens	*node;
 
 	node = (t_tokens*)ft_collector(ft_toknew(content, type, expand), false);
-	ft_tokadd_front(tok, node);
+	ft_tokadd_back(tok, node);
 	return (0);
 }
 
