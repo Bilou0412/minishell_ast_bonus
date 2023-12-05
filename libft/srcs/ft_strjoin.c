@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 21:04:57 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/01 17:09:05 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/05 12:55:02 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	if (!s1 || !s2)
 		return (NULL);
-	len = 								ft_strlen(s1) + ft_strlen(s2);
+	len = ft_strlen(s1) + ft_strlen(s2);
 	len_s1 = ft_strlen(s1);
 	str = ft_calloc((len + 1), sizeof(char));
 	if (!str)
@@ -31,7 +31,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (str);
 }
 
-/*int	main()
+/*int	main(void)
 {
 	char *str;
 

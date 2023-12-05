@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 11:07:50 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/04 22:18:59 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/05 13:15:16 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	unset(char **arg_cmd, t_env **envl)
 					tmp->next = to_unset->next;
 				tmp = tmp->next;
 			}
+			tmp = *envl;
 			i++;
 		}
 	}

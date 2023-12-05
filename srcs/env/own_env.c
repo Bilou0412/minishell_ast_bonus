@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 19:18:53 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/04 23:32:12 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/05 13:10:16by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ t_env	*search_envl(t_env **envl, char *key)
 	tmp = *envl;
 	while (tmp)
 	{
-		if (!ft_strncmp(tmp->key, key, ft_strlen(key)))
+		if ((ft_strlen(key) == ft_strlen(tmp->key)) && !ft_strncmp(tmp->key,
+				key, ft_strlen(key)))
 			return (tmp);
 		tmp = tmp->next;
 	}
@@ -100,7 +101,8 @@ char	**env_to_tab(t_env **envl)
 	i = 0;
 	while (tmp)
 	{
-		i++;
+		if (tmp->value)
+			i++;
 		tmp = tmp->next;
 	}
 	envp = (char **)ft_collector(ft_calloc(i + 1, sizeof(char *)), false);
@@ -108,10 +110,13 @@ char	**env_to_tab(t_env **envl)
 	i = 0;
 	while (tmp)
 	{
-		envp[i] = (char *)ft_collector(ft_strjoin(tmp->key, "="), false);
-		envp[i] = (char *)ft_collector(ft_strjoin_gnl(envp[i], tmp->value),
-				false);
-		i++;
+		if (tmp->value)
+		{
+			envp[i] = (char *)ft_collector(ft_strjoin(tmp->key, "="), false);
+			envp[i] = (char *)ft_collector(ft_strjoin_gnl(envp[i], tmp->value),
+					false);
+			i++;
+		}
 		tmp = tmp->next;
 	}
 	envp[i] = NULL;

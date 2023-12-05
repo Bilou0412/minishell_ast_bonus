@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 11:08:01 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/04 23:26:36 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/05 13:52:16 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,6 @@ int	cd(char **cmd_arg, t_env **envl)
 		if (chdir(path))
 			return (0);
 	}
-	return (env_old_pwd->value = pwd, env_pwd->value = path, 0);
+	return (env_old_pwd->value = pwd, env_pwd->value = ft_collector(getcwd(NULL,
+				0), false), 0);
 }
