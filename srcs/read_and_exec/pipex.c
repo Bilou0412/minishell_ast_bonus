@@ -6,24 +6,17 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:13:52 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/02 15:56:10 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/06 15:32:00 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	tough_choices(t_vars *vars, int i)
+int	redirections(t_vars *vars)
 {
 	if (vars->cmd.infiles)
 	{
 		if (multiple_dup2(vars, 1, 0) < 0)
-			return (-1);
-	}
-	else if (i != 0 && vars->cmd.nb_pipes)
-	{
-		if (dup2(vars->tmp_fd, STDIN_FILENO) < 0)
-			return (-1);
-		if (close(vars->tmp_fd) < 0)
 			return (-1);
 	}
 	if (vars->cmd.outfiles)
@@ -31,9 +24,6 @@ int	tough_choices(t_vars *vars, int i)
 		if (multiple_dup2(vars, 0, 0) < 0)
 			return (-1);
 	}
-	else if (i != vars->cmd.nb_pipes)
-		if (dup2(vars->pipe_fd[1], STDOUT_FILENO) < 0)
-			return (-1);
 	return (0);
 }
 
@@ -78,8 +68,6 @@ int	is_builtin_simple(t_vars *vars, t_tokens **head)
 	t_tokens	*tmp;
 
 	tmp = *head;
-	if (vars->cmd.nb_pipes)
-		return (0);
 	while (tmp && tmp->type < 4)
 	{
 		if (tmp->type < 4 && (!tmp->next || tmp->next->type != WORD))
@@ -98,43 +86,51 @@ int	is_builtin_simple(t_vars *vars, t_tokens **head)
 	}
 	return (0);
 }
-
-int	exec_pipeline(t_vars *vars, t_tokens **head)
+int	exec_simple(t_vars *vars, t_tokens **head)
 {
-	int			i;
-	int			pid[1024];
+	int	pid;
 
-	i = 0;
-	vars->cmd.nb_pipes = count_pipes(*head);
-	vars->envp = env_to_tab(&vars->envl);
+	if (is_builtin)
+	pid = fork();
+	if (pid < 0)
+		return (-1);
+	if (!pid)
+	{
+		sort_cmd(vars, head);
+		redirections(vars);
+		execve(vars->cmd.path, vars->cmd.argv, vars->cmd.envp);
+	}
+		
+}
+
+int	exec_cmds(t_vars *vars, t_tokens **head, bool is_pipe)
+{
+	int			pid[2];
+
+	vars->cmd.envp = env_to_tab(&vars->envl);
 	// printtab(vars->envp);
 	// printf("--------------------------------------------\n");
 	// ft_change_string_array(1, "okkokokokokokok", vars->envp);
 	// printtab(vars->envp);
 	if (is_builtin_simple(vars, head))
 		return (0);
-	while (i < vars->cmd.nb_pipes + 1)
+	if (vars->cmd.nb_pipes)
+		if (pipe(vars->pipe_fd) < 0)
+			return (perror("pipe"), -1);
+	pid[0] = fork();
+	if (pid[0] < 0)
+		return (perror("Fork"), -1);
+	if (!pid[0])
+		in_out_pipe(vars, head);
+	if (vars->cmd.nb_pipes)
 	{
-		if (vars->cmd.nb_pipes)
-			if (pipe(vars->pipe_fd) < 0)
-				return (perror("pipe"), -1);
-		pid[i] = fork();
-		if (pid[i] < 0)
-			return (perror("Fork"), -1);
-		if (!pid[i])
-			in_out_pipe(vars, head, i);
-		if (vars->cmd.nb_pipes)
-		{
-			if (close(vars->pipe_fd[1]) < 0)
-				return (-1);
-			if (i != 0)
-				if (close(vars->tmp_fd) < 0)
-					return (-1);
-			vars->tmp_fd = vars->pipe_fd[0];
-		}
-		i++;
+		if (close(vars->pipe_fd[1]) < 0)
+			return (-1);
+		if (close(vars->tmp_fd) < 0)
+			return (-1);
+		vars->tmp_fd = vars->pipe_fd[0];
 	}
-	if (waitchilds(vars, pid, i) < 0)
+	if (waitchilds(vars, pid, 2) < 0)
 		return (-1);
 	return (0);
 }

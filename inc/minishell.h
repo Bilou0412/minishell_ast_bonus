@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/05 19:21:09 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/06 15:28:41 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_cmd
 	char			**argv;
 	char			*path;
 	char			**env_paths;
+	char			**envp;
 	int				nb_pipes;
 }					t_cmd;
 
@@ -65,7 +66,6 @@ typedef struct s_vars
 	t_cmd			cmd;
 	int				last_return_val;
 	int				nb_forks;
-	char			**envp;
 	t_env			*envl;
 	int				pipe_fd[2];
 	int				tmp_fd;
@@ -103,22 +103,20 @@ void				delete_file_tokens(t_tokens **head, t_tokens **curr);
 void				free_files(t_files **lst);
 
 int					launch_ast(t_vars *vars);
-int					read_ast(t_vars *vars, t_ast *current);
+int					read_ast(t_vars *vars, t_ast *current, bool is_pipe);
 int					expand(t_tokens **head, t_vars *vars);
 
-int					exec_pipeline(t_vars *vars, t_tokens **head);
+int					exec_cmds(t_vars *vars, t_tokens **head, bool is_pipe);
 int					fill_cmd_argv(t_vars *vars, t_tokens *tokens);
 int					sort_cmd(t_vars *vars, t_tokens **head);
 void				count_cmd(t_vars *vars, t_ast *head);
 char				**init_paths(t_vars *vars);
-int					init_cmd_and_files(t_vars *vars, t_tokens **head, int i);
+int					init_cmd_and_files(t_vars *vars, t_tokens **head);
 int					here_doc_loop(t_cmd *cmd, t_tokens *curr);
-int					count_pipes(t_tokens *token);
 int					path_to_argv(t_cmd *cmd);
 int					is_builtin_pipe(t_vars *vars, t_tokens **head);
 int					is_builtin(char *word);
 int					exec_builtin(t_vars *vars, t_tokens **head, bool ispipe);
-int					tough_choices(t_vars *vars, int i);
 int					handle_files(t_cmd *cmd, t_tokens *arm);
 t_tokens			*duplicate_current_cmd(t_vars *vars, t_tokens **head,
 						int current_cmd);

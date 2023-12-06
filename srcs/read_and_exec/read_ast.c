@@ -6,39 +6,39 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:15:27 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/05 17:34:03 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/06 15:28:57 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	or_(t_vars *vars, t_ast *curr)
+int	or_(t_vars *vars, t_ast *curr, bool is_pipe)
 {
-	if (read_ast(vars, curr->left))
+	if (read_ast(vars, curr->left, false))
 		return (1);
 	if (!vars->last_return_val)
 		return (0);
-	if (read_ast(vars, curr->right))
+	if (read_ast(vars, curr->right, false))
 		return (1);
 	return (0);
 }
 
-int	and_(t_vars *vars, t_ast *curr)
+int	and_(t_vars *vars, t_ast *curr, bool is_pipe)
 {
-	if (read_ast(vars, curr->left))
+	if (read_ast(vars, curr->left, false))
 		return (1);
 	if (vars->last_return_val)
 		return (0);
-	if (read_ast(vars, curr->right))
+	if (read_ast(vars, curr->right, false))
 		return (1);
 	return (0);
 }
 
-int	pipex(t_vars *vars, t_ast *curr)
+int	pipex(t_vars *vars, t_ast *curr, bool is_pipe)
 {
-	if (read_ast(vars, curr->left))
+	if (read_ast(vars, curr->left, true))
 		return (1);
-	if (read_ast(vars, curr->right))
+	if (read_ast(vars, curr->right, true))
 		return (1);
 	// if (waitchilds(vars, , ) < 0)
 	// 	return (-1);
@@ -47,23 +47,23 @@ int	pipex(t_vars *vars, t_ast *curr)
 	return (0);
 }
 
-int	read_ast(t_vars *vars, t_ast *curr)
+int	read_ast(t_vars *vars, t_ast *curr, bool is_pipe)
 {
 	if (!curr)
 		return (0);
 	// if ((curr->tokens->type > 3 && curr->tokens->type < 7)
 	// 	&& (!curr->right || !curr->left))
 	// 		return (1);
-	if (curr->type == AND && and_(vars, curr))
+	if (curr->type == AND && and_(vars, curr, is_pipe))
 		return (1);
-	else if (curr->type == OR && or_(vars, curr))
+	else if (curr->type == OR && or_(vars, curr, is_pipe))
 		return (1);
-	else if (curr->type == PIPE && pipex(vars, curr))
+	else if (curr->type == PIPE && pipex(vars, curr, is_pipe))
 		return (1);
 	else
 	{
 		browse_lst_and_expand(&curr->tokens, vars);
-		if (exec_pipeline(vars, &curr->tokens) < 0)
+		if (exec_cmds(vars, &curr->tokens, is_pipe) < 0)
 			return (1);
 	}
 	return (0);

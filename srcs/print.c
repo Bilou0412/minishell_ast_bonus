@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 16:50:50 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/05 19:35:38 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/06 14:58:13 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,10 +146,9 @@ void	bye_print(void)
 {
 	printf("\033[0;31m");
 	slllllprintf("                               __             \n");
-	slllllprintf("                     _ ,___,-'\",-=-.         |‾‾‾‾");
-	slllllprintf("‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|\n");
-	slllllprintf("                 _,-'_)_  ("
-					"`'-._\\ `.         |   _");
+	slllllprintf("                     _ ,___,-'\",-=-.          ____");
+	slllllprintf("___________________________ \n");
+	slllllprintf("                 _,-'_)_  (""`'-._\\ `.         |   _");
 	slllllprintf("___                        |\n");
 	slllllprintf("               ,' ,-' __)  ,-     /. |       |  /\\  ");
 	slllllprintf("_`\\                      |\n");
@@ -243,5 +242,5 @@ void	shrek_print(void)
 	sleepprintf("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀|I|\n");
 	sleepprintf("            |I|⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣷⣀⢀⣾⠿⠻⢶⣄⠀⠀⣠⣶⡿⠶⣄⣠⣾⣿⠗⠀⠀");
 	shrek_print2();
-	// bye_print();
+	bye_print();
 }
