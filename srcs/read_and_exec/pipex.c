@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:13:52 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/06 17:39:33 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/06 18:17:21 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ int	exec_simple(t_vars *vars, t_tokens **head)
 		init_cmd_and_files(vars, head);
 		redirections(vars);
 		freevars(vars, 0);
-		printf("%s\n", vars->cmd.path);
 		if (execve(vars->cmd.path, vars->cmd.argv, vars->cmd.envp) < 0)
 		{
 			ft_collector(NULL, true);

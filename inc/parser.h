@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 13:40:29 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/05 15:59:26 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/06 20:30:35 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,18 @@ typedef enum e_node_type
 	NCMD,
 }					t_node_type;
 
+typedef struct s_expand
+{
+	char			*to_expand;
+	char			*value;
+	struct s_tokens	*next;
+}					t_expand;
+
 typedef struct s_tokens
 {
 	char			*string;
 	int				type;
-	int				*expand;
+	struct s_expand	*expand;
 	struct s_tokens	*next;
 }					t_tokens;
 
@@ -72,6 +79,10 @@ bool				is_ope(int type);
 int					value_prec(int type);
 t_ast				*ft_astnew(t_node_type type, t_ast *left, t_ast *right);
 void				del_a_tok_and_move_forward(t_tokens **curr_tok);
+void				content_to_lst_expand(char *to_expand, t_expand *expand);
+t_tokens			*ft_expand_new(char *content);
+void				ft_exp_add_back(t_expand **expand, t_expand *new);
+int					count_char_in_str(char *str, char c);
 
 // int					is_branch(t_tokens **curr_tok, t_ast **curr_node,
 // bool from_pipe);

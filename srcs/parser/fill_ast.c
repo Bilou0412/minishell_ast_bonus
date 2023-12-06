@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 12:44:33 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/06 16:20:33 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/06 18:19:33 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ t_ast	*is_branch(t_tokens **curr_tok, int prec)
 int	launch_ast(t_vars *vars)
 {
 	vars->ast = is_branch(&vars->tokens, 0);
-	print_tree(vars->ast, 0);
 	tcsetattr(STDIN_FILENO, TCSANOW, &vars->original);
 	if (read_ast(vars, vars->ast, false))
 				return (-1);

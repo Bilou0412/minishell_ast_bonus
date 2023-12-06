@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:15:26 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/06 15:54:57 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/06 18:15:24 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ void	ft_tokdelone(t_tokens *lst)
 	if (!lst)
 		return ;
 	ft_collector(lst->string, true);
-	if (lst->expand)
-		ft_collector(lst->expand, true);
 	ft_collector(lst, true);
 }
 

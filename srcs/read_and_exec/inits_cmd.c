@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inits_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 19:20:32 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/06 17:42:39 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/06 18:17:16 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	init_cmd_path(t_vars *vars)
 	if (path_to_argv(&vars->cmd))
 		return (0);
 	env_paths = init_paths(vars);
-	printtab(env_paths);
 	if (env_paths)
 	{
 		while (env_paths[i])
@@ -82,6 +81,5 @@ int	init_cmd_and_files(t_vars *vars, t_tokens **head)
 	if (!is_builtin(vars->cmd.argv[0]))
 	if (init_cmd_path(vars) < 0)
 		exit_prog(1);
-	printf("la\n");
 	return (0);
 }

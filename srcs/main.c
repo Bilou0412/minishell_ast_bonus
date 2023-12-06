@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:19 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/05 19:57:39 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/06 18:20:13 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	read_inputs(t_vars *vars)
 	while (1)
 	{
 		init_vars(vars);
-		vars->str_in.buff = (char *)ft_collector(readline("zebishell>"), false);
+		vars->str_in.buff = (char *)ft_collector(readline("zebishell> "), false);
 		if (vars->str_in.buff[0])
 			add_history(vars->str_in.buff);
 		token_m(&vars->str_in, &vars->tokens);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:15:27 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/06 15:28:57 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/06 18:15:38 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int	read_ast(t_vars *vars, t_ast *curr, bool is_pipe)
 		return (1);
 	else
 	{
-		browse_lst_and_expand(&curr->tokens, vars);
 		if (exec_cmds(vars, &curr->tokens, is_pipe) < 0)
 			return (1);
 	}
