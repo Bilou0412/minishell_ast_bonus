@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/06 17:12:41 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/06 18:09:37 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
-# include <signal.h>
-# include <sys/types.h>
 
 # define FREE_FULL 1
 # define FREE_BUILTIN 2
@@ -86,6 +84,7 @@ void				super_free(void **__ptr);
 void				freetabs(char **tab);
 void				free_tree(t_ast **ast);
 void				freevars(t_vars *vars, int i);
+void				free_envl(t_env **lst);
 
 int					exit_prog(int code_err);
 void				ctrl_c(int sig);
@@ -108,7 +107,7 @@ int					expand(t_tokens **head, t_vars *vars);
 
 int					exec_cmds(t_vars *vars, t_tokens **head, bool is_pipe);
 int					fill_cmd_argv(t_vars *vars, t_tokens *tokens);
-int					sort_cmd(t_vars *vars, t_tokens **head);
+void				sort_cmd(t_vars *vars, t_tokens **head);
 void				count_cmd(t_vars *vars, t_ast *head);
 char				**init_paths(t_vars *vars);
 int					init_cmd_and_files(t_vars *vars, t_tokens **head);
@@ -124,6 +123,7 @@ int					search_envl_index(char *var, t_vars *all);
 int					multiple_dup2(t_vars *vars, int flag, int builtin);
 char				*cmdjoin(char *path, char *cmd);
 int					waitchilds(t_vars *vars, int *pid, int childmax);
+void				init_cmd_path(t_vars *vars);
 
 char				*get_next_word(t_tokens **head);
 int					cd(char **cmd_arg, t_env **envl);

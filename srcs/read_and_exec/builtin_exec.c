@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 12:14:40 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/06 17:13:13 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/06 20:50:51 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,7 @@ int	exec_builtin(t_vars *vars, t_tokens **head, bool ispipe)
 	save = 0;
 	if (!ispipe)
 	{
-		if (sort_cmd(vars, head) < 0)
-			exit_prog(1);
+		sort_cmd(vars, head);
 		if (vars->cmd.outfiles)
 		{
 			save = dup(1);

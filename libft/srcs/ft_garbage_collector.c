@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 17:26:29 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/06 15:50:46 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/06 20:18:45 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	del_a_garbage(t_list **lst, void *ptr)
 		if (t->next->content == ptr)
 		{
 			buf = t->next->next;
-			free(t->next->content);
-			// ptr = NULL;
+			free(ptr);
+			ptr = NULL;
 			free(t->next);
 			t->next = buf;
 			return ;
@@ -52,7 +52,7 @@ void	*ft_collector(void *ptr, bool clean)
 		{
 			ft_collector(NULL, true);
 			exit(1);
-		};
+		}
 		return (ptr);
 	}
 	return (NULL);

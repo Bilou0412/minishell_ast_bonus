@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:19 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/05 19:57:39 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/06 18:17:41 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	main(int c, char **v, char **envp)
 	(void)v;
 	if (c != 1)
 		return (1);
-	shrek_print();
+	// shrek_print();
 	signal(SIGINT, &ctrl_c);
 	signal(SIGQUIT, SIG_IGN);
 	tcgetattr(STDIN_FILENO, &_vars()->original);
