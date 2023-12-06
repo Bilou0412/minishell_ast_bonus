@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:15:26 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/06 15:52:51 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/06 15:54:57 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void	freevars(t_vars *vars, int i)
 			free_envl(&vars->envl);
 			ft_collector(vars->cmd.path, true);
 			rl_clear_history();
-			ft_collector(&vars->envp, true);
+			ft_collector(&vars->cmd.envp, true);
 		}
 	}
 }

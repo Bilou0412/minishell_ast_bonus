@@ -6,11 +6,11 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 12:44:33 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/05 19:39:46 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/06 16:20:33 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
 t_ast	*is_leaf(t_tokens **curr_tok)
 {
@@ -80,10 +80,8 @@ int	launch_ast(t_vars *vars)
 	vars->ast = is_branch(&vars->tokens, 0);
 	print_tree(vars->ast, 0);
 	tcsetattr(STDIN_FILENO, TCSANOW, &vars->original);
-	if (read_ast(vars, vars->ast))
+	if (read_ast(vars, vars->ast, false))
 				return (-1);
-	if (waitchilds(vars, vars->pid, vars->nb_forks) < 0)
-			return (-1);
 	freevars(vars, 0);
 	return (0);
 }

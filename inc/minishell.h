@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/06 15:50:36 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/06 17:12:41 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void				freetabs(char **tab);
 void				free_tree(t_ast **ast);
 void				freevars(t_vars *vars, int i);
 
-int					exit_prog(void);
+int					exit_prog(int code_err);
 void				ctrl_c(int sig);
 int					setup_env(t_env **envl, char **envp);
 t_env				*search_envl(t_env **envl, char *key);
