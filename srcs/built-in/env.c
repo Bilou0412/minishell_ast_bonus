@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 17:11:09 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/02 15:58:02 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/06 15:53:03 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	env(t_env **envl)
 	tmp = *envl;
 	while (tmp)
 	{
-		printf("%s=%s\n", tmp->key, tmp->value);
+		if (tmp->value)
+			printf("%s=%s\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 17:26:29 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/06 14:50:12 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/06 15:50:46 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	del_a_garbage(t_list **lst, void *ptr)
 		{
 			buf = t->next->next;
 			free(t->next->content);
-			ptr = NULL;
+			// ptr = NULL;
 			free(t->next);
 			t->next = buf;
 			return ;

@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/06 15:28:41 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/06 15:50:36 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void				freevars(t_vars *vars, int i);
 int					exit_prog(void);
 void				ctrl_c(int sig);
 int					setup_env(t_env **envl, char **envp);
-char				*search_envl(t_env **envl, char *key);
+t_env				*search_envl(t_env **envl, char *key);
 t_tokens			*ft_toknew(char *content, int type, int *expand);
 void				ft_tokadd_front(t_tokens **lst, t_tokens *new);
 int					ft_toksize(t_tokens *lst);
@@ -126,12 +126,11 @@ char				*cmdjoin(char *path, char *cmd);
 int					waitchilds(t_vars *vars, int *pid, int childmax);
 
 char				*get_next_word(t_tokens **head);
+int					cd(char **cmd_arg, t_env **envl);
 
-int					cd(t_tokens **head, t_vars *vars);
 void				env(t_env **envl);
 int					pwd(char **arg_cmd);
-int					export(t_tokens **head, t_vars *all);
-int					unset(t_tokens **head, t_vars *all);
+int					export(char **arg_cmd, t_env **envl);
 int					echo(char **arg_cmd);
 void				clear(void);
 
@@ -142,6 +141,9 @@ int					browse_lst_and_expand(t_tokens **head, t_vars *vars);
 void				ctrl_c(int sig);
 void				nothing(int sig);
 char				**env_to_tab(t_env **envl);
+void				ft_env_add_back(t_env **tok, t_env *new);
+t_env				*ft_env_new(char *key, char *value);
+int					unset(char **cmd, t_env **envl);
 
 void				shrek_print(void);
 

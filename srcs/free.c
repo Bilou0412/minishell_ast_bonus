@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:15:26 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/04 17:20:48 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/06 15:52:51 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	super_free(void **__ptr)
 	{
 		free(*__ptr);
 		*__ptr = NULL;
-	}	
+	}
 }
 
 void	freevars(t_vars *vars, int i)
@@ -123,11 +123,12 @@ void	freevars(t_vars *vars, int i)
 	if (i == FREE_BUILTIN || i == FREE_FULL)
 	{
 		freetabs(vars->cmd.argv);
-		freetabs(vars->envp);
 		if (i == FREE_FULL)
 		{
 			free_envl(&vars->envl);
+			ft_collector(vars->cmd.path, true);
 			rl_clear_history();
+			ft_collector(&vars->envp, true);
 		}
 	}
 }
