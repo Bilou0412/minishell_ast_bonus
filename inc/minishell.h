@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/07 15:50:13 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/07 15:29:42 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@ int					exit_prog(int code_err);
 void				ctrl_c(int sig);
 int					setup_env(t_env **envl, char **envp);
 t_env				*search_envl(t_env **envl, char *key);
-t_tokens			*ft_toknew(char *content, int type, int *expand);
+t_tokens			*ft_toknew(char *content, int type, t_expand *lst_expand);
+t_expand			*ft_explast(t_expand **lst_expand);
 void				ft_tokadd_front(t_tokens **lst, t_tokens *new);
 int					ft_toksize(t_tokens *lst);
 t_tokens			*ft_toklast(t_tokens **tok);

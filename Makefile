@@ -25,6 +25,7 @@ SRCS		=	srcs/built-in/cd.c \
 				srcs/read_and_exec/inits_cmd_utils.c \
 				srcs/read_and_exec/builtin_exec.c \
 				srcs/read_and_exec/expand.c \
+				srcs/read_and_exec/expand_utils.c\
 				srcs/print.c \
 				srcs/free.c \
 				srcs/main.c \
