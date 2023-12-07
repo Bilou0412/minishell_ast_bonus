@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 17:51:16 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/07 15:58:55 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/07 21:34:58by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,67 @@ t_expand	*create_lst_expand(char *word, t_tokens **tok)
 		i_word++;
 	}
 	return (lst_expand);
+}
+
+void	get_value_of_key(t_env **envl, t_expand **head)
+{
+	t_expand	*tmp;
+
+	tmp = *head;
+	while (tmp)
+	{
+		if (tmp->to_expand)
+			tmp->value = search_envl(envl, tmp->to_expand);
+		tmp = tmp->next;
+	}
+}
+
+char	*replace_key_for_value(char *src_str, int *start, t_expand *expand)
+{
+	char	*dest_src;
+	int		i_src_str;
+	int		size_dest_src;
+	int		size_to_expand;
+	int		size_value;
+
+	if (!expand->to_expand)
+		return (NULL);
+		
+	return (dest_src);
+}
+char	*parse_replace_expand(t_expand **expand, char *src_str)
+{
+	char		*dest_str;
+	t_expand	*tmp;
+	int			i_string;
+
+	i_string = 0;
+	tmp = *expand;
+	dest_str = ft_collector(ft_strdup(src_str), false);
+	while (tmp)
+	{
+		while (src_str[i_string])
+		{
+			if (src_str[i_string] == '$')
+				dest_str = replace_key_for_value(dest_str, &i_string, tmp);
+			i_string++;
+		}
+		tmp = tmp->next;
+	}
+}
+
+int	expand(t_vars *vars, t_tokens **head)
+{
+	t_tokens *tmp;
+
+	tmp = *head;
+	while (tmp)
+	{
+		if (tmp->expand)
+		{
+			get_value_of_key(&vars->envl, &tmp->expand);
+			tmp->string = parse_replace_expand(&(tmp->expand), tmp->string);
+		}
+		tmp = tmp->next;
+	}
 }

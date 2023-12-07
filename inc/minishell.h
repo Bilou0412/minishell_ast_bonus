@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/07 15:29:42 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/07 18:18:23 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ void				free_files(t_files **lst);
 
 int					launch_ast(t_vars *vars);
 int					read_ast(t_vars *vars, t_ast *current, bool is_pipe);
-int					expand(t_tokens **head, t_vars *vars);
 
 int					exec_cmds(t_vars *vars, t_tokens **head, bool is_pipe);
 int					fill_cmd_argv(t_vars *vars, t_tokens *tokens);

@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:15:27 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/06 18:15:38 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/07 18:27:15 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int	read_ast(t_vars *vars, t_ast *curr, bool is_pipe)
 		return (1);
 	else if (curr->type == CMDN)
 	{
+		expand(vars,&curr->tokens);
 		if (exec_cmds(vars, &curr->tokens, is_pipe) < 0)
 			return (1);
 	}
