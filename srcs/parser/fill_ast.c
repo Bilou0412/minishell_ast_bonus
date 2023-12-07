@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 12:44:33 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/06 18:19:33 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/07 22:16:07 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ t_ast	*is_leaf(t_tokens **curr_tok)
 
 	node = ft_astnew(CMDN, NULL, NULL);
 	while (*curr_tok && !is_ope((*curr_tok)->type)
-		&& (*curr_tok)->type != C_PARENTHESIS)
+		&& (*curr_tok)->type != C_PARENTHESIS
+		&& (*curr_tok)->type != O_PARENTHESIS)
 	{
 		tmp = *curr_tok;
 		*curr_tok = (*curr_tok)->next;
@@ -34,7 +35,7 @@ t_ast	*is_term(t_tokens **curr_tok)
 	t_ast	*node;
 	
 	if (!*curr_tok || is_ope((*curr_tok)->type))
-		return (printf("nul"), NULL);
+		return (printf("nul"), bye_print(), NULL);
 	if ((*curr_tok)->type == O_PARENTHESIS)
 	{
 		del_a_tok_and_move_forward(curr_tok);
@@ -51,6 +52,35 @@ t_ast	*is_term(t_tokens **curr_tok)
 	return (node);
 }
 
+int	unclosed_paren(t_tokens **head)
+{
+	t_tokens	*tmp;
+	int			flag;
+
+	tmp = *head;
+	while (tmp)
+	{
+		if (tmp->type == O_PARENTHESIS)
+		{
+			flag = 1;
+			tmp = tmp->next;
+			while (tmp && flag)
+			{
+				if (tmp->type == O_PARENTHESIS)
+					flag++;
+				else if (tmp->type == C_PARENTHESIS)
+					flag--;
+				tmp = tmp->next;
+			}
+			if (flag)
+				return (1);
+		}
+		else
+			tmp = tmp->next;
+	}
+	return (0);
+}
+
 t_ast	*is_branch(t_tokens **curr_tok, int min_prec)
 {
 	t_ast	*left;
@@ -61,6 +91,8 @@ t_ast	*is_branch(t_tokens **curr_tok, int min_prec)
 	left = is_term(curr_tok);
 	if (!left)
 		return (NULL);
+	if (*curr_tok && (*curr_tok)->type == O_PARENTHESIS)
+		return (bye_print(), NULL);
 	while (*curr_tok && is_ope((*curr_tok)->type)
 			&& value_prec((*curr_tok)->type) >= min_prec)
 	{
@@ -77,10 +109,13 @@ t_ast	*is_branch(t_tokens **curr_tok, int min_prec)
 
 int	launch_ast(t_vars *vars)
 {
+	if (unclosed_paren(&vars->tokens))
+		return (bye_print(), 0);
 	vars->ast = is_branch(&vars->tokens, 0);
-	tcsetattr(STDIN_FILENO, TCSANOW, &vars->original);
+	// print_tree(vars->ast, 0);
+	// tcsetattr(STDIN_FILENO, TCSANOW, &vars->original);
 	if (read_ast(vars, vars->ast, false))
 				return (-1);
-	freevars(vars, 0);
+	free_tree(&vars->ast);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:19 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/06 18:20:13 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/07 22:15:59 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	main(int c, char **v, char **envp)
 	// shrek_print();
 	signal(SIGINT, &ctrl_c);
 	signal(SIGQUIT, SIG_IGN);
-	tcgetattr(STDIN_FILENO, &_vars()->original);
+	// tcgetattr(STDIN_FILENO, &_vars()->original);
 	if (setup_env(&_vars()->envl, envp) < 0)
 		return (-1);
 	if (read_inputs(_vars()) < 0)

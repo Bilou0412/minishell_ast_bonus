@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:13:52 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/06 18:17:21 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/07 22:27:27 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,49 +18,15 @@ int	redirections(t_vars *vars)
 	{
 		if (multiple_dup2(vars, 1, 0) < 0)
 			exit_prog(1);
+		free_files(&vars->cmd.infiles);
 	}
 	if (vars->cmd.outfiles)
 	{
 		if (multiple_dup2(vars, 0, 0) < 0)
 			exit_prog(1);
+		free_files(&vars->cmd.outfiles);
 	}
 	return (0);
-}
-
-void	in_out_pipe(t_vars *vars, t_tokens **head)
-{
-	int	flag;
-
-	if (init_cmd_and_files(vars, head) < 0)
-		(ft_collector(NULL, true), exit(1));
-	if (vars->cmd.argv && is_builtin(vars->cmd.argv[0]))
-	{
-		flag = exec_builtin(vars, head, 1);
-		ft_collector(NULL, true);
-		if (flag < 0)
-			exit(1);
-		exit(0);
-	}
-	freevars(vars, 0);
-	if (execve(vars->cmd.path, vars->cmd.argv, vars->cmd.envp) < 0)
-	{
-		ft_collector(NULL, true);
-		exit(1);
-	}
-}
-
-int	count_pipes(t_tokens *token)
-{
-	int	i;
-
-	i = 0;
-	while (token)
-	{
-		if (token->type == PIPE)
-			i++;
-		token = token->next;
-	}
-	return (i);
 }
 
 int	is_builtin_simple(t_vars *vars, t_tokens **head)
@@ -86,12 +52,12 @@ int	is_builtin_simple(t_vars *vars, t_tokens **head)
 	}
 	return (0);
 }
-int	exec_simple(t_vars *vars, t_tokens **head)
+int	exec_simple(t_vars *vars, t_tokens **head, bool is_pipe)
 {
 	int	pid;
 
 	pid = 0;
-	if (is_builtin_simple(vars, head))
+	if (!is_pipe && is_builtin_simple(vars, head))
 		return (0);
 	pid = fork();
 	if (pid < 0)
@@ -100,10 +66,9 @@ int	exec_simple(t_vars *vars, t_tokens **head)
 	{
 		vars->cmd.envp = env_to_tab(&vars->envl);
 		sort_cmd(vars, head);
-		if (vars->cmd.argv)
-			init_cmd_path(vars);
+		init_cmd_path(vars);
 		redirections(vars);
-		freevars(vars, 0);
+		free_tree(&vars->ast);
 		free_envl(&vars->envl);
 		if (execve(vars->cmd.path, vars->cmd.argv, vars->cmd.envp) < 0)
 			exit_prog(1);
@@ -113,26 +78,22 @@ int	exec_simple(t_vars *vars, t_tokens **head)
 	return (0);
 }
 
-int	exec_cmds(t_vars *vars, t_tokens **head, bool is_pipe)
+int	exec_pipes(t_vars *vars, t_ast *curr, int *pipe_fds, bool direction)
 {
-	int			pid[2];
-
-	if (!is_pipe)
-		exec_simple(vars, head);
+	if (direction == LEFT)
+	{
+		close(pipe_fds[0]);
+		dup2(pipe_fds[1], STDOUT_FILENO);
+		close(pipe_fds[1]);
+	}
 	else
 	{
-		pid[0] = fork();
-		if (pid[0] < 0)
-			return (perror("Fork"), -1);
-		if (!pid[0])
-			in_out_pipe(vars, head);
-		if (close(vars->pipe_fd[1]) < 0)
-			return (-1);
-		if (close(vars->tmp_fd) < 0)
-			return (-1);
-		vars->tmp_fd = vars->pipe_fd[0];
-		if (waitchilds(vars, pid, 2) < 0)
-			return (-1);
+		close(pipe_fds[1]);
+		dup2(pipe_fds[0], STDIN_FILENO);
+		close(pipe_fds[0]);
 	}
-	return (0);
+	if (read_ast(vars, curr, true))
+		return (1);
+	ft_collector(NULL, true);
+	exit(0);
 }

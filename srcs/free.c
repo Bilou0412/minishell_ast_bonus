@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:15:26 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/06 18:15:24 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/07 22:53:11 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	freetabs(char **tab)
 		return ;
 	while (tab[i])
 	{
-		// printf("argv : %p\n", tab[i]);
 		ft_collector(tab[i], true);
 		i++;
 	}
@@ -111,11 +110,6 @@ void	super_free(void **__ptr)
 
 void	freevars(t_vars *vars, int i)
 {
-	if (i != FREE_BUILTIN)
-	{
-		free_tree(&vars->ast);
-		ft_tokclear(&vars->tokens);
-	}
 	free_files(&vars->cmd.infiles);
 	free_files(&vars->cmd.outfiles);
 	if (i == FREE_BUILTIN || i == FREE_FULL)

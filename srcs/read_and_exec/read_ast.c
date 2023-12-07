@@ -3,69 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   read_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:15:27 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/06 18:15:38 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/07 22:17:55 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	close_pipe(t_vars *vars, t_ast *curr, bool left)
-{
-	if (left)
-	{
-		if (curr->left && curr->left->type == PIPEN)
-			if (close(vars->pipe_fd[0]) < 0)
-				return (-1);
-	}
-	else if (curr->right && curr->right->type == PIPEN)
-		if (close(vars->pipe_fd[0]) < 0)
-			return (-1);
-	return (0);
-}
-
-int	or_(t_vars *vars, t_ast *curr, bool is_pipe)
+int	or_(t_vars *vars, t_ast *curr)
 {
 	if (read_ast(vars, curr->left, false))
 		return (1);
-	close_pipe(vars, curr, LEFT);
 	if (!vars->last_return_val)
 		return (0);
 	if (read_ast(vars, curr->right, false))
 		return (1);
-	close_pipe(vars, curr, RIGHT);
 	return (0);
 }
 
-int	and_(t_vars *vars, t_ast *curr, bool is_pipe)
+int	and_(t_vars *vars, t_ast *curr)
 {
 	if (read_ast(vars, curr->left, false))
 		return (1);
-	close_pipe(vars, curr, LEFT);
 	if (vars->last_return_val)
 		return (0);
 	if (read_ast(vars, curr->right, false))
 		return (1);
-	close_pipe(vars, curr, RIGHT);
 	return (0);
 }
 
-int	pipex(t_vars *vars, t_ast *curr, bool is_pipe)
+int	pipe_(t_vars *vars, t_ast *curr, bool is_pipe)
 {
-	if (pipe(vars->pipe_fd) < 0)
+	int	pipe_fds[2];
+	int	pids[2];
+
+	if (pipe(pipe_fds) < 0)
 		return (1);
-	if (read_ast(vars, curr->left, true))
-		return (1);
-	if (read_ast(vars, curr->right, true))
-		return (1);
-	if (close(vars->pipe_fd[0]) < 0)
-		return (1);
-	// if (waitchilds(vars, , ) < 0)
-	// 	return (-1);
-	// if (close(vars->pipe_fd[0]) < 0)
-	// 			exit_prog();
+	pids[0] = fork();
+	if (!pids[0])
+		exec_pipes(vars, curr->left, pipe_fds, LEFT);
+	else
+	{
+		pids[1] = fork();
+		if (!pids[1])
+			exec_pipes(vars, curr->right, pipe_fds, RIGHT);
+		else
+		{
+			close(pipe_fds[0]);
+			close(pipe_fds[1]);
+			waitchilds(vars, pids, 2);
+		}
+	}
 	return (0);
 }
 
@@ -73,16 +63,22 @@ int	read_ast(t_vars *vars, t_ast *curr, bool is_pipe)
 {
 	if (!curr)
 		return (0);
-	if (curr->type == ANDN && and_(vars, curr, is_pipe))
-		return (1);
-	else if (curr->type == ORN && or_(vars, curr, is_pipe))
-		return (1);
-	else if (curr->type == PIPEN && pipex(vars, curr, is_pipe))
-		return (1);
-	else if (curr->type == CMDN)
+	if (curr->type == ANDN)
 	{
-		if (exec_cmds(vars, &curr->tokens, is_pipe) < 0)
+		if (and_(vars, curr))
 			return (1);
 	}
+	else if (curr->type == ORN)
+	{
+		if (or_(vars, curr))
+			return (1);
+	}
+	else if (curr->type == PIPEN)
+	{
+		if (pipe_(vars, curr, is_pipe))
+			return (1);
+	}
+	else
+		exec_simple(vars, &curr->tokens, is_pipe);
 	return (0);
 }
