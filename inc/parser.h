@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 13:40:29 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/05 15:59:26 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/07 15:39:04 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ typedef enum e_token_type
 
 typedef enum e_node_type
 {
-	NPIPE,
-	NAND,
-	NOR,
-	NCMD,
+	PIPEN = 4,
+	ORN,
+	ANDN,
+	CMDN,
 }					t_node_type;
 
 typedef struct s_tokens

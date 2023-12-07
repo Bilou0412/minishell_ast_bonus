@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:13:52 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/06 21:20:04 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/07 15:12:18 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,24 +121,18 @@ int	exec_cmds(t_vars *vars, t_tokens **head, bool is_pipe)
 		exec_simple(vars, head);
 	else
 	{
-		if (pipe(vars->pipe_fd) < 0)
-			return (perror("pipe"), -1);
 		pid[0] = fork();
 		if (pid[0] < 0)
 			return (perror("Fork"), -1);
 		if (!pid[0])
 			in_out_pipe(vars, head);
-		if (vars->cmd.nb_pipes)
-		{
-			if (close(vars->pipe_fd[1]) < 0)
-				return (-1);
-			if (close(vars->tmp_fd) < 0)
-				return (-1);
-			vars->tmp_fd = vars->pipe_fd[0];
-		}
+		if (close(vars->pipe_fd[1]) < 0)
+			return (-1);
+		if (close(vars->tmp_fd) < 0)
+			return (-1);
+		vars->tmp_fd = vars->pipe_fd[0];
 		if (waitchilds(vars, pid, 2) < 0)
 			return (-1);
-		
 	}
 	return (0);
 }
