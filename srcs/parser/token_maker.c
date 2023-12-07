@@ -6,17 +6,19 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:17:56 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/06 20:05:30 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/07 14:45:05 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	content_to_token(char *content, t_tokens **tok, int type)
+int	content_to_token(char *content, t_tokens **tok, int type,
+		t_expand *lst_expand)
 {
 	t_tokens	*node;
 
-	node = (t_tokens*)ft_collector(ft_toknew(content, type), false);
+	node = (t_tokens *)ft_collector(ft_toknew(content, type, lst_expand),
+			false);
 	ft_tokadd_back(tok, node);
 	return (0);
 }
@@ -28,9 +30,10 @@ int	single_char_tok(t_str_data *str_in, t_tokens **tok)
 
 	if (ft_strchr("<>|()", str_in->buff[str_in->curpos]))
 	{
-		content = (char*)ft_collector(ft_substr(str_in->buff, str_in->curpos, 1), false);
+		content = (char *)ft_collector(ft_substr(str_in->buff, str_in->curpos,
+					1), false);
 		type = tok_type(content);
-		content_to_token(content, tok, type);
+		content_to_token(content, tok, type, NULL);
 		return (1);
 	}
 	return (0);
@@ -47,9 +50,10 @@ int	double_char_tok(t_str_data *str_in, t_tokens **tok)
 			+ curpos, "&&", 2) || !ft_strncmp(str_in->buff + curpos, "<<", 2)
 		|| !ft_strncmp(str_in->buff + curpos, ">>", 2))
 	{
-		content = (char*)ft_collector(ft_substr(str_in->buff, str_in->curpos, 2), false);
+		content = (char *)ft_collector(ft_substr(str_in->buff, str_in->curpos,
+					2), false);
 		type = tok_type(content);
-		content_to_token(content, tok, type);
+		content_to_token(content, tok, type, NULL);
 		return (1);
 	}
 	return (0);
@@ -57,8 +61,9 @@ int	double_char_tok(t_str_data *str_in, t_tokens **tok)
 
 int	make_word(t_str_data *str_in, t_tokens **tok)
 {
-	int		size_word;
-	char	*word;
+	int			size_word;
+	char		*word;
+	t_expand	*lst_expand;
 
 	word = NULL;
 	size_word = check_char(str_in);
@@ -66,11 +71,12 @@ int	make_word(t_str_data *str_in, t_tokens **tok)
 		return (-1);
 	else if (!size_word)
 		return (str_in->curpos += 2, 0);
-	word = (char*)ft_collector(ft_substr(str_in->buff, str_in->curpos, size_word), false);
+	word = (char *)ft_collector(ft_substr(str_in->buff, str_in->curpos,
+				size_word), false);
 	str_in->curpos += size_word;
-	create_lst_expand(word,tok);
+	lst_expand = create_lst_expand(word, tok);
 	del_quote(word);
-	content_to_token(word, tok, WORD);
+	content_to_token(word, tok, WORD, lst_expand);
 	return (0);
 }
 

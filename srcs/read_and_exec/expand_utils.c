@@ -15,9 +15,18 @@ int	count_char_in_str(char *str, char c)
 	}
 	return (number_of_char);
 }
+t_expand	*ft_explast(t_expand **lst_expand)
+{
+	t_expand	*tmp;
+
+	tmp = *lst_expand;
+	while (tmp->next)
+		tmp = tmp->next;
+	return (tmp);
+}
 void	ft_exp_add_back(t_expand **expand, t_expand *new)
 {
-	t_tokens	*tmp;
+	t_expand	*tmp;
 
 	if (expand)
 	{
@@ -25,12 +34,12 @@ void	ft_exp_add_back(t_expand **expand, t_expand *new)
 			*expand = new;
 		else
 		{
-			tmp = ft_toklast(expand);
+			tmp = ft_explast(expand);
 			tmp->next = new;
 		}
 	}
 }
-t_tokens	*ft_expand_new(char *content)
+t_expand	*ft_expand_new(char *content)
 {
 	t_expand	*new;
 
@@ -41,11 +50,11 @@ t_tokens	*ft_expand_new(char *content)
 	new->next = NULL;
 	return (new);
 }
-void	content_to_lst_expand(char *to_expand, t_expand *expand)
+void	content_to_lst_expand(char *to_expand, t_expand **expand)
 {
 	t_expand	*node;
 
-	node = node = (t_expand *)ft_collector(ft_expand_new(to_expand), false);
+	printf("%s\n", to_expand);
+	node = (t_expand *)ft_collector(ft_expand_new(to_expand), false);
 	ft_exp_add_back(expand, node);
-	return (0);
 }
