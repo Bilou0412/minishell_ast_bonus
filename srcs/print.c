@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 16:50:50 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/06 20:36:33 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/07 22:11:47 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,30 +92,22 @@ void	print_tree(t_ast *ast, int depth)
 
 void	my_usleep(unsigned int microseconds)
 {
-	int				fd;
 	unsigned int	i;
 
-	fd = open("/dev/null", O_WRONLY);
 	i = 0;
-	if (fd == -1)
-	{
-		perror("Error opening /dev/null");
-		return ;
-	}
-	while (i++ < microseconds)
-		write(fd, "", 1);
-	close(fd);
+	while (i < microseconds)
+		i++;
 }
 
 void	sleepprintf(char *str)
 {
-	my_usleep(150000);
+	my_usleep(35000000);
 	printf("%s", str);
 }
 
 void	slllllprintf(char *str)
 {
-	my_usleep(1500);
+	my_usleep(150000);
 	printf("%s", str);
 }
 

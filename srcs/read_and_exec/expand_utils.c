@@ -54,7 +54,6 @@ void	content_to_lst_expand(char *to_expand, t_expand **expand)
 {
 	t_expand	*node;
 
-	printf("%s\n", to_expand);
 	node = (t_expand *)ft_collector(ft_expand_new(to_expand), false);
 	ft_exp_add_back(expand, node);
 }

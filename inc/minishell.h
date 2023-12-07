@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/07 15:29:42 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/07 22:17:25 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
-
 
 # define FREE_FULL 1
 # define FREE_BUILTIN 2
@@ -68,9 +67,6 @@ typedef struct s_vars
 	int				last_return_val;
 	int				nb_forks;
 	t_env			*envl;
-	int				pipe_fd[2];
-	int				tmp_fd;
-	int				pid[1024];
 	struct termios	original;
 
 }					t_vars;
@@ -109,7 +105,9 @@ int					launch_ast(t_vars *vars);
 int					read_ast(t_vars *vars, t_ast *current, bool is_pipe);
 int					expand(t_tokens **head, t_vars *vars);
 
-int					exec_cmds(t_vars *vars, t_tokens **head, bool is_pipe);
+int					exec_pipes(t_vars *vars, t_ast *curr, int *pipe_fds,
+						bool direction);
+int					exec_simple(t_vars *vars, t_tokens **head, bool is_pipe);
 int					fill_cmd_argv(t_vars *vars, t_tokens *tokens);
 void				sort_cmd(t_vars *vars, t_tokens **head);
 void				count_cmd(t_vars *vars, t_ast *head);
@@ -150,5 +148,6 @@ t_env				*ft_env_new(char *key, char *value);
 int					unset(char **cmd, t_env **envl);
 
 void				shrek_print(void);
+void				bye_print(void);
 
 #endif

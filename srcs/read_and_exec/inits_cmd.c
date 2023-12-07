@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inits_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 19:20:32 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/06 18:17:16 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/07 23:00:15 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	sort_cmd(t_vars *vars, t_tokens **head)
 			current = current->next;
 	}
 	fill_cmd_argv(vars, *head);
+	ft_tokclear(head);
 	// printtab(vars->cmd.argv);
 }
 
@@ -55,7 +56,7 @@ void	init_cmd_path(t_vars *vars)
 			i++;
 		}
 	}
-	ft_printf("command not found: %s\n", vars->cmd.argv[0]);
+	ft_printf("zebishell: %s: command not found\n", vars->cmd.argv[0]);
 	freetabs(env_paths);
 	exit_prog(1);
 }
@@ -66,7 +67,6 @@ int	path_to_argv(t_cmd *cmd)
 	int		i;
 
 	i = 0;
-	printf("%s\n", cmd->argv[0]);
 	if (!access(cmd->argv[0], F_OK | X_OK))
 	{
 		cmd->path = cmd->argv[0];
@@ -78,11 +78,5 @@ int	path_to_argv(t_cmd *cmd)
 		freetabs(tmp);
 		return(1);
 	}
-	return (0);
-}
-
-int	init_cmd_and_files(t_vars *vars, t_tokens **head)
-{
-	sort_cmd(vars, head);
 	return (0);
 }
