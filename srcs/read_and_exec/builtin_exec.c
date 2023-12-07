@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 12:14:40 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/06 17:13:13 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/07 15:24:45 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,21 @@
 
 int	choose_the_one_2(t_vars *vars, t_tokens **head)
 {
-	if (!ft_strncmp((*head)->string, "pwd", 4))
+	if (!ft_strncmp(vars->cmd.argv[0], "pwd", 4))
 	{
 		if (pwd(vars->cmd.argv))
 			return (1);
 	}
-	else if (!ft_strncmp((*head)->string, "clear", 6))
+	else if (!ft_strncmp(vars->cmd.argv[0], "clear", 6))
 		clear();
-	else if (!ft_strncmp((*head)->string, "export", 7))
+	else if (!ft_strncmp(vars->cmd.argv[0], "export", 7))
 	{
 		if (export(vars->cmd.argv, &vars->envl))
 			return (1);
 	}
-	else if (!ft_strncmp((*head)->string, "exit", 5))
+	else if (!ft_strncmp(vars->cmd.argv[0], "exit", 5))
 		exit_prog(0);
-	else if (!ft_strncmp((*head)->string, "unset", 6))
+	else if (!ft_strncmp(vars->cmd.argv[0], "unset", 6))
 	{
 		if (unset(vars->cmd.argv, &vars->envl))
 			return (1);
@@ -38,18 +38,18 @@ int	choose_the_one_2(t_vars *vars, t_tokens **head)
 
 int	choose_the_one(t_vars *vars, t_tokens **head)
 {
-	if (!ft_strncmp((*head)->string, "cd", 3))
+	if (!ft_strncmp(vars->cmd.argv[0], "cd", 3))
 	{
 		if (cd(vars->cmd.argv, &vars->envl))
 			return (1);
 	}
-	else if (!ft_strncmp((*head)->string, "echo", 5))
+	else if (!ft_strncmp(vars->cmd.argv[0], "echo", 5))
 	{
 		if (echo(vars->cmd.argv))
 			return (1);
 		return (0);
 	}
-	else if (!ft_strncmp((*head)->string, "env", 4))
+	else if (!ft_strncmp(vars->cmd.argv[0], "env", 4))
 		env(&vars->envl);
 	else if (choose_the_one_2(vars, head))
 		return (1);
@@ -65,11 +65,11 @@ int	exec_builtin(t_vars *vars, t_tokens **head, bool ispipe)
 	save = 0;
 	if (!ispipe)
 	{
-		if (sort_cmd(vars, head) < 0)
-			exit_prog(1);
+		sort_cmd(vars, head);
 		if (vars->cmd.outfiles)
 		{
 			save = dup(1);
+			// printf("laaa\n");
 			if (!save || multiple_dup2(vars, 0, 1) < 0)
 				exit_prog(1);
 		}

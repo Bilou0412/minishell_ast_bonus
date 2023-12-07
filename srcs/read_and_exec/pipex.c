@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:13:52 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/06 17:39:33 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/07 15:12:18 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,15 +98,15 @@ int	exec_simple(t_vars *vars, t_tokens **head)
 		return (-1);
 	if (!pid)
 	{
-		init_cmd_and_files(vars, head);
+		vars->cmd.envp = env_to_tab(&vars->envl);
+		sort_cmd(vars, head);
+		if (vars->cmd.argv)
+			init_cmd_path(vars);
 		redirections(vars);
 		freevars(vars, 0);
-		printf("%s\n", vars->cmd.path);
+		free_envl(&vars->envl);
 		if (execve(vars->cmd.path, vars->cmd.argv, vars->cmd.envp) < 0)
-		{
-			ft_collector(NULL, true);
-			exit(1);
-		}
+			exit_prog(1);
 	}
 	else
 		waitchilds(vars, &pid, 1);
@@ -117,33 +117,22 @@ int	exec_cmds(t_vars *vars, t_tokens **head, bool is_pipe)
 {
 	int			pid[2];
 
-	vars->cmd.envp = env_to_tab(&vars->envl);
-	// printtab(vars->envp);
-	// printf("--------------------------------------------\n");
-	// ft_change_string_array(1, "okkokokokokokok", vars->envp);
-	// printtab(vars->envp);
 	if (!is_pipe)
 		exec_simple(vars, head);
 	else
 	{
-		if (pipe(vars->pipe_fd) < 0)
-			return (perror("pipe"), -1);
 		pid[0] = fork();
 		if (pid[0] < 0)
 			return (perror("Fork"), -1);
 		if (!pid[0])
 			in_out_pipe(vars, head);
-		if (vars->cmd.nb_pipes)
-		{
-			if (close(vars->pipe_fd[1]) < 0)
-				return (-1);
-			if (close(vars->tmp_fd) < 0)
-				return (-1);
-			vars->tmp_fd = vars->pipe_fd[0];
-		}
+		if (close(vars->pipe_fd[1]) < 0)
+			return (-1);
+		if (close(vars->tmp_fd) < 0)
+			return (-1);
+		vars->tmp_fd = vars->pipe_fd[0];
 		if (waitchilds(vars, pid, 2) < 0)
 			return (-1);
-		
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:15:26 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/06 15:54:57 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/06 20:21:50 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ void	free_envl(t_env **lst)
 	while (t)
 	{
 		buf = t->next;
-		ft_collector(t->key, true);
-		ft_collector(t->value, true);
-		ft_collector(t, true);
+		ft_collector(*(&t->key), true);
+		ft_collector(*(&t->value), true);
+		ft_collector(*(&t), true);
 		t = buf;
 	}
 	*lst = NULL;
@@ -97,7 +97,7 @@ void	free_files(t_files **lst)
 	while (t)
 	{
 		buf = t->next;
-		ft_collector(t, true);
+		ft_collector(*&t, true);
 		t = buf;
 	}
 	*lst = NULL;
@@ -127,8 +127,8 @@ void	freevars(t_vars *vars, int i)
 		{
 			free_envl(&vars->envl);
 			ft_collector(vars->cmd.path, true);
+			ft_collector(vars->cmd.envp, true);
 			rl_clear_history();
-			ft_collector(&vars->cmd.envp, true);
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 12:44:33 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/06 16:20:33 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/07 15:58:05 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_ast	*is_leaf(t_tokens **curr_tok)
 	t_ast		*node;
 	t_tokens	*tmp;
 
-	node = ft_astnew(NCMD, NULL, NULL);
+	node = ft_astnew(CMDN, NULL, NULL);
 	while (*curr_tok && !is_ope((*curr_tok)->type)
 		&& (*curr_tok)->type != C_PARENTHESIS)
 	{
@@ -51,7 +51,7 @@ t_ast	*is_term(t_tokens **curr_tok)
 	return (node);
 }
 
-t_ast	*is_branch(t_tokens **curr_tok, int prec)
+t_ast	*is_branch(t_tokens **curr_tok, int min_prec)
 {
 	t_ast	*left;
 	t_ast	*right;
@@ -62,7 +62,7 @@ t_ast	*is_branch(t_tokens **curr_tok, int prec)
 	if (!left)
 		return (NULL);
 	while (*curr_tok && is_ope((*curr_tok)->type)
-			&& value_prec((*curr_tok)->type) >= prec)
+			&& value_prec((*curr_tok)->type) >= min_prec)
 	{
 		curr_ope = (*curr_tok)->type;
 		curr_prec = value_prec(curr_ope) + 1;

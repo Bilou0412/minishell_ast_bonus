@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 16:50:50 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/06 16:22:02 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/06 20:36:33 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void	printtab(char **v)
 	{
 		printf("argv[%d] : %s\n", i, *v);
 		v++;
+		i++;
 	}
-	i++;
 }
 
 void	print_tree(t_ast *ast, int depth)
