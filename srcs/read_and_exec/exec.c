@@ -1,33 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:13:52 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/07 22:27:27 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/08 17:26:09 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	redirections(t_vars *vars)
-{
-	if (vars->cmd.infiles)
-	{
-		if (multiple_dup2(vars, 1, 0) < 0)
-			exit_prog(1);
-		free_files(&vars->cmd.infiles);
-	}
-	if (vars->cmd.outfiles)
-	{
-		if (multiple_dup2(vars, 0, 0) < 0)
-			exit_prog(1);
-		free_files(&vars->cmd.outfiles);
-	}
-	return (0);
-}
 
 int	is_builtin_simple(t_vars *vars, t_tokens **head)
 {
@@ -36,8 +19,6 @@ int	is_builtin_simple(t_vars *vars, t_tokens **head)
 	tmp = *head;
 	while (tmp && tmp->type < 4)
 	{
-		if (tmp->type < 4 && (!tmp->next || tmp->next->type != WORD))
-			return (-1);
 		if (tmp->type < 4)
 			tmp = tmp->next->next;
 	}
@@ -48,10 +29,10 @@ int	is_builtin_simple(t_vars *vars, t_tokens **head)
 		exec_builtin(vars, head, false);
 		freevars(vars, 2);
 		return (1);
-				
 	}
 	return (0);
 }
+
 int	exec_simple(t_vars *vars, t_tokens **head, bool is_pipe)
 {
 	int	pid;
@@ -66,8 +47,10 @@ int	exec_simple(t_vars *vars, t_tokens **head, bool is_pipe)
 	{
 		vars->cmd.envp = env_to_tab(&vars->envl);
 		sort_cmd(vars, head);
-		init_cmd_path(vars);
 		redirections(vars);
+		if (!vars->cmd.argv)
+			exit_prog(1);
+		init_cmd_path(vars);
 		free_tree(&vars->ast);
 		free_envl(&vars->envl);
 		if (execve(vars->cmd.path, vars->cmd.argv, vars->cmd.envp) < 0)

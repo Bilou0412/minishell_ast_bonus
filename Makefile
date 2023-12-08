@@ -18,8 +18,8 @@ SRCS		=	srcs/built-in/cd.c \
 				srcs/parser/fill_ast.c \
 				srcs/parser/fill_ast_utils.c \
 				srcs/read_and_exec/read_ast.c \
-				srcs/read_and_exec/pipex.c \
-				srcs/read_and_exec/pipex_utils.c \
+				srcs/read_and_exec/exec.c \
+				srcs/read_and_exec/exec_utils.c \
 				srcs/read_and_exec/inits_cmd.c \
 				srcs/read_and_exec/inits_cmd_files.c \
 				srcs/read_and_exec/inits_cmd_utils.c \

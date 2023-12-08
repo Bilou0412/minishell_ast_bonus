@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/07 22:17:25 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/08 17:47:54 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_vars
 	int				last_return_val;
 	int				nb_forks;
 	t_env			*envl;
+	bool			stop;
 	struct termios	original;
 
 }					t_vars;
@@ -126,6 +127,12 @@ int					multiple_dup2(t_vars *vars, int flag, int builtin);
 char				*cmdjoin(char *path, char *cmd);
 int					waitchilds(t_vars *vars, int *pid, int childmax);
 void				init_cmd_path(t_vars *vars);
+
+int					redirections(t_vars *vars);
+
+int					go_throught_paren(t_tokens **head);
+int					syntax_error(t_tokens **head);
+int					print_syntax_error(char *string);
 
 char				*get_next_word(t_tokens **head);
 int					cd(char **cmd_arg, t_env **envl);

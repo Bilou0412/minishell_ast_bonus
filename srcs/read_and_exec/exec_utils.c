@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:58:09 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/02 16:16:14 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/08 17:03:46 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,23 @@ int	multiple_dup2(t_vars *vars, int in, int builtin)
 		if (close(tmp->fd) < 0)
 			return (-1);	
 		tmp = tmp->next;
+	}
+	return (0);
+}
+
+int	redirections(t_vars *vars)
+{
+	if (vars->cmd.infiles)
+	{
+		if (multiple_dup2(vars, 1, 0) < 0)
+			exit_prog(1);
+		free_files(&vars->cmd.infiles);
+	}
+	if (vars->cmd.outfiles)
+	{
+		if (multiple_dup2(vars, 0, 0) < 0)
+			exit_prog(1);
+		free_files(&vars->cmd.outfiles);
 	}
 	return (0);
 }

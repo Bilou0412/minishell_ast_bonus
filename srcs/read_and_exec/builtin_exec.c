@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 12:14:40 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/07 22:44:13 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/08 18:06:03 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,36 +53,45 @@ int	choose_the_one(t_vars *vars, t_tokens **head)
 		env(&vars->envl);
 	else if (choose_the_one_2(vars, head))
 		return (1);
+	freetabs(vars->cmd.argv);
+	vars->cmd.argv = NULL;
+	return (0);
+}
+
+int	check_stds(int *stds)
+{
+	if (stds[0])
+		if (dup2(stds[0], STDIN_FILENO) < 0 || close(stds[0]) < 0)
+			return (-1);
+	if (stds[1])
+		if (dup2(stds[1], STDOUT_FILENO) < 0 || close(stds[1]) < 0)
 	return (0);
 }
 
 int	exec_builtin(t_vars *vars, t_tokens **head, bool ispipe)
 {
-	t_tokens	*current;
-	int			save;
+	int			save_stds[2];
 
-	current = *head;
-	save = 0;
+	save_stds[0] = 0;
+	save_stds[1] = 0;
 	if (!ispipe)
 	{
 		sort_cmd(vars, head);
+		if (vars->cmd.infiles)
+			save_stds[0] = dup(0);
 		if (vars->cmd.outfiles)
-		{
-			save = dup(1);
-			if (!save || multiple_dup2(vars, 0, 1) < 0)
-				exit_prog(1);
-		}
+			save_stds[1] = dup(1);
+		redirection(vars);
 	}
 	if (choose_the_one(vars, head))
 	{
 		vars->last_return_val = 1;
-		if (save)
-			close(save);
+		if (check_stds(save_stds) < 0)
+			return (-1);
 		exit_prog(1);
 	}
-	if (vars->cmd.outfiles && !ispipe && (dup2(save, STDOUT_FILENO) < 0
-			|| close(save) < 0))
-		exit_prog(1);
+	if (check_stds(save_stds) < 0)
+		return (-1);
 	return (0);
 }
 

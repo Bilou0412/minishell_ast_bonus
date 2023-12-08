@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 22:52:15 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/06 15:53:08 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/08 17:08:40 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,12 @@ char	*cmdjoin(char *path, char *cmd)
 	char	*new;
 	char	*tmp;
 
-	tmp = (char*)ft_collector(ft_strjoin(path, "/"), false);
-	new = (char*)ft_collector(ft_strjoin(tmp, cmd), false);
-	ft_collector(tmp, true);
+	tmp = ft_strjoin(path, "/");
+	if (!tmp)
+		return (NULL);
+	new = ft_strjoin(tmp, cmd);
+	free(tmp);
+	if (!new)
+		return (NULL);
 	return (new);
 }

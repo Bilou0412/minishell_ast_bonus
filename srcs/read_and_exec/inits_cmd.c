@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 19:20:32 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/07 23:00:15 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/08 17:57:31 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	sort_cmd(t_vars *vars, t_tokens **head)
 		if (current->type < 4)
 		{
 			if (handle_files(&vars->cmd, current) < 0)
-				exit_prog(1);
+				return (-1);
 			delete_file_tokens(head, &current);
 		}
 		else
@@ -30,7 +30,6 @@ void	sort_cmd(t_vars *vars, t_tokens **head)
 	}
 	fill_cmd_argv(vars, *head);
 	ft_tokclear(head);
-	// printtab(vars->cmd.argv);
 }
 
 void	init_cmd_path(t_vars *vars)
@@ -46,7 +45,8 @@ void	init_cmd_path(t_vars *vars)
 	{
 		while (env_paths[i])
 		{
-			vars->cmd.path = cmdjoin(env_paths[i], vars->cmd.argv[0]);
+			vars->cmd.path = (char*)ft_collector(cmdjoin(env_paths[i],
+				vars->cmd.argv[0]), false);
 			if (!access(vars->cmd.path, F_OK | X_OK))
 			{
 				freetabs(env_paths);

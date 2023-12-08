@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inits_cmd_files.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:28:56 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/30 21:00:44 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/08 16:53:56 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,16 @@ int	here_doc_loop(t_cmd *cmd, t_tokens *curr)
 	limiter = curr->next->string;
 	while (1)
 	{
-		buf = readline("heredoc> ");
+		buf = get_next_line(1);
 		if (!buf)
 			return (close(fd), -1);
 		ft_putstr_fd(buf, fd);
 		if (!ft_strncmp(buf, limiter, ft_strlen(limiter)))
 			break ;
-		free(buf);
+		ft_collector(buf, true);
 	}
 	ft_putstr_fd(NULL, fd);
-	free(buf);
+	ft_collector(buf, true);
 	close(fd);
 	return (0);
 }
@@ -114,8 +114,6 @@ int	handle_files(t_cmd *cmd, t_tokens *arm)
 {
 	int	fd;
 
-	if (!arm->next && arm->next->type != WORD)
-		return (-1);
 	if (arm->type == LESS)
 	{
 		fd = open(arm->next->string, O_RDONLY);
