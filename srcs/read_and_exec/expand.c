@@ -80,23 +80,43 @@ void	get_value_of_key(t_env **envl, t_expand **head)
 	while (tmp)
 	{
 		if (tmp->to_expand)
-			tmp->value = search_envl(envl, tmp->to_expand);
+		{
+			if (tmp->to_expand && !ft_strncmp("$$", tmp->to_expand, 3))
+				tmp->value = ft_itoa((int)getpid());
+			if (search_envl(envl, tmp->to_expand + 1))
+				tmp->value = search_envl(envl, tmp->to_expand + 1)->value;
+		}
 		tmp = tmp->next;
 	}
 }
 
 char	*replace_key_for_value(char *src_str, int *start, t_expand *expand)
 {
-	char	*dest_src;
-	int		i_src_str;
-	int		size_dest_src;
+	char	*beginning_str;
+	char	*and_str;
+	char	*dest_str;
 	int		size_to_expand;
-	int		size_value;
 
-	if (!expand->to_expand)
-		return (NULL);
-		
-	return (dest_src);
+	if (expand->to_expand)
+	{
+		size_to_expand = ft_strlen(expand->to_expand);
+		beginning_str = ft_substr(src_str, 0, *start);
+		and_str = ft_strdup(src_str + *start + size_to_expand);
+		if (expand->value)
+		{
+			dest_str = ft_strjoin(beginning_str, expand->value);
+			dest_str = ft_strjoin_gnl(dest_str, and_str);
+			*start = ft_strlen(beginning_str) + ft_strlen(expand->value) - 1;
+		}
+		else
+		{
+			dest_str = ft_strjoin(beginning_str, and_str);
+			*start = ft_strlen(beginning_str);
+		}
+	}
+	else
+		return (src_str);
+	return (dest_str);
 }
 char	*parse_replace_expand(t_expand **expand, char *src_str)
 {
@@ -107,26 +127,23 @@ char	*parse_replace_expand(t_expand **expand, char *src_str)
 	i_string = 0;
 	tmp = *expand;
 	dest_str = ft_collector(ft_strdup(src_str), false);
-	while (tmp)
+	while (dest_str[i_string])
 	{
-		while (src_str[i_string])
-		{
-			if (src_str[i_string] == '$')
-				dest_str = replace_key_for_value(dest_str, &i_string, tmp);
-			i_string++;
-		}
-		tmp = tmp->next;
+		if (dest_str[i_string] == '$')
+			dest_str = replace_key_for_value(dest_str, &i_string, tmp);
+		i_string++;
 	}
+	return (dest_str);
 }
 
-int	expand(t_vars *vars, t_tokens **head)
+void	expand(t_vars *vars, t_tokens **head)
 {
 	t_tokens *tmp;
 
 	tmp = *head;
 	while (tmp)
 	{
-		if (tmp->expand)
+		if (tmp)
 		{
 			get_value_of_key(&vars->envl, &tmp->expand);
 			tmp->string = parse_replace_expand(&(tmp->expand), tmp->string);

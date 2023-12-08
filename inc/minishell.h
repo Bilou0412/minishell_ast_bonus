@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/07 18:18:23 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/08 18:06:36 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
-
 
 # define FREE_FULL 1
 # define FREE_BUILTIN 2
@@ -144,6 +143,7 @@ int					browse_lst_and_expand(t_tokens **head, t_vars *vars);
 void				ctrl_c(int sig);
 void				nothing(int sig);
 char				**env_to_tab(t_env **envl);
+void				expand(t_vars *vars, t_tokens **head);
 void				ft_env_add_back(t_env **tok, t_env *new);
 t_env				*ft_env_new(char *key, char *value);
 int					unset(char **cmd, t_env **envl);
