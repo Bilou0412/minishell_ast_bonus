@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 17:26:29 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/06 20:18:45 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/09 18:04:06 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	del_a_garbage(t_list **lst, void *ptr)
 void	*ft_collector(void *ptr, bool clean)
 {
 	static t_list	*lst;
-	
+
 	if (clean)
 	{
 		if (!ptr)

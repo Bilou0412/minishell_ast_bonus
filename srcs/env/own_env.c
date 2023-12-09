@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   own_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 19:18:53 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/05 13:10:16by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/09 18:16:34 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_env	*ft_env_new(char *key, char *value)
 	new->next = NULL;
 	return (new);
 }
+
 t_env	*ft_env_last(t_env **tok)
 {
 	t_env	*tmp;

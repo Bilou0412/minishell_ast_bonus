@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 16:56:49 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/06 17:11:09 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/09 18:23:41 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	exit_prog(int code_err)
 {
-	t_vars *vars;
-	
+	t_vars	*vars;
+
 	vars = _vars();
 	ft_collector(NULL, true);
 	exit(code_err);

@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:52:15 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/30 18:47:26 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/09 18:04:22 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,21 +34,23 @@ static int	count_array(char const *s1, char c)
 
 char	**ft_split(char const *s, char c)
 {
-	char		**array;
-	int			max_size;
-	int			j;
+	char	**array;
+	int		max_size;
+	int		j;
 
 	if (!s)
 		return (NULL);
 	j = 0;
 	max_size = count_array(s, c);
-	array = (char**)ft_collector(ft_calloc((max_size + 1), sizeof(char **)), false);
+	array = (char **)ft_collector(ft_calloc((max_size + 1), sizeof(char **)),
+			false);
 	array[max_size] = NULL;
 	while (max_size--)
 	{
 		while (*s == c)
 			s++;
-		array[j] = (char*)ft_collector(ft_substr(s, 0, ft_strchr(s, c) - s), false);
+		array[j] = (char *)ft_collector(ft_substr(s, 0, ft_strchr(s, c) - s),
+				false);
 		j++;
 		while (*s != c && *s != '\0')
 			s++;

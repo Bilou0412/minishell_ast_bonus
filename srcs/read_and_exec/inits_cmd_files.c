@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inits_cmd_files.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:28:56 by soutin            #+#    #+#             */
-/*   Updated: 2023/11/30 21:00:44 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/09 18:16:47 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,16 @@ int	here_doc_loop(t_cmd *cmd, t_tokens *curr)
 	limiter = curr->next->string;
 	while (1)
 	{
-		buf = readline("heredoc> ");
+		buf = get_next_line(1);
 		if (!buf)
 			return (close(fd), -1);
 		ft_putstr_fd(buf, fd);
 		if (!ft_strncmp(buf, limiter, ft_strlen(limiter)))
 			break ;
-		free(buf);
+		ft_collector(buf, true);
 	}
 	ft_putstr_fd(NULL, fd);
-	free(buf);
+	ft_collector(buf, true);
 	close(fd);
 	return (0);
 }
@@ -71,7 +71,7 @@ int	file_add_back(t_files **head, int new_fd)
 	t_files	*tmp;
 	t_files	*new;
 
-	new = (t_files*)ft_collector(ft_calloc(1, sizeof(t_files)), false);
+	new = (t_files *)ft_collector(ft_calloc(1, sizeof(t_files)), false);
 	new->fd = new_fd;
 	new->next = NULL;
 	if (head)
@@ -97,14 +97,14 @@ int	handle_files_2(t_cmd *cmd, t_tokens *arm)
 	{
 		fd = open(arm->next->string, O_WRONLY | O_TRUNC | O_CREAT, 0666);
 		if (fd < 0)
-			return (-1);
+			return (ft_printf("zebishell: "), perror(arm->next->string), -1);
 		file_add_back(&cmd->outfiles, fd);
 	}
 	else if (arm->type == DGREAT)
 	{
 		fd = open(arm->next->string, O_WRONLY | O_APPEND | O_CREAT, 0666);
 		if (fd < 0)
-			return (-1);
+			return (ft_printf("zebishell: "), perror(arm->next->string), -1);
 		file_add_back(&cmd->outfiles, fd);
 	}
 	return (0);
@@ -114,13 +114,11 @@ int	handle_files(t_cmd *cmd, t_tokens *arm)
 {
 	int	fd;
 
-	if (!arm->next && arm->next->type != WORD)
-		return (-1);
 	if (arm->type == LESS)
 	{
 		fd = open(arm->next->string, O_RDONLY);
 		if (fd < 0)
-			return (-1);
+			return (ft_printf("zebishell: "), perror(arm->next->string), -1);
 		file_add_back(&cmd->infiles, fd);
 	}
 	else if (arm->type == DLESS)

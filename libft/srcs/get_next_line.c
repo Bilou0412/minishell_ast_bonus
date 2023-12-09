@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 13:46:39 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/01 16:26:00 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/08 16:33:24 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*get_next_line(int fd)
 	byte = 1;
 	if (fd < 0 || read(fd, buf, 0))
 		return (NULL);
-	line = ft_strjoin_gnl(NULL, buf);
+	line = (char *)ft_collector(ft_strjoin_gnl(NULL, buf), false);
 	while (!ft_strchr(line, '\n'))
 	{
 		byte = read(fd, buf, BUFFER_SIZE);
@@ -55,13 +55,13 @@ char	*get_next_line(int fd)
 		if (byte == 0)
 			break ;
 		if (byte < 0)
-			return (free(line), NULL);
-		line = ft_strjoin_gnl(line, buf);
+			return (ft_collector(line, true), NULL);
+		line = (char *)ft_collector(ft_strjoin_gnl(line, buf), false);
 		if (!line)
 			return (NULL);
 	}
 	if (!line[0])
-		return (free(line), NULL);
+		return (ft_collector(line, true), NULL);
 	return (ft_trim(line), ft_mouv(buf, byte), line);
 }
 

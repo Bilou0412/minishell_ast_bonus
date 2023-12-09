@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clear.c                                            :+:      :+:    :+:   */
+/*   error_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/09 18:22:53 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/09 18:22:59 by soutin           ###   ########.fr       */
+/*   Created: 2023/12/09 18:25:05 by soutin            #+#    #+#             */
+/*   Updated: 2023/12/09 18:25:24 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	clear(void)
+int	print_syntax_error(char *string)
 {
-	printf("\033[H\033[J");
+	return (ft_printf("zebishell: syntax error near unexpected token `%s\'\n",
+			string));
 }

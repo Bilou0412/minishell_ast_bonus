@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 13:40:29 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/07 15:36:57 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/08 15:27:56 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,9 @@ typedef enum e_token_type
 	AND,
 	O_PARENTHESIS,
 	C_PARENTHESIS,
+	CLOBBER,
 	WORD,
 	ERRORLVL,
-	LIMITER,
-	CLOBBER,
-	INDEFINE,
 }					t_token_type;
 
 typedef enum e_node_type

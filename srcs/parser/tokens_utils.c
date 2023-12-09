@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:16:58 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/07 14:432:30 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/09 18:21:43 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_tokens	*ft_toklast(t_tokens **tok)
 	return (tmp);
 }
 
-t_tokens	*ft_toknew(char *content, int type,t_expand *lst_expand)
+t_tokens	*ft_toknew(char *content, int type, t_expand *lst_expand)
 {
 	t_tokens	*new;
 
