@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 13:40:29 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/08 15:27:56 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/09 20:34:50 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ typedef struct s_ast
 	struct s_ast	*right;
 }					t_ast;
 
-int					token_m(t_str_data *str_in, t_tokens **tok);
 int					check_char(t_str_data *str_in);
 int					del_quote(char *str);
 int					tok_type(char *content);

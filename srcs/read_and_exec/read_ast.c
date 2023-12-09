@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:15:27 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/09 19:38:15 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/09 20:50:01 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,17 @@ int	pipe_(t_vars *vars, t_ast *curr)
 	int	pids[2];
 
 	if (pipe(pipe_fds) < 0)
-		return (1);
+		return (perror("pipe"), 1);
 	pids[0] = fork();
+	if (pids[0] < 0)
+		return (perror("fork"), 1);
 	if (!pids[0])
 		exec_pipes(vars, curr->left, pipe_fds, LEFT);
 	else
 	{
 		pids[1] = fork();
+		if (pids[1] < 0)
+			return (perror("fork"), 1);
 		if (!pids[1])
 			exec_pipes(vars, curr->right, pipe_fds, RIGHT);
 		else
@@ -99,7 +103,7 @@ int	read_ast(t_vars *vars, t_ast *curr, bool is_pipe)
 		if (pipe_(vars, curr))
 			return (1);
 	}
-	else
-		exec_simple(vars, &curr->tokens, is_pipe);
+	else if (exec_simple(vars, &curr->tokens, is_pipe))
+			return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 12:44:33 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/09 19:14:17 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/09 20:57:19 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_ast	*is_term(t_tokens **curr_tok)
 {
 	t_ast	*node;
 
-	if (!*curr_tok || is_ope((*curr_tok)->type))
+	if (is_ope((*curr_tok)->type) || (*curr_tok)->type == C_PARENTHESIS)
 		return (print_syntax_error((*curr_tok)->string), NULL);
 	if ((*curr_tok)->type == O_PARENTHESIS)
 	{
@@ -50,62 +50,6 @@ t_ast	*is_term(t_tokens **curr_tok)
 	else
 		node = is_leaf(curr_tok);
 	return (node);
-}
-
-int	syntax_error(t_tokens **head)
-{
-	t_tokens	*tmp;
-
-	tmp = *head;
-	if (tmp && tmp->type >= PIPE && tmp->type <= AND)
-		return (print_syntax_error(tmp->string));
-	if (go_throught_paren(&tmp))
-		return (1);
-	while (tmp)
-	{
-		if (tmp->type < PIPE && !tmp->next)
-			return (print_syntax_error("newline"));
-		if (tmp->type < PIPE && tmp->next->type < 10)
-			return (print_syntax_error(tmp->next->string));
-		if (tmp->type >= PIPE && tmp->type <= AND && !tmp->next)
-			return (print_syntax_error("newline"));
-		if (tmp->type >= PIPE && tmp->type <= AND
-			&& tmp->next->type >= PIPE && tmp->next->type <= AND)
-			return (print_syntax_error(tmp->next->string));
-		tmp = tmp->next;
-	}
-	return (0);
-}
-
-int	go_throught_paren(t_tokens **head)
-{
-	t_tokens	*tmp;
-	int			flag;
-
-	tmp = *head;
-	while (tmp)
-	{
-		if (tmp->type == C_PARENTHESIS)
-			return (print_syntax_error(tmp->string));
-		if (tmp->type == O_PARENTHESIS)
-		{
-			flag = 1;
-			tmp = tmp->next;
-			while (tmp && flag)
-			{
-				if (tmp->type == O_PARENTHESIS)
-					flag++;
-				else if (tmp->type == C_PARENTHESIS)
-					flag--;
-				tmp = tmp->next;
-			}
-			if (flag)
-				return (print_syntax_error("("));
-		}
-		else
-			tmp = tmp->next;
-	}
-	return (0);
 }
 
 t_ast	*is_branch(t_tokens **curr_tok, int min_prec)
@@ -136,13 +80,9 @@ t_ast	*is_branch(t_tokens **curr_tok, int min_prec)
 
 int	launch_ast(t_vars *vars)
 {
-	if (syntax_error(&vars->tokens))
-		return (ft_tokclear(&vars->tokens), 0);
 	vars->ast = is_branch(&vars->tokens, 0);
-	// print_tree(vars->ast, 0);
 	tcsetattr(STDIN_FILENO, TCSANOW, &vars->original);
-	if (read_ast(vars, vars->ast, false))
-				return (-1);
+	read_ast(vars, vars->ast, false);
 	free_tree(&vars->ast);
 	return (0);
 }
