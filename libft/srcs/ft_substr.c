@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 15:26:21 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/30 18:43:47 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/09 18:04:16 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,3 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	ft_strlcpy(str, s + start, sizestr + 1);
 	return (str);
 }
-

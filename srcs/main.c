@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:19 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/07 22:15:59 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/09 19:16:52 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,27 +34,13 @@ void	init_vars(t_vars *vars)
 	vars->last_return_val = 0;
 }
 
-//e1 | e2 || e3 | (e4 || e5 && e7) | e6 | e7 || e8
-
-// int	ft_fd_collector(int fd, bool clean)
-// {
-// 	static t_list	*list;
-	
-// 	int	tmp;
-	
-// 	if (fd)
-// 	{
-// 		ft_lstadd_back(&list, ft_lstnew(NULL, fd));
-// 	}
-	
-// }
-
 int	read_inputs(t_vars *vars)
 {
 	while (1)
 	{
 		init_vars(vars);
-		vars->str_in.buff = (char *)ft_collector(readline("zebishell> "), false);
+		vars->str_in.buff = (char *)ft_collector(readline("zebishell> "),
+				false);
 		if (vars->str_in.buff[0])
 			add_history(vars->str_in.buff);
 		token_m(&vars->str_in, &vars->tokens);
@@ -73,14 +59,12 @@ int	main(int c, char **v, char **envp)
 	// shrek_print();
 	signal(SIGINT, &ctrl_c);
 	signal(SIGQUIT, SIG_IGN);
-	// tcgetattr(STDIN_FILENO, &_vars()->original);
+	tcgetattr(STDIN_FILENO, &_vars()->original);
 	if (setup_env(&_vars()->envl, envp) < 0)
 		return (-1);
 	if (read_inputs(_vars()) < 0)
 	{
-		freevars(_vars(), 1);
 		return (1);
 	}
-	freevars(_vars(), 1);
 	return (0);
 }

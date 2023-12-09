@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:15:27 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/08 16:36:20 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/09 19:38:15 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,28 @@ int	and_(t_vars *vars, t_ast *curr)
 	return (0);
 }
 
-int	pipe_(t_vars *vars, t_ast *curr, bool is_pipe)
+int	exec_pipes(t_vars *vars, t_ast *curr, int *pipe_fds, bool direction)
+{
+	signal(SIGINT, &ctrl_c_child);
+	if (direction == LEFT)
+	{
+		close(pipe_fds[0]);
+		dup2(pipe_fds[1], STDOUT_FILENO);
+		close(pipe_fds[1]);
+	}
+	else
+	{
+		close(pipe_fds[1]);
+		dup2(pipe_fds[0], STDIN_FILENO);
+		close(pipe_fds[0]);
+	}
+	if (read_ast(vars, curr, true))
+		return (1);
+	ft_collector(NULL, true);
+	exit(0);
+}
+
+int	pipe_(t_vars *vars, t_ast *curr)
 {
 	int	pipe_fds[2];
 	int	pids[2];
@@ -75,7 +96,7 @@ int	read_ast(t_vars *vars, t_ast *curr, bool is_pipe)
 	}
 	else if (curr->type == PIPEN)
 	{
-		if (pipe_(vars, curr, is_pipe))
+		if (pipe_(vars, curr))
 			return (1);
 	}
 	else

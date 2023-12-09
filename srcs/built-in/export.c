@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 11:07:56 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/04 18:13:47 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/09 18:22:34 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	print_export(t_env **envl)
 		tmp = tmp->next;
 	}
 }
+
 int	add_to_env(char *key, char *value, t_env **envl)
 {
 	int		i;
@@ -48,6 +49,7 @@ int	add_to_env(char *key, char *value, t_env **envl)
 				false));
 	return (0);
 }
+
 char	*get_value_export(char *cmd)
 {
 	int	i;
@@ -61,6 +63,7 @@ char	*get_value_export(char *cmd)
 	}
 	return (NULL);
 }
+
 char	*get_key_export(char *cmd)
 {
 	int	i;
@@ -74,6 +77,7 @@ char	*get_key_export(char *cmd)
 	}
 	return (ft_collector(ft_strdup(cmd), false));
 }
+
 int	export(char **arg_cmd, t_env **envl)
 {
 	t_env	*tmp_envl;

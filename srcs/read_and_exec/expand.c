@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 17:51:16 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/07 15:58:55 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/09 18:18:45 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*get_key_to_exp(char *word, int *start)
 			break ;
 		}
 		else if (word[i] == '\'' || word[i] == '\"' || (word[i] == '$'
-			&& size > 1))
+				&& size > 1))
 			break ;
 		i++;
 		size++;

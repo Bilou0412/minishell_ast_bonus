@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 22:52:15 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/08 17:08:40 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/09 18:20:41 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ char	**init_paths(t_vars *vars)
 	tmp = (search_envl(&vars->envl, "PATH"))->value;
 	if (tmp)
 	{
-		tmp = (char*)ft_collector(ft_substr(tmp, 5, ft_strlen(tmp + 5)), false);
+		tmp = (char *)ft_collector(ft_substr(tmp, 5, ft_strlen(tmp + 5)),
+				false);
 		env_path = ft_split(tmp, ':');
 		ft_collector(tmp, true);
 	}
@@ -35,12 +36,13 @@ int	fill_cmd_argv(t_vars *vars, t_tokens *tokens)
 	int			i;
 
 	i = 0;
-	vars->cmd.argv = (char**)ft_collector(ft_calloc(ft_toksize(tokens) + 1, sizeof(char *)), false);
+	vars->cmd.argv = (char **)ft_collector(ft_calloc(ft_toksize(tokens) + 1,
+				sizeof(char *)), false);
 	tmp = tokens;
 	while (tmp)
 	{
-		vars->cmd.argv[i] = (char*)ft_collector(ft_strdup(tmp->string), false);
-		tmp = tmp->next;	
+		vars->cmd.argv[i] = (char *)ft_collector(ft_strdup(tmp->string), false);
+		tmp = tmp->next;
 		i++;
 	}
 	vars->cmd.argv[i] = NULL;

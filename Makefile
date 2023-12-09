@@ -20,12 +20,13 @@ SRCS		=	srcs/built-in/cd.c \
 				srcs/read_and_exec/read_ast.c \
 				srcs/read_and_exec/exec.c \
 				srcs/read_and_exec/exec_utils.c \
+				srcs/read_and_exec/exec_builtins.c \
 				srcs/read_and_exec/inits_cmd.c \
 				srcs/read_and_exec/inits_cmd_files.c \
 				srcs/read_and_exec/inits_cmd_utils.c \
-				srcs/read_and_exec/builtin_exec.c \
 				srcs/read_and_exec/expand.c \
 				srcs/read_and_exec/expand_utils.c\
+				srcs/error_handler.c \
 				srcs/print.c \
 				srcs/free.c \
 				srcs/main.c \

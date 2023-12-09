@@ -6,13 +6,13 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 19:20:32 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/08 17:57:31 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/09 19:33:06 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	sort_cmd(t_vars *vars, t_tokens **head)
+int	sort_cmd(t_vars *vars, t_tokens **head)
 {
 	t_tokens	*current;
 
@@ -30,6 +30,7 @@ void	sort_cmd(t_vars *vars, t_tokens **head)
 	}
 	fill_cmd_argv(vars, *head);
 	ft_tokclear(head);
+	return (0);
 }
 
 void	init_cmd_path(t_vars *vars)
@@ -45,8 +46,8 @@ void	init_cmd_path(t_vars *vars)
 	{
 		while (env_paths[i])
 		{
-			vars->cmd.path = (char*)ft_collector(cmdjoin(env_paths[i],
-				vars->cmd.argv[0]), false);
+			vars->cmd.path = (char *)ft_collector(cmdjoin(env_paths[i],
+						vars->cmd.argv[0]), false);
 			if (!access(vars->cmd.path, F_OK | X_OK))
 			{
 				freetabs(env_paths);
@@ -57,7 +58,6 @@ void	init_cmd_path(t_vars *vars)
 		}
 	}
 	ft_printf("zebishell: %s: command not found\n", vars->cmd.argv[0]);
-	freetabs(env_paths);
 	exit_prog(1);
 }
 
@@ -73,10 +73,10 @@ int	path_to_argv(t_cmd *cmd)
 		tmp = ft_split(cmd->argv[0], '/');
 		while (tmp[i + 1])
 			i++;
-		cmd->argv[0] = (char *)ft_collector(ft_substr(tmp[i], 0, ft_strlen(tmp[i])),
-				false);
+		cmd->argv[0] = (char *)ft_collector(ft_substr(tmp[i], 0,
+					ft_strlen(tmp[i])), false);
 		freetabs(tmp);
-		return(1);
+		return (1);
 	}
 	return (0);
 }

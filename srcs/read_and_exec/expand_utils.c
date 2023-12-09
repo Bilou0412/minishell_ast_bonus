@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/09 18:22:13 by soutin            #+#    #+#             */
+/*   Updated: 2023/12/09 18:22:14 by soutin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	count_char_in_str(char *str, char c)
@@ -15,6 +27,7 @@ int	count_char_in_str(char *str, char c)
 	}
 	return (number_of_char);
 }
+
 t_expand	*ft_explast(t_expand **lst_expand)
 {
 	t_expand	*tmp;
@@ -24,6 +37,7 @@ t_expand	*ft_explast(t_expand **lst_expand)
 		tmp = tmp->next;
 	return (tmp);
 }
+
 void	ft_exp_add_back(t_expand **expand, t_expand *new)
 {
 	t_expand	*tmp;
@@ -39,6 +53,7 @@ void	ft_exp_add_back(t_expand **expand, t_expand *new)
 		}
 	}
 }
+
 t_expand	*ft_expand_new(char *content)
 {
 	t_expand	*new;
@@ -50,6 +65,7 @@ t_expand	*ft_expand_new(char *content)
 	new->next = NULL;
 	return (new);
 }
+
 void	content_to_lst_expand(char *to_expand, t_expand **expand)
 {
 	t_expand	*node;

@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/08 17:47:54 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/09 19:22:02 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,10 @@ void				free_envl(t_env **lst);
 
 int					exit_prog(int code_err);
 void				ctrl_c(int sig);
+
 int					setup_env(t_env **envl, char **envp);
 t_env				*search_envl(t_env **envl, char *key);
+
 t_tokens			*ft_toknew(char *content, int type, t_expand *lst_expand);
 t_expand			*ft_explast(t_expand **lst_expand);
 void				ft_tokadd_front(t_tokens **lst, t_tokens *new);
@@ -110,23 +112,23 @@ int					exec_pipes(t_vars *vars, t_ast *curr, int *pipe_fds,
 						bool direction);
 int					exec_simple(t_vars *vars, t_tokens **head, bool is_pipe);
 int					fill_cmd_argv(t_vars *vars, t_tokens *tokens);
-void				sort_cmd(t_vars *vars, t_tokens **head);
-void				count_cmd(t_vars *vars, t_ast *head);
+int					sort_cmd(t_vars *vars, t_tokens **head);
 char				**init_paths(t_vars *vars);
-int					init_cmd_and_files(t_vars *vars, t_tokens **head);
 int					here_doc_loop(t_cmd *cmd, t_tokens *curr);
 int					path_to_argv(t_cmd *cmd);
 int					is_builtin_pipe(t_vars *vars, t_tokens **head);
 int					is_builtin(char *word);
-int					exec_builtin(t_vars *vars, t_tokens **head, bool ispipe);
 int					handle_files(t_cmd *cmd, t_tokens *arm);
 t_tokens			*duplicate_current_cmd(t_vars *vars, t_tokens **head,
 						int current_cmd);
 int					search_envl_index(char *var, t_vars *all);
-int					multiple_dup2(t_vars *vars, int flag, int builtin);
+int					multiple_dup2(t_vars *vars, int flag);
 char				*cmdjoin(char *path, char *cmd);
 int					waitchilds(t_vars *vars, int *pid, int childmax);
 void				init_cmd_path(t_vars *vars);
+
+int					exec_builtin(t_vars *vars);
+int					check_stds(int *stds);
 
 int					redirections(t_vars *vars);
 
@@ -148,6 +150,8 @@ void				del_char(char *address, char char_to_del);
 int					browse_lst_and_expand(t_tokens **head, t_vars *vars);
 
 void				ctrl_c(int sig);
+void				ctrl_c_child(int sig);
+
 void				nothing(int sig);
 char				**env_to_tab(t_env **envl);
 void				ft_env_add_back(t_env **tok, t_env *new);

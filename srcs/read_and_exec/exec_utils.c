@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_utils.c                                      :+:      :+:    :+:   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:58:09 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/08 17:03:46 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/09 18:17:07 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	multiple_dup2(t_vars *vars, int in, int builtin)
+int	multiple_dup2(t_vars *vars, int in)
 {
 	t_files	*tmp;
 	int		std_fd;
@@ -32,7 +32,7 @@ int	multiple_dup2(t_vars *vars, int in, int builtin)
 		if (dup2(tmp->fd, std_fd) < 0)
 			return (-1);
 		if (close(tmp->fd) < 0)
-			return (-1);	
+			return (-1);
 		tmp = tmp->next;
 	}
 	return (0);
@@ -42,13 +42,13 @@ int	redirections(t_vars *vars)
 {
 	if (vars->cmd.infiles)
 	{
-		if (multiple_dup2(vars, 1, 0) < 0)
+		if (multiple_dup2(vars, 1) < 0)
 			exit_prog(1);
 		free_files(&vars->cmd.infiles);
 	}
 	if (vars->cmd.outfiles)
 	{
-		if (multiple_dup2(vars, 0, 0) < 0)
+		if (multiple_dup2(vars, 0) < 0)
 			exit_prog(1);
 		free_files(&vars->cmd.outfiles);
 	}
@@ -70,4 +70,3 @@ int	waitchilds(t_vars *vars, int *pid, int childmax)
 	}
 	return (0);
 }
-

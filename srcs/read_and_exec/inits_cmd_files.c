@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:28:56 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/08 16:53:56 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/09 18:16:47 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	file_add_back(t_files **head, int new_fd)
 	t_files	*tmp;
 	t_files	*new;
 
-	new = (t_files*)ft_collector(ft_calloc(1, sizeof(t_files)), false);
+	new = (t_files *)ft_collector(ft_calloc(1, sizeof(t_files)), false);
 	new->fd = new_fd;
 	new->next = NULL;
 	if (head)
@@ -97,14 +97,14 @@ int	handle_files_2(t_cmd *cmd, t_tokens *arm)
 	{
 		fd = open(arm->next->string, O_WRONLY | O_TRUNC | O_CREAT, 0666);
 		if (fd < 0)
-			return (-1);
+			return (ft_printf("zebishell: "), perror(arm->next->string), -1);
 		file_add_back(&cmd->outfiles, fd);
 	}
 	else if (arm->type == DGREAT)
 	{
 		fd = open(arm->next->string, O_WRONLY | O_APPEND | O_CREAT, 0666);
 		if (fd < 0)
-			return (-1);
+			return (ft_printf("zebishell: "), perror(arm->next->string), -1);
 		file_add_back(&cmd->outfiles, fd);
 	}
 	return (0);
@@ -118,7 +118,7 @@ int	handle_files(t_cmd *cmd, t_tokens *arm)
 	{
 		fd = open(arm->next->string, O_RDONLY);
 		if (fd < 0)
-			return (-1);
+			return (ft_printf("zebishell: "), perror(arm->next->string), -1);
 		file_add_back(&cmd->infiles, fd);
 	}
 	else if (arm->type == DLESS)

@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:49:29 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/10/25 17:41:53 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/09 17:00:07 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static const char	*ft_distrib_arg(va_list args, const char *str, int *len)
 	else if (*str == 'x' || *str == 'X')
 		ft_puthexa(va_arg(args, unsigned int), *str, len);
 	else if (*str == '%')
-		*len += write(1, "%", 1);
+		*len += write(2, "%", 1);
 	return (str + 1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 09:56:32 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/10/25 17:42:13 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/09 17:00:17 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ int	*ft_puthexa(unsigned int nb, char c, int *len)
 	if (nb < 16)
 	{
 		if (c == 'x')
-			*len += write(1, &base_lowcaps[nb], 1);
+			*len += write(2, &base_lowcaps[nb], 1);
 		else
 		{
-			*len += write(1, &base_uppercase[nb], 1);
+			*len += write(2, &base_uppercase[nb], 1);
 		}
 	}
 	return (len);

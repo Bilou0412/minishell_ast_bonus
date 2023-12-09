@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_maker_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:23:40 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/11/30 15:04:51 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/09 18:14:09 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	char_is_quote(t_str_data *str_in, int *word_size, char *current)
 		*current = str_in->buff[str_in->curpos + ++(*word_size)];
 	}
 	if (in_quote == true)
-		return (printf("error quote\n"), -1);
+		return (printf("zebishell: missing quote\n"), -1);
 	else
 		return (0);
 }
@@ -79,7 +79,7 @@ int	check_char(t_str_data *str_in)
 				return (-1);
 		if ((ft_strchr(" \t\n", current) || (tok_type(&current) != WORD))
 			|| (current == '&' && str_in->buff[str_in->curpos + word_size
-				+ 1] == '&'))
+					+ 1] == '&'))
 			break ;
 		word_size++;
 	}
