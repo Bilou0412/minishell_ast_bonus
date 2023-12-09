@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:13:52 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/09 19:35:39 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/09 20:45:37 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	exec_simple(t_vars *vars, t_tokens **head, bool is_pipe)
 		return (0);
 	pid = fork();
 	if (pid < 0)
-		return (-1);
+		return (1);
 	if (!pid)
 	{
 		signal(SIGINT, &ctrl_c_child);

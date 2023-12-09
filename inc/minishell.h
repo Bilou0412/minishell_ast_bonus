@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/09 19:22:02 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/09 20:42:16 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ typedef struct s_vars
 	t_ast			*ast;
 	t_cmd			cmd;
 	int				last_return_val;
-	int				nb_forks;
 	t_env			*envl;
 	bool			stop;
 	struct termios	original;
@@ -104,6 +103,8 @@ int					file_add_back(t_files **head, int new_fd);
 void				delete_file_tokens(t_tokens **head, t_tokens **curr);
 void				free_files(t_files **lst);
 
+void				token_m(t_vars *vars, t_tokens **tok);
+
 int					launch_ast(t_vars *vars);
 int					read_ast(t_vars *vars, t_ast *current, bool is_pipe);
 int					expand(t_tokens **head, t_vars *vars);
@@ -132,7 +133,7 @@ int					check_stds(int *stds);
 
 int					redirections(t_vars *vars);
 
-int					go_throught_paren(t_tokens **head);
+int					go_through_paren(t_tokens **head);
 int					syntax_error(t_tokens **head);
 int					print_syntax_error(char *string);
 
