@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:17:56 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/09 20:34:00 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/11 19:28:43 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,11 @@ int	double_char_tok(t_str_data *str_in, t_tokens **tok)
 	int		curpos;
 
 	curpos = str_in->curpos;
-	if (!ft_strncmp(str_in->buff + curpos, "||", 2) || !ft_strncmp(str_in->buff
-			+ curpos, "&&", 2) || !ft_strncmp(str_in->buff + curpos, "<<", 2)
-		|| !ft_strncmp(str_in->buff + curpos, ">>", 2))
+	if (!ft_strncmp(str_in->buff + curpos, "||", 2)
+		|| !ft_strncmp(str_in->buff + curpos, "&&", 2)
+		|| !ft_strncmp(str_in->buff + curpos, "<<", 2)
+		|| !ft_strncmp(str_in->buff + curpos, ">>", 2)
+		|| !ft_strncmp(str_in->buff + curpos, ">|", 2))
 	{
 		content = (char *)ft_collector(ft_substr(str_in->buff, str_in->curpos,
 					2), false);

@@ -16,8 +16,8 @@ SRCS		=	srcs/built-in/cd.c \
 				srcs/parser/tokens_utils.c \
 				srcs/parser/token_maker.c \
 				srcs/parser/token_maker_utils.c \
-				srcs/parser/fill_ast.c \
-				srcs/parser/fill_ast_utils.c \
+				srcs/parser/build_ast.c \
+				srcs/parser/build_ast_utils.c \
 				srcs/read_and_exec/read_ast.c \
 				srcs/read_and_exec/exec.c \
 				srcs/read_and_exec/exec_utils.c \

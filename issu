@@ -1,13 +1,7 @@
 expand
-signeaux
+signaux
 gestions errors
 $?
 leaks
 refacto
 ls|>out
-
-premier | -> mettre à droite;
-comment savoir lequel est le premier ?
-
-
-dernier | -> is_last_pipe 

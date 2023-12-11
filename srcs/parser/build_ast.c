@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 12:44:33 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/11 18:43:24 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/11 19:14:29 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,20 +77,4 @@ t_ast	*is_branch(t_tokens **curr_tok, int min_prec)
 		left = ft_astnew(curr_ope, left, right);
 	}
 	return (left);
-}
-
-int	launch_ast(t_vars *vars)
-{
-	vars->ast = is_branch(&vars->tokens, 0);
-	tcsetattr(STDIN_FILENO, TCSANOW, &vars->original);
-	if (!vars->error)
-		read_ast(vars, vars->ast, false);
-	else
-		ft_tokclear(&vars->tokens);
-	vars->last_return_val = 0;
-	vars->error = false;
-	free_tree(&vars->ast);
-	if (!access("here_doc", F_OK))
-		unlink("here_doc");
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 13:40:29 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/11 19:03:39 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/11 19:23:46 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ typedef enum e_token_type
 	DLESS,
 	GREAT,
 	DGREAT,
+	CLOBBER,
 	PIPE,
 	OR,
 	AND,
 	O_PARENTHESIS,
 	C_PARENTHESIS,
-	CLOBBER,
 	WORD,
 	ERRORLVL,
 }					t_token_type;
