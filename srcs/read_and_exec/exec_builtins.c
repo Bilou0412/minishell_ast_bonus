@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 12:14:40 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/09 18:18:16 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/11 16:04:15 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	exec_builtin(t_vars *vars)
 {
 	if (!ft_strncmp(vars->cmd.argv[0], "cd", 3))
 	{
-		if (cd(vars->cmd.argv, &vars->envl))
+		if (cd(vars->cmd.argv[1], &vars->envl))
 			return (1);
 	}
 	else if (!ft_strncmp(vars->cmd.argv[0], "echo", 5))

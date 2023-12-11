@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 12:44:33 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/09 20:57:19 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/11 19:14:29 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ t_ast	*is_branch(t_tokens **curr_tok, int min_prec)
 	if (!left)
 		return (NULL);
 	if (*curr_tok && (*curr_tok)->type == O_PARENTHESIS)
-		return (print_syntax_error((*curr_tok)->string), NULL);
+		return (print_syntax_error((*curr_tok)->string),
+			free_tree(&left), NULL);
 	while (*curr_tok && is_ope((*curr_tok)->type)
 		&& value_prec((*curr_tok)->type) >= min_prec)
 	{
@@ -76,13 +77,4 @@ t_ast	*is_branch(t_tokens **curr_tok, int min_prec)
 		left = ft_astnew(curr_ope, left, right);
 	}
 	return (left);
-}
-
-int	launch_ast(t_vars *vars)
-{
-	vars->ast = is_branch(&vars->tokens, 0);
-	tcsetattr(STDIN_FILENO, TCSANOW, &vars->original);
-	read_ast(vars, vars->ast, false);
-	free_tree(&vars->ast);
-	return (0);
 }

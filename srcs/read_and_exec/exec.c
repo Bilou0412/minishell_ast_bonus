@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:13:52 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/09 20:45:37 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/11 19:38:00 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,11 @@ int	is_builtin_simple(t_vars *vars, t_tokens **head)
 
 void	init_cmd(t_vars *vars, t_tokens **head)
 {
+	rl_clear_history();
 	if (sort_cmd(vars, head) < 0)
 		exit_prog(1);
 	redirections(vars);
-	if (!vars->cmd.argv)
+	if (!*vars->cmd.argv)
 		exit_prog(1);
 	if (is_builtin(vars->cmd.argv[0]))
 	{
@@ -77,7 +78,7 @@ int	exec_simple(t_vars *vars, t_tokens **head, bool is_pipe)
 		return (0);
 	pid = fork();
 	if (pid < 0)
-		return (1);
+		return (perror("fork"), 1);
 	if (!pid)
 	{
 		signal(SIGINT, &ctrl_c_child);
@@ -87,5 +88,7 @@ int	exec_simple(t_vars *vars, t_tokens **head, bool is_pipe)
 	}
 	else
 		waitchilds(vars, &pid, 1);
+	if (!access("here_doc", F_OK))
+		unlink("here_doc");
 	return (0);
 }

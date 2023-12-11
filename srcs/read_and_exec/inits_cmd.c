@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 19:20:32 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/09 19:33:06 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/11 19:33:52 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	sort_cmd(t_vars *vars, t_tokens **head)
 	current = *head;
 	while (current)
 	{
-		if (current->type < 4)
+		if (current->type < PIPE)
 		{
 			if (handle_files(&vars->cmd, current) < 0)
 				return (-1);
@@ -58,7 +58,7 @@ void	init_cmd_path(t_vars *vars)
 		}
 	}
 	ft_printf("zebishell: %s: command not found\n", vars->cmd.argv[0]);
-	exit_prog(1);
+	exit_prog(127);
 }
 
 int	path_to_argv(t_cmd *cmd)

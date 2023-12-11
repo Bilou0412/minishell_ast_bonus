@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 18:25:05 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/09 20:20:01 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/11 17:57:33 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,21 @@
 
 int	print_syntax_error(char *string)
 {
+	_vars()->error = true;
 	return (ft_printf("zebishell: syntax error near unexpected token `%s\'\n",
 			string));
+}
+
+void	skip_parenthesis(t_tokens **tmp, int *flag)
+{
+	while (*tmp && *flag)
+	{
+		if ((*tmp)->type == O_PARENTHESIS)
+			(*flag)++;
+		else if ((*tmp)->type == C_PARENTHESIS)
+			(*flag)--;
+		*tmp = (*tmp)->next;
+	}
 }
 
 int	go_through_paren(t_tokens **head)
@@ -32,14 +45,7 @@ int	go_through_paren(t_tokens **head)
 		{
 			flag = 1;
 			tmp = tmp->next;
-			while (tmp && flag)
-			{
-				if (tmp->type == O_PARENTHESIS)
-					flag++;
-				else if (tmp->type == C_PARENTHESIS)
-					flag--;
-				tmp = tmp->next;
-			}
+			skip_parenthesis(&tmp, &flag);
 			if (flag)
 				return (print_syntax_error("("));
 		}

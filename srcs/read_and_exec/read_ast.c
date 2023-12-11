@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:15:27 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/09 20:50:01 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/11 18:03:55 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	exec_pipes(t_vars *vars, t_ast *curr, int *pipe_fds, bool direction)
 	if (read_ast(vars, curr, true))
 		return (1);
 	ft_collector(NULL, true);
+	rl_clear_history();
 	exit(0);
 }
 
@@ -104,6 +105,6 @@ int	read_ast(t_vars *vars, t_ast *curr, bool is_pipe)
 			return (1);
 	}
 	else if (exec_simple(vars, &curr->tokens, is_pipe))
-			return (1);
+		return (1);
 	return (0);
 }
