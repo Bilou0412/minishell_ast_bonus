@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 19:18:53 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/09 18:16:34 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/11 17:21:16 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,45 +25,6 @@ t_env	*search_envl(t_env **envl, char *key)
 		tmp = tmp->next;
 	}
 	return (NULL);
-}
-
-t_env	*ft_env_new(char *key, char *value)
-{
-	t_env	*new;
-
-	new = (t_env *)ft_calloc(1, sizeof(*new));
-	if (!new)
-		return (NULL);
-	new->key = key;
-	new->value = value;
-	new->next = NULL;
-	return (new);
-}
-
-t_env	*ft_env_last(t_env **tok)
-{
-	t_env	*tmp;
-
-	tmp = *tok;
-	while (tmp->next)
-		tmp = tmp->next;
-	return (tmp);
-}
-
-void	ft_env_add_back(t_env **tok, t_env *new)
-{
-	t_env	*tmp;
-
-	if (tok)
-	{
-		if (*tok == NULL)
-			*tok = new;
-		else
-		{
-			tmp = ft_env_last(tok);
-			tmp->next = new;
-		}
-	}
 }
 
 int	setup_env(t_env **envl, char **envp)
@@ -98,17 +59,10 @@ char	**env_to_tab(t_env **envl)
 	char	**envp;
 	int		i;
 
-	tmp = *envl;
 	i = 0;
-	while (tmp)
-	{
-		if (tmp->value)
-			i++;
-		tmp = tmp->next;
-	}
-	envp = (char **)ft_collector(ft_calloc(i + 1, sizeof(char *)), false);
+	envp = (char **)ft_collector(ft_calloc(ft_env_size(envl) + 1,
+				sizeof(char *)), false);
 	tmp = *envl;
-	i = 0;
 	while (tmp)
 	{
 		if (tmp->value)

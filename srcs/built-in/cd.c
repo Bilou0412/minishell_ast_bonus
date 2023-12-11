@@ -3,41 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 11:08:01 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/05 13:52:16 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/11 18:50:59 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	cd(char **cmd_arg, t_env **envl)
+int	cd(char *path, t_env **envl)
 {
-	char	*path;
 	t_env	*envl_home;
 	t_env	*env_old_pwd;
 	t_env	*env_pwd;
 	char	*pwd;
 
 	pwd = ft_collector(getcwd(NULL, 0), false);
-	path = cmd_arg[1];
 	env_old_pwd = search_envl(envl, "OLDPWD");
 	env_pwd = search_envl(envl, "PWD");
 	envl_home = search_envl(envl, "HOME");
 	if (path)
 	{
 		if (chdir(path))
-			return (perror("cd"), 0);
+			return (ft_printf("zebishell: cd: "), perror(path), 1);
 	}
 	else
 	{
-		path = envl_home->value;
-		if (!path)
-			return (-1);
-		if (chdir(path))
-			return (0);
+		if (!envl_home)
+			return (ft_printf("zebishell: cd: HOME not set\n"), 1);
+		return (cd(envl_home->value, envl));
 	}
+	ft_collector(env_old_pwd->value, true);
+	ft_collector(env_pwd->value, true);
 	return (env_old_pwd->value = pwd, env_pwd->value = ft_collector(getcwd(NULL,
 				0), false), 0);
 }

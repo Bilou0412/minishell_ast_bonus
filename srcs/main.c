@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:19 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/09 20:44:35 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/11 18:04:15 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,7 @@ t_vars	*_vars(void)
 
 int	init_minishell(t_vars *vars, char **envp)
 {
-	
 	// shrek_print();
-	// init_vars(vars);
 	signal(SIGINT, &ctrl_c);
 	signal(SIGQUIT, SIG_IGN);
 	if (setup_env(&vars->envl, envp) < 0)

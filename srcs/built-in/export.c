@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 11:07:56 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/09 18:22:34 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/11 17:14:52 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,14 +80,12 @@ char	*get_key_export(char *cmd)
 
 int	export(char **arg_cmd, t_env **envl)
 {
-	t_env	*tmp_envl;
 	char	*key;
 	char	*value;
 	int		nb_cmd;
 	int		i;
 	int		ret_value;
 
-	tmp_envl = *envl;
 	nb_cmd = ft_arraylen(arg_cmd);
 	ret_value = 0;
 	if (nb_cmd == 1)

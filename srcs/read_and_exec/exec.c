@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:13:52 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/09 20:45:37 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/11 19:01:54 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	init_cmd(t_vars *vars, t_tokens **head)
 	if (sort_cmd(vars, head) < 0)
 		exit_prog(1);
 	redirections(vars);
-	if (!vars->cmd.argv)
+	if (!*vars->cmd.argv)
 		exit_prog(1);
 	if (is_builtin(vars->cmd.argv[0]))
 	{
@@ -80,7 +80,10 @@ int	exec_simple(t_vars *vars, t_tokens **head, bool is_pipe)
 		return (1);
 	if (!pid)
 	{
+		if (!access("here_doc", F_OK))
+			unlink("here_doc");
 		signal(SIGINT, &ctrl_c_child);
+		rl_clear_history();
 		init_cmd(vars, head);
 		if (execve(vars->cmd.path, vars->cmd.argv, vars->cmd.envp) < 0)
 			exit_prog(1);

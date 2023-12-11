@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:28:56 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/09 18:16:47 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/11 18:40:53 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ int	here_doc_loop(t_cmd *cmd, t_tokens *curr)
 		buf = get_next_line(1);
 		if (!buf)
 			return (close(fd), -1);
-		ft_putstr_fd(buf, fd);
 		if (!ft_strncmp(buf, limiter, ft_strlen(limiter)))
 			break ;
+		ft_putstr_fd(buf, fd);
 		ft_collector(buf, true);
 	}
 	ft_putstr_fd(NULL, fd);

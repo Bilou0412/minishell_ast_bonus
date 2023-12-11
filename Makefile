@@ -12,6 +12,7 @@ SRCS		=	srcs/built-in/cd.c \
 				srcs/built-in/echo.c \
 				srcs/built-in/clear.c \
 				srcs/env/own_env.c \
+				srcs/env/t_env_utils.c \
 				srcs/parser/tokens_utils.c \
 				srcs/parser/token_maker.c \
 				srcs/parser/token_maker_utils.c \
