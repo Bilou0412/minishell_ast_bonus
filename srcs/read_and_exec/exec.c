@@ -6,7 +6,11 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:13:52 by soutin            #+#    #+#             */
+<<<<<<< HEAD:srcs/read_and_exec/exec.c
 /*   Updated: 2023/12/11 19:38:00 by soutin           ###   ########.fr       */
+=======
+/*   Updated: 2023/12/07 18:23:46 by bmoudach         ###   ########.fr       */
+>>>>>>> expand:srcs/read_and_exec/pipex.c
 /*                                                                            */
 /* ************************************************************************** */
 

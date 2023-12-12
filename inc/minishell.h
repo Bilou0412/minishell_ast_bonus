@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/12 20:36:16 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/08 18:06:36 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,12 @@ int					count_char_in_str(char *str, char c);
 /*SIGNALS handler*/
 void				nothing(int sig);
 void				ctrl_c(int sig);
+void				nothing(int sig);
+char				**env_to_tab(t_env **envl);
+void				expand(t_vars *vars, t_tokens **head);
+void				ft_env_add_back(t_env **tok, t_env *new);
+t_env				*ft_env_new(char *key, char *value);
+int					unset(char **cmd, t_env **envl);
 void				ctrl_c_child(int sig);
 
 int					exit_prog(int code_err);

@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 17:51:16 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/09 18:18:45 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/07 21:34:58by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,15 @@ char	*get_key_to_exp(char *word, int *start)
 	int		size;
 	int		i;
 
-	i = *start;
-	size = 0;
+	i = *start + 1;
+	size = 2;
 	while (word[i])
 	{
-		if (size == 1 && word[i] == '$')
-		{
-			size++;
+		if (size == 2 && ft_isdigit(word[i]))
 			break ;
-		}
-		else if (word[i] == '\'' || word[i] == '\"' || (word[i] == '$'
-				&& size > 1))
+		else if (size == 2 && word[i] == '?')
+			break ;
+		else if (size > 2 && word[i] != '_' && !ft_isalnum(word[i]))
 			break ;
 		i++;
 		size++;
@@ -70,4 +68,89 @@ t_expand	*create_lst_expand(char *word, t_tokens **tok)
 		i_word++;
 	}
 	return (lst_expand);
+}
+
+void	get_value_of_key(t_env **envl, t_expand **head)
+{
+	t_expand	*tmp;
+
+	tmp = *head;
+	while (tmp)
+	{
+		if (tmp->to_expand)
+		{
+			if (tmp->to_expand && !ft_strncmp("$?", tmp->to_expand, 3))
+				tmp->value = ft_itoa(_vars()->last_return_val);
+			else if (search_envl(envl, tmp->to_expand + 1))
+				tmp->value = search_envl(envl, tmp->to_expand + 1)->value;
+		}
+		tmp = tmp->next;
+	}
+}
+
+char	*replace_key_for_value(char *src_str, int *start, t_expand *expand)
+{
+	char	*beginning_str;
+	char	*and_str;
+	char	*dest_str;
+	int		size_to_expand;
+
+	if (expand->to_expand)
+	{
+		size_to_expand = ft_strlen(expand->to_expand);
+		beginning_str = ft_collector(ft_substr(src_str, 0, *start), false);
+		and_str = ft_collector(ft_strdup(src_str + *start + size_to_expand),
+				false);
+		if (expand->value)
+		{
+			dest_str = ft_collector(ft_strjoin(beginning_str, expand->value),
+					false);
+			dest_str = ft_collector(ft_strjoin_gnl(dest_str, and_str), false);
+			*start = ft_strlen(beginning_str) + ft_strlen(expand->value) - 1;
+		}
+		else
+		{
+			dest_str = ft_collector(ft_strjoin(beginning_str, and_str), false);
+			*start = ft_strlen(beginning_str) - 1;
+		}
+	}
+	else
+		return (src_str);
+	return (ft_collector(src_str, true), dest_str);
+}
+char	*parse_replace_expand(t_expand **expand, char *src_str)
+{
+	char		*dest_str;
+	t_expand	*tmp;
+	int			i_string;
+
+	i_string = 0;
+	tmp = *expand;
+	dest_str = ft_collector(ft_strdup(src_str), false);
+	while (dest_str[i_string])
+	{
+		if (dest_str[i_string] == '$')
+		{
+			dest_str = replace_key_for_value(dest_str, &i_string, tmp);
+			tmp = tmp->next;
+		}
+		i_string++;
+	}
+	return (dest_str);
+}
+
+void	expand(t_vars *vars, t_tokens **head)
+{
+	t_tokens *tmp;
+
+	tmp = *head;
+	while (tmp)
+	{
+		if (tmp)
+		{
+			get_value_of_key(&vars->envl, &tmp->expand);
+			tmp->string = parse_replace_expand(&(tmp->expand), tmp->string);
+		}
+		tmp = tmp->next;
+	}
 }

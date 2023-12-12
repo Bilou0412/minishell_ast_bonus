@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 11:07:56 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/11 17:14:52 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/12 18:25:51 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@ int	add_to_env(char *key, char *value, t_env **envl)
 	t_env	*to_replace;
 
 	i = 0;
+	if (key[i] && ft_isdigit(key[i]))
+		return (1);
 	while (key[i])
 	{
-		if (key[i] == '_' || (key[i] > 96 && key[i] < 123) || (key[i] > 64
-				&& key[i] < 91))
+		if (ft_isalnum(key[i]) || key[i] == '_')
 			i++;
 		else
 			return (1);
