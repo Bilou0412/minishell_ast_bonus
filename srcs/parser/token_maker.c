@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:17:56 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/11 19:28:43 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/12 20:38:44 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void	token_m(t_vars *vars, t_tokens **tok)
 		{
 			ft_tokclear(tok);
 			ft_collector((str_in->buff), true);
+			return ;
 		}
 	}
 	ft_collector(str_in->buff, true);
