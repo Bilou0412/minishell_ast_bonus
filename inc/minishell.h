@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/12 20:56:50 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/12 21:05:46 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct s_vars
 	t_ast			*ast;
 	t_cmd			cmd;
 	int				last_return_val;
+	int				return_value;
 	t_env			*envl;
 	bool			stop;
 	bool			error;
