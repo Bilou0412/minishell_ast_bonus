@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/08 18:06:36 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/12 20:56:50 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,6 @@ int					unset(char **cmd, t_env **envl);
 int					echo(char **arg_cmd);
 void				clear(void);
 
-int					expand(t_tokens **head, t_vars *vars);
 int					*char_to_expand(char *str);
 void				del_char(char *address, char char_to_del);
 int					browse_lst_and_expand(t_tokens **head, t_vars *vars);
