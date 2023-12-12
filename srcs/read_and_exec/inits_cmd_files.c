@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:28:56 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/11 18:40:53 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/12 20:41:21 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,38 @@ int	here_doc_loop(t_cmd *cmd, t_tokens *curr)
 	char	*buf;
 	int		fd;
 	char	*limiter;
+	int		pid;
+	int		status;
 
 	buf = NULL;
-	fd = open("here_doc", O_RDWR | O_TRUNC | O_CREAT, 0666);
-	if (fd < 0)
-		return (ft_printf("%s\n", strerror(errno)), -1);
-	limiter = curr->next->string;
-	while (1)
+	pid = fork();
+	if (pid < 0)
+		return (-1);
+	if (!pid)
 	{
-		buf = get_next_line(1);
-		if (!buf)
-			return (close(fd), -1);
-		if (!ft_strncmp(buf, limiter, ft_strlen(limiter)))
-			break ;
-		ft_putstr_fd(buf, fd);
-		ft_collector(buf, true);
+		signal(SIGINT, &ctrl_c_child);
+		fd = open("here_doc", O_RDWR | O_TRUNC | O_CREAT, 0666);
+		if (fd < 0)
+			return (ft_printf("%s\n", strerror(errno)), exit(1), -1);
+		limiter = (char *)ft_collector(ft_strjoin(curr->next->string, "\n"),
+				false);
+		while (1)
+		{
+			buf = get_next_line(1);
+			if (!buf)
+				return (close(fd), exit_prog(1), -1);
+			if (!ft_strncmp(buf, limiter, ft_strlen(limiter)))
+				break ;
+			ft_putstr_fd(buf, fd);
+			ft_collector(buf, true);
+		}
+		ft_putstr_fd(NULL, fd);
+		ft_collector(NULL, true);
+		close(fd);
+		exit(0);
 	}
-	ft_putstr_fd(NULL, fd);
-	ft_collector(buf, true);
-	close(fd);
+	else
+		waitpid(pid, &status, 0);
 	return (0);
 }
 

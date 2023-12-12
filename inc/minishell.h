@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/11 19:02:53 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/12 20:36:16 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@
 # include <termios.h>
 # include <unistd.h>
 
-# define FREE_FULL 1
-# define FREE_BUILTIN 2
 # define LEFT 1
 # define RIGHT 0
 

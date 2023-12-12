@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 15:23:01 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/09 19:21:24 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/12 20:30:05 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	ctrl_c_child(int sig)
 {
 	write(2, "\n", 1);
 	ft_collector(NULL, true);
+	exit(130);
 }
 
 void	ctrl_c(int sig)
