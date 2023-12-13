@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:13:52 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/13 13:52:17 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/13 15:50:06 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ int	is_builtin_simple(t_vars *vars, t_tokens **head)
 	if (!tmp || tmp->type != WORD || !is_builtin(tmp->string))
 		return (0);
 	if (init_builtin(vars, head, save_stds) < 0 || exec_builtin(vars))
+	{
 		vars->last_return_val = 1;
+		vars->return_value = 1;
+	}
 	freetabs(vars->cmd.argv);
 	vars->cmd.argv = NULL;
 	if (check_stds(save_stds) < 0)

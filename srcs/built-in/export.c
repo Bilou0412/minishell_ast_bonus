@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 11:07:56 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/12 18:25:51 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/13 16:16:25 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,16 @@ int	add_to_env(char *key, char *value, t_env **envl)
 	t_env	*to_replace;
 
 	i = 0;
-	if (key[i] && ft_isdigit(key[i]))
-		return (1);
+	if (!key[i] || (!ft_isalpha(key[i]) && key[i] != '_'))
+		return (ft_printf("bash: export: `%s': not a valid identifier\n", key),
+			1);
 	while (key[i])
 	{
 		if (ft_isalnum(key[i]) || key[i] == '_')
 			i++;
 		else
-			return (1);
+			return (ft_printf("bash: export: `%s': not a valid identifier\n",
+					key), 1);
 	}
 	to_replace = search_envl(envl, key);
 	if (to_replace && value)
