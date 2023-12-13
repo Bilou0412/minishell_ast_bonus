@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:13:52 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/12 20:58:36 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/13 13:52:17 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	exec_simple(t_vars *vars, t_tokens **head, bool is_pipe)
 		signal(SIGINT, &ctrl_c_child);
 		init_cmd(vars, head);
 		if (execve(vars->cmd.path, vars->cmd.argv, vars->cmd.envp) < 0)
-			exit_prog(1);
+			exit_prog(126);
 	}
 	else
 		waitchilds(vars, &pid, 1);
