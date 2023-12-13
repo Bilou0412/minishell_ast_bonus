@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:15:27 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/11 18:03:55 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/13 14:02:16 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	exec_pipes(t_vars *vars, t_ast *curr, int *pipe_fds, bool direction)
 		return (1);
 	ft_collector(NULL, true);
 	rl_clear_history();
-	exit(0);
+	exit(vars->return_value);
 }
 
 int	pipe_(t_vars *vars, t_ast *curr)

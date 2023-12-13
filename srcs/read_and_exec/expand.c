@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 17:51:16 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/07 21:34:58by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/12/12 21:07:14 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	get_value_of_key(t_env **envl, t_expand **head)
 		if (tmp->to_expand)
 		{
 			if (tmp->to_expand && !ft_strncmp("$?", tmp->to_expand, 3))
-				tmp->value = ft_itoa(_vars()->last_return_val);
+				tmp->value = ft_itoa(_vars()->return_value);
 			else if (search_envl(envl, tmp->to_expand + 1))
 				tmp->value = search_envl(envl, tmp->to_expand + 1)->value;
 		}
