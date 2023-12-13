@@ -6,53 +6,30 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 12:14:40 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/13 15:22:32 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/13 16:04:54 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_builtin2(t_vars *vars)
-{
-	if (!ft_strncmp(vars->cmd.argv[0], "pwd", 4))
-	{
-		if (pwd(vars->cmd.argv))
-			return (1);
-	}
-	else if (!ft_strncmp(vars->cmd.argv[0], "clear", 6))
-		clear();
-	else if (!ft_strncmp(vars->cmd.argv[0], "export", 7))
-	{
-		if (export(vars->cmd.argv, &vars->envl))
-			return (1);
-	}
-	else if (!ft_strncmp(vars->cmd.argv[0], "exit", 5))
-		exit_builtin(vars->cmd.argv[1], ft_arraylen(vars->cmd.argv));
-	else if (!ft_strncmp(vars->cmd.argv[0], "unset", 6))
-	{
-		if (unset(vars->cmd.argv, &vars->envl))
-			return (1);
-	}
-	return (0);
-}
-
 int	exec_builtin(t_vars *vars)
 {
 	if (!ft_strncmp(vars->cmd.argv[0], "cd", 3))
-	{
-		if (cd(vars->cmd.argv[1], &vars->envl))
-			return (1);
-	}
+		return (cd(vars->cmd.argv[1], &vars->envl));
 	else if (!ft_strncmp(vars->cmd.argv[0], "echo", 5))
-	{
-		if (echo(vars->cmd.argv))
-			return (1);
-		return (0);
-	}
+		return (echo(vars->cmd.argv));
 	else if (!ft_strncmp(vars->cmd.argv[0], "env", 4))
 		env(&vars->envl);
-	else if (exec_builtin2(vars))
-		return (1);
+	if (!ft_strncmp(vars->cmd.argv[0], "pwd", 4))
+		return (pwd(vars->cmd.argv));
+	else if (!ft_strncmp(vars->cmd.argv[0], "clear", 6))
+		clear();
+	else if (!ft_strncmp(vars->cmd.argv[0], "export", 7))
+		return (export(vars->cmd.argv, &vars->envl));
+	else if (!ft_strncmp(vars->cmd.argv[0], "exit", 5))
+		return (exit_builtin(vars->cmd.argv[1], ft_arraylen(vars->cmd.argv)));
+	else if (!ft_strncmp(vars->cmd.argv[0], "unset", 6))
+		return (unset(vars->cmd.argv, &vars->envl));
 	return (0);
 }
 
