@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/16 17:51:16 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/12 21:07:14 by soutin           ###   ########.fr       */
+/*   Created: 2023/12/13 13:23:51 by bmoudach          #+#    #+#             */
+/*   Updated: 2023/12/13 13:23:52 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -20,25 +21,27 @@ char	*get_key_to_exp(char *word, int *start)
 	int		size;
 	int		i;
 
-	i = *start + 1;
-	size = 2;
+	i = *start;
+	size = 0;
+	to_expand = NULL;
 	while (word[i])
 	{
-		if (size == 2 && ft_isdigit(word[i]))
+		if (size == 1 && (word[i] == '?' || ft_isdigit(word[i])))
+		{
+			size++;
 			break ;
-		else if (size == 2 && word[i] == '?')
-			break ;
-		else if (size > 2 && word[i] != '_' && !ft_isalnum(word[i]))
+		}
+		else if (size > 0 && (!ft_isalnum(word[i]) && word[i] != '_'))
 			break ;
 		i++;
 		size++;
 	}
-	to_expand = ft_collector(ft_substr(word, *start, size), false);
+	if (size > 1)
+		to_expand = ft_collector(ft_substr(word, *start, size), false);
 	*start += size - 1;
 	return (to_expand);
 }
 
-//' " \0
 t_expand	*create_lst_expand(char *word, t_tokens **tok)
 {
 	t_expand	*lst_expand;
@@ -62,8 +65,10 @@ t_expand	*create_lst_expand(char *word, t_tokens **tok)
 			if (quote_char == '\'')
 				content_to_lst_expand(NULL, &lst_expand);
 			else
+			{
 				content_to_lst_expand(get_key_to_exp(word, &i_word),
 					&lst_expand);
+			}
 		}
 		i_word++;
 	}
