@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/12 21:05:46 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/13 15:25:51 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct s_vars
 	int				last_return_val;
 	int				return_value;
 	t_env			*envl;
+	int				fd_heredoc;
 	bool			stop;
 	bool			error;
 	struct termios	original;
@@ -174,9 +175,13 @@ t_expand			*ft_expand_new(char *content);
 void				ft_exp_add_back(t_expand **expand, t_expand *new);
 int					count_char_in_str(char *str, char c);
 
+int					exit_builtin(char *arg, int nb_arg);
+
 /*SIGNALS handler*/
+void				ctrl_d(int sig);
 void				nothing(int sig);
 void				ctrl_c(int sig);
+void				ctrl_c_heredoc(int sig);
 void				nothing(int sig);
 char				**env_to_tab(t_env **envl);
 void				expand(t_vars *vars, t_tokens **head);

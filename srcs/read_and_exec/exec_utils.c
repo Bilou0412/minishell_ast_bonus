@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:58:09 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/13 14:00:17 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/13 14:31:16 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,16 @@ int	waitchilds(t_vars *vars, int *pid, int childmax)
 		if (waitpid(pid[i], &status, 0) < 0)
 			return (-1);
 		i++;
-		vars->last_return_val = WEXITSTATUS(status);
-		vars->return_value = WEXITSTATUS(status);
+		if (WIFSIGNALED(status))
+		{
+			vars->return_value = 128 + WTERMSIG(status);
+			vars->last_return_val = 128 + WTERMSIG(status);
+		}
+		else
+		{
+			vars->return_value = WEXITSTATUS(status);
+			vars->last_return_val = WEXITSTATUS(status);
+		}
 	}
 	return (0);
 }

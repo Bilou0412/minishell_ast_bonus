@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 12:14:40 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/11 16:04:15 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/13 15:22:32 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	exec_builtin2(t_vars *vars)
 			return (1);
 	}
 	else if (!ft_strncmp(vars->cmd.argv[0], "exit", 5))
-		exit_prog(0);
+		exit_builtin(vars->cmd.argv[1], ft_arraylen(vars->cmd.argv));
 	else if (!ft_strncmp(vars->cmd.argv[0], "unset", 6))
 	{
 		if (unset(vars->cmd.argv, &vars->envl))
