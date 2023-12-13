@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 16:50:50 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/13 16:28:14 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/13 17:00:54 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	printtokens(t_tokens **head)
 	current = *head;
 	while (current)
 	{
-		printf("%s %d", current->string, current->type);
+		printf("l%s %d", current->string, current->type);
 		current = current->next;
 	}
 	printf("\n");

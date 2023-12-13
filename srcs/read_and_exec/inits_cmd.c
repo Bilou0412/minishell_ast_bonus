@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 19:20:32 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/11 19:33:52 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/13 17:26:00 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ int	sort_cmd(t_vars *vars, t_tokens **head)
 	return (0);
 }
 
-void	init_cmd_path(t_vars *vars)
+int	init_cmd_path(t_vars *vars)
 {
 	int		i;
 	char	**env_paths;
 
 	i = 0;
-	if (path_to_argv(&vars->cmd))
-		return ;
+	if (path_to_argv(vars, &vars->cmd))
+		return (0);
 	env_paths = init_paths(vars);
 	if (env_paths)
 	{
@@ -48,10 +48,11 @@ void	init_cmd_path(t_vars *vars)
 		{
 			vars->cmd.path = (char *)ft_collector(cmdjoin(env_paths[i],
 						vars->cmd.argv[0]), false);
-			if (!access(vars->cmd.path, F_OK | X_OK))
+			if (!access(vars->cmd.path, F_OK))
 			{
-				freetabs(env_paths);
-				return ;
+				if (access(vars->cmd.path, X_OK))
+						return (ft_printf("zebishell: "), perror(vars->cmd.path), exit_prog(126));
+				return (freetabs(env_paths), 0);
 			}
 			ft_collector(vars->cmd.path, true);
 			i++;
@@ -59,16 +60,20 @@ void	init_cmd_path(t_vars *vars)
 	}
 	ft_printf("zebishell: %s: command not found\n", vars->cmd.argv[0]);
 	exit_prog(127);
+	return (0);
 }
 
-int	path_to_argv(t_cmd *cmd)
+int	path_to_argv(t_vars *vars, t_cmd *cmd)
 {
 	char	**tmp;
 	int		i;
 
 	i = 0;
-	if (!access(cmd->argv[0], F_OK | X_OK))
+	if (!access(cmd->argv[0], F_OK))
 	{
+		errno = 0;
+		if (access(vars->cmd.argv[0], X_OK))
+			return (ft_printf("zebishell: "), perror(vars->cmd.path), exit_prog(126));
 		cmd->path = cmd->argv[0];
 		tmp = ft_split(cmd->argv[0], '/');
 		while (tmp[i + 1])

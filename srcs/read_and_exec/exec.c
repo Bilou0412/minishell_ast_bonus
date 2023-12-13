@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:13:52 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/13 16:20:58 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/13 17:12:55 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	init_cmd(t_vars *vars, t_tokens **head)
 		exit_prog(1);
 	redirections(vars);
 	if (!*vars->cmd.argv)
-		exit_prog(1);
+		exit_prog(0);
 	if (is_builtin(vars->cmd.argv[0]))
 	{
 		if (exec_builtin(vars))
@@ -78,6 +78,7 @@ int	exec_simple(t_vars *vars, t_tokens **head, bool is_pipe)
 
 	pid = 0;
 	expand(vars, head);
+	// printtokens(head);
 	if (!is_pipe && is_builtin_simple(vars, head))
 		return (0);
 	pid = fork();

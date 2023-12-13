@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 16:56:49 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/13 16:08:54 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/13 17:27:41 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	exit_builtin(char *arg, int nb_arg)
 			i++;
 		}
 		exit_status = ft_atoi(arg);
-		
 	}
 	else
 		exit_status = 0;
