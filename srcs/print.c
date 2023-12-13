@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 16:50:50 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/12 17:40:46 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/13 16:28:14 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	printtokens(t_tokens **head)
 	current = *head;
 	while (current)
 	{
-		ft_printf("%s %d", current->string, current->type);
+		printf("%s %d", current->string, current->type);
 		current = current->next;
 	}
 	printf("\n");
@@ -46,7 +46,7 @@ void	print_tree(t_ast *ast, int depth)
 		return ;
 	print_tree(ast->right, depth + 1);
 	while (i++ < depth)
-		ft_printf("    ");
+		printf("    ");
 	if (!ast->tokens)
 	{
 		if (ast->type == PIPE)

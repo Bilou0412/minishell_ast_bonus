@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:13:52 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/13 13:52:17 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/13 16:20:58 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,11 @@ int	is_builtin_simple(t_vars *vars, t_tokens **head)
 	}
 	if (!tmp || tmp->type != WORD || !is_builtin(tmp->string))
 		return (0);
-	if (init_builtin(vars, head, save_stds) < 0 || exec_builtin(vars))
+	if (init_builtin(vars, head, save_stds) < 0)
 		vars->last_return_val = 1;
+	else
+		vars->last_return_val = exec_builtin(vars);
+	vars->return_value = vars->last_return_val;
 	freetabs(vars->cmd.argv);
 	vars->cmd.argv = NULL;
 	if (check_stds(save_stds) < 0)
