@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/13 15:25:51 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/13 17:24:34 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,10 +150,10 @@ int					fill_cmd_argv(t_vars *vars, t_tokens *tokens);
 int					handle_files(t_cmd *cmd, t_tokens *arm);
 int					here_doc_loop(t_cmd *cmd, t_tokens *curr);
 char				**init_paths(t_vars *vars);
-int					path_to_argv(t_cmd *cmd);
+int					path_to_argv(t_vars *vars, t_cmd *cmd);
 char				*cmdjoin(char *path, char *cmd);
 int					multiple_dup2(t_vars *vars, int flag);
-void				init_cmd_path(t_vars *vars);
+int					init_cmd_path(t_vars *vars);
 int					waitchilds(t_vars *vars, int *pid, int childmax);
 int					check_stds(int *stds);
 int					redirections(t_vars *vars);

@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 13:23:51 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/13 14:18:48 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/13 17:11:38 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,24 @@ char	*parse_replace_expand(t_expand **expand, char *src_str)
 	return (dest_str);
 }
 
+void	delete_1_tok(t_tokens **head, t_tokens *current)
+{
+	t_tokens	*tmp;
+	
+	if (current == *head)
+		*head = (*head)->next;
+	else
+	{
+		tmp = *head;
+		while (tmp && tmp->next != current)
+			tmp = tmp->next;
+		if (tmp)
+			tmp->next = current->next;
+	}
+	current->next = NULL;
+	ft_tokclear(&current);
+}
+
 void	expand(t_vars *vars, t_tokens **head)
 {
 	t_tokens *tmp;
@@ -155,6 +173,8 @@ void	expand(t_vars *vars, t_tokens **head)
 		{
 			get_value_of_key(&vars->envl, &tmp->expand);
 			tmp->string = parse_replace_expand(&(tmp->expand), tmp->string);
+			if (!*tmp->string)
+				delete_1_tok(head, tmp);
 		}
 		tmp = tmp->next;
 	}
