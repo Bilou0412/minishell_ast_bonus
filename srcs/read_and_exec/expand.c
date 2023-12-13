@@ -25,7 +25,7 @@ char	*get_key_to_exp(char *word, int *start)
 	to_expand = NULL;
 	while (word[i])
 	{
-		if (size == 1 && word[i] == '?')
+		if (size == 1 && (word[i] == '?' || ft_isdigit(word[i])))
 		{
 			size++;
 			break ;
