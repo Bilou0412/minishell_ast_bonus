@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/13 15:25:51 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/13 17:15:48 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ int					check_stds(int *stds);
 int					redirections(t_vars *vars);
 
 /*BUILTINS functions*/
-int					cd(char *cd_path, t_env **envl);
+int					cd(char **cd_path, t_env **envl);
 void				env(t_env **envl);
 int					pwd(char **arg_cmd);
 int					export(char **arg_cmd, t_env **envl);

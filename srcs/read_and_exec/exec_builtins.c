@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 12:14:40 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/13 16:04:54 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/13 17:10:43 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	exec_builtin(t_vars *vars)
 {
 	if (!ft_strncmp(vars->cmd.argv[0], "cd", 3))
-		return (cd(vars->cmd.argv[1], &vars->envl));
+		return (cd(vars->cmd.argv, &vars->envl));
 	else if (!ft_strncmp(vars->cmd.argv[0], "echo", 5))
 		return (echo(vars->cmd.argv));
 	else if (!ft_strncmp(vars->cmd.argv[0], "env", 4))
