@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 15:23:01 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/12 20:30:05 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/13 15:07:42 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,19 @@
 void	ctrl_c_child(int sig)
 {
 	write(2, "\n", 1);
-	ft_collector(NULL, true);
-	exit(130);
+	exit_prog(SIGINT);
+}
+
+void	ctrl_c_heredoc(int sig)
+{
+	write(2, "\n", 1);
+	close(_vars()->fd_heredoc);
+	exit_prog(SIGINT);
 }
 
 void	ctrl_c(int sig)
 {
 	(void)sig;
-	_vars()->stop = true;
 	write(2, "\n", 1);
 	rl_on_new_line();
 	rl_redisplay();

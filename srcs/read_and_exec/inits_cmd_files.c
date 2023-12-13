@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:28:56 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/12 20:41:21 by soutin           ###   ########.fr       */
+/*   Updated: 2023/12/13 15:08:54 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,18 @@
 int	here_doc_loop(t_cmd *cmd, t_tokens *curr)
 {
 	char	*buf;
-	int		fd;
 	char	*limiter;
 	int		pid;
-	int		status;
-
+	
 	buf = NULL;
 	pid = fork();
 	if (pid < 0)
 		return (-1);
 	if (!pid)
 	{
-		signal(SIGINT, &ctrl_c_child);
-		fd = open("here_doc", O_RDWR | O_TRUNC | O_CREAT, 0666);
-		if (fd < 0)
+		signal(SIGINT, &ctrl_c_heredoc);
+		_vars()->fd_heredoc = open("here_doc", O_RDWR | O_TRUNC | O_CREAT, 0666);
+		if (_vars()->fd_heredoc < 0)
 			return (ft_printf("%s\n", strerror(errno)), exit(1), -1);
 		limiter = (char *)ft_collector(ft_strjoin(curr->next->string, "\n"),
 				false);
@@ -36,19 +34,23 @@ int	here_doc_loop(t_cmd *cmd, t_tokens *curr)
 		{
 			buf = get_next_line(1);
 			if (!buf)
-				return (close(fd), exit_prog(1), -1);
+				return (close(_vars()->fd_heredoc), exit_prog(1), -1);
 			if (!ft_strncmp(buf, limiter, ft_strlen(limiter)))
 				break ;
-			ft_putstr_fd(buf, fd);
+			ft_putstr_fd(buf, _vars()->fd_heredoc);
 			ft_collector(buf, true);
 		}
-		ft_putstr_fd(NULL, fd);
+		ft_putstr_fd(NULL, _vars()->fd_heredoc);
 		ft_collector(NULL, true);
-		close(fd);
+		close(_vars()->fd_heredoc);
 		exit(0);
 	}
 	else
-		waitpid(pid, &status, 0);
+	{
+		waitchilds(_vars(), &pid, 1);
+		signal(SIGQUIT, SIG_IGN);
+	}
+		
 	return (0);
 }
 
