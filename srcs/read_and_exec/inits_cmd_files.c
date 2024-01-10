@@ -6,53 +6,11 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:28:56 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/13 15:08:54 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/10 20:04:25 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	here_doc_loop(t_cmd *cmd, t_tokens *curr)
-{
-	char	*buf;
-	char	*limiter;
-	int		pid;
-	
-	buf = NULL;
-	pid = fork();
-	if (pid < 0)
-		return (-1);
-	if (!pid)
-	{
-		signal(SIGINT, &ctrl_c_heredoc);
-		_vars()->fd_heredoc = open("here_doc", O_RDWR | O_TRUNC | O_CREAT, 0666);
-		if (_vars()->fd_heredoc < 0)
-			return (ft_printf("%s\n", strerror(errno)), exit(1), -1);
-		limiter = (char *)ft_collector(ft_strjoin(curr->next->string, "\n"),
-				false);
-		while (1)
-		{
-			buf = get_next_line(1);
-			if (!buf)
-				return (close(_vars()->fd_heredoc), exit_prog(1), -1);
-			if (!ft_strncmp(buf, limiter, ft_strlen(limiter)))
-				break ;
-			ft_putstr_fd(buf, _vars()->fd_heredoc);
-			ft_collector(buf, true);
-		}
-		ft_putstr_fd(NULL, _vars()->fd_heredoc);
-		ft_collector(NULL, true);
-		close(_vars()->fd_heredoc);
-		exit(0);
-	}
-	else
-	{
-		waitchilds(_vars(), &pid, 1);
-		signal(SIGQUIT, SIG_IGN);
-	}
-		
-	return (0);
-}
 
 void	delete_file_tokens(t_tokens **head, t_tokens **curr)
 {
@@ -138,12 +96,8 @@ int	handle_files(t_cmd *cmd, t_tokens *arm)
 	}
 	else if (arm->type == DLESS)
 	{
-		if (here_doc_loop(cmd, arm) < 0)
-			return (-1);
-		fd = open("here_doc", O_RDONLY);
-		if (fd < 0)
-			return (-1);
-		file_add_back(&cmd->infiles, fd);
+		file_add_back(&cmd->infiles, _vars()->heredocs->fd);
+		del_headfile(&_vars()->heredocs);
 	}
 	else if (handle_files_2(cmd, arm) < 0)
 		return (-1);

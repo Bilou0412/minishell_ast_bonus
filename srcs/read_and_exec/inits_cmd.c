@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 19:20:32 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/13 17:26:00 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/10 20:19:15 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@ int	sort_cmd(t_vars *vars, t_tokens **head)
 	return (0);
 }
 
+void	cmd_exec_error(char *name)
+{
+	ft_printf("zebishell: ");
+	perror(name);
+	exit_prog(126);
+}
+
 int	init_cmd_path(t_vars *vars)
 {
 	int		i;
@@ -42,21 +49,18 @@ int	init_cmd_path(t_vars *vars)
 	if (path_to_argv(vars, &vars->cmd))
 		return (0);
 	env_paths = init_paths(vars);
-	if (env_paths)
+	while (env_paths && env_paths[i])
 	{
-		while (env_paths[i])
+		vars->cmd.path = (char *)ft_collector(cmdjoin(env_paths[i],
+					vars->cmd.argv[0]), false);
+		if (!access(vars->cmd.path, F_OK))
 		{
-			vars->cmd.path = (char *)ft_collector(cmdjoin(env_paths[i],
-						vars->cmd.argv[0]), false);
-			if (!access(vars->cmd.path, F_OK))
-			{
-				if (access(vars->cmd.path, X_OK))
-						return (ft_printf("zebishell: "), perror(vars->cmd.path), exit_prog(126));
-				return (freetabs(env_paths), 0);
-			}
-			ft_collector(vars->cmd.path, true);
-			i++;
+			if (access(vars->cmd.path, X_OK))
+				cmd_exec_error(vars->cmd.argv[0]);
+			return (freetabs(env_paths), 0);
 		}
+		ft_collector(vars->cmd.path, true);
+		i++;
 	}
 	ft_printf("zebishell: %s: command not found\n", vars->cmd.argv[0]);
 	exit_prog(127);
@@ -73,7 +77,7 @@ int	path_to_argv(t_vars *vars, t_cmd *cmd)
 	{
 		errno = 0;
 		if (access(vars->cmd.argv[0], X_OK))
-			return (ft_printf("zebishell: "), perror(vars->cmd.path), exit_prog(126));
+			cmd_exec_error(vars->cmd.argv[0]);
 		cmd->path = cmd->argv[0];
 		tmp = ft_split(cmd->argv[0], '/');
 		while (tmp[i + 1])

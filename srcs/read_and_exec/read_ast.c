@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:15:27 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/13 14:02:16 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/10 19:19:38 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,8 @@ int	and_(t_vars *vars, t_ast *curr)
 	return (0);
 }
 
-int	exec_pipes(t_vars *vars, t_ast *curr, int *pipe_fds, bool direction)
+void	exec_pipes(t_vars *vars, t_ast *curr, int *pipe_fds, bool direction)
 {
-	signal(SIGINT, &ctrl_c_child);
 	if (direction == LEFT)
 	{
 		close(pipe_fds[0]);
@@ -50,10 +49,8 @@ int	exec_pipes(t_vars *vars, t_ast *curr, int *pipe_fds, bool direction)
 		close(pipe_fds[0]);
 	}
 	if (read_ast(vars, curr, true))
-		return (1);
-	ft_collector(NULL, true);
-	rl_clear_history();
-	exit(vars->return_value);
+		exit_prog(1);
+	exit_prog(vars->return_value);
 }
 
 int	pipe_(t_vars *vars, t_ast *curr)
@@ -63,25 +60,21 @@ int	pipe_(t_vars *vars, t_ast *curr)
 
 	if (pipe(pipe_fds) < 0)
 		return (perror("pipe"), 1);
+	vars->child_sigint = true;
 	pids[0] = fork();
 	if (pids[0] < 0)
 		return (perror("fork"), 1);
 	if (!pids[0])
 		exec_pipes(vars, curr->left, pipe_fds, LEFT);
-	else
-	{
-		pids[1] = fork();
-		if (pids[1] < 0)
-			return (perror("fork"), 1);
-		if (!pids[1])
-			exec_pipes(vars, curr->right, pipe_fds, RIGHT);
-		else
-		{
-			close(pipe_fds[0]);
-			close(pipe_fds[1]);
-			waitchilds(vars, pids, 2);
-		}
-	}
+	pids[1] = fork();
+	if (pids[1] < 0)
+		return (perror("fork"), 1);
+	if (!pids[1])
+		exec_pipes(vars, curr->right, pipe_fds, RIGHT);
+	close(pipe_fds[0]);
+	close(pipe_fds[1]);
+	waitchilds(vars, pids, 2);
+	vars->child_sigint = false;
 	return (0);
 }
 
