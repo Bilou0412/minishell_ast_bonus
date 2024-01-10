@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fill_ast.c                                         :+:      :+:    :+:   */
+/*   build_ast.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 12:44:33 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/11 19:14:29 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/10 20:20:04 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ t_ast	*is_leaf(t_tokens **curr_tok)
 		&& (*curr_tok)->type != C_PARENTHESIS
 		&& (*curr_tok)->type != O_PARENTHESIS)
 	{
+		if ((*curr_tok)->type == DLESS && !_vars()->heredoc_sigint)
+			init_heredoc(curr_tok);
 		tmp = *curr_tok;
 		*curr_tok = (*curr_tok)->next;
 		tmp->next = NULL;

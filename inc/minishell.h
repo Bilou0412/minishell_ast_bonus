@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/13 17:24:34 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/10 19:40:47 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,10 @@ typedef struct s_vars
 	int				last_return_val;
 	int				return_value;
 	t_env			*envl;
-	int				fd_heredoc;
-	bool			stop;
+	int				fd_curr_heredoc;
+	t_files			*heredocs;
+	bool			heredoc_sigint;
+	bool			child_sigint;
 	bool			error;
 	struct termios	original;
 
@@ -136,9 +138,15 @@ int					value_prec(int type);
 t_ast				*ft_astnew(t_node_type type, t_ast *left, t_ast *right);
 void				del_a_tok_and_move_forward(t_tokens **curr_tok);
 
+/*HEREDOC functions*/
+void				here_doc_loop(t_tokens *curr, int *pipe);
+void				parse_heredoc_cmd(t_vars *vars, t_tokens **head);
+void				init_heredoc(t_tokens **head);
+void				del_headfile(t_files **head);
+
 /*AST reader*/
 int					read_ast(t_vars *vars, t_ast *current, bool is_pipe);
-int					exec_pipes(t_vars *vars, t_ast *curr, int *pipe_fds,
+void				exec_pipes(t_vars *vars, t_ast *curr, int *pipe_fds,
 						bool direction);
 int					exec_simple(t_vars *vars, t_tokens **head, bool is_pipe);
 int					exec_builtin(t_vars *vars);
@@ -148,7 +156,6 @@ int					is_builtin(char *word);
 int					sort_cmd(t_vars *vars, t_tokens **head);
 int					fill_cmd_argv(t_vars *vars, t_tokens *tokens);
 int					handle_files(t_cmd *cmd, t_tokens *arm);
-int					here_doc_loop(t_cmd *cmd, t_tokens *curr);
 char				**init_paths(t_vars *vars);
 int					path_to_argv(t_vars *vars, t_cmd *cmd);
 char				*cmdjoin(char *path, char *cmd);
@@ -189,6 +196,7 @@ void				ft_env_add_back(t_env **tok, t_env *new);
 t_env				*ft_env_new(char *key, char *value);
 int					unset(char **cmd, t_env **envl);
 void				ctrl_c_child(int sig);
+void				sigquit_handler(int num);
 
 int					exit_prog(int code_err);
 

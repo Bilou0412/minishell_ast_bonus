@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:19 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/13 15:08:16 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/10 20:54:52 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,26 +19,9 @@ t_vars	*_vars(void)
 	return (&vars);
 }
 
-// void	init_vars(t_vars *vars)
-// {
-// 	vars->str_in.buff = NULL;
-// 	vars->nb_forks = 0;
-// 	vars->ast = NULL;
-// 	vars->tokens = NULL;
-// 	vars->cmd.nb_pipes = 0;
-// 	vars->cmd.env_paths = NULL;
-// 	vars->cmd.argv = NULL;
-// 	vars->cmd.path = NULL;
-// 	vars->cmd.infiles = NULL;
-// 	vars->cmd.outfiles = NULL;
-// 	vars->last_return_val = 0;
-// }
-
 int	init_minishell(t_vars *vars, char **envp)
 {
-	// shrek_print();
-	signal(SIGINT, &ctrl_c);
-	signal(SIGQUIT, SIG_IGN);
+	shrek_print();
 	if (setup_env(&vars->envl, envp) < 0)
 		return (1);
 	tcgetattr(STDIN_FILENO, &_vars()->original);
@@ -47,7 +30,10 @@ int	init_minishell(t_vars *vars, char **envp)
 
 int	launch_ast(t_vars *vars)
 {
+	signal(SIGQUIT, sigquit_handler);
 	vars->ast = is_branch(&vars->tokens, 0);
+	if (vars->heredoc_sigint)
+		vars->error = true;
 	tcsetattr(STDIN_FILENO, TCSANOW, &vars->original);
 	if (!vars->error)
 	{
@@ -65,6 +51,13 @@ int	read_inputs(t_vars *vars)
 {
 	while (1)
 	{
+		vars->heredoc_sigint = false;
+		vars->child_sigint = false;
+		if (vars->heredocs)
+			free_files(&vars->heredocs);
+		vars->heredocs = NULL;
+		signal(SIGINT, ctrl_c);
+		signal(SIGQUIT, nothing);
 		vars->str_in.buff = (char *)ft_collector(readline("zebishell> "),
 				false);
 		if (vars->str_in.buff[0])

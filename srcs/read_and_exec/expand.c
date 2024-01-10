@@ -6,10 +6,9 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 13:23:51 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/13 17:11:38 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/10 20:52:01 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -123,6 +122,7 @@ char	*replace_key_for_value(char *src_str, int *start, t_expand *expand)
 		return (src_str);
 	return (ft_collector(src_str, true), dest_str);
 }
+
 char	*parse_replace_expand(t_expand **expand, char *src_str)
 {
 	char		*dest_str;
@@ -147,7 +147,7 @@ char	*parse_replace_expand(t_expand **expand, char *src_str)
 void	delete_1_tok(t_tokens **head, t_tokens *current)
 {
 	t_tokens	*tmp;
-	
+
 	if (current == *head)
 		*head = (*head)->next;
 	else
@@ -164,7 +164,7 @@ void	delete_1_tok(t_tokens **head, t_tokens *current)
 
 void	expand(t_vars *vars, t_tokens **head)
 {
-	t_tokens *tmp;
+	t_tokens	*tmp;
 
 	tmp = *head;
 	while (tmp)
