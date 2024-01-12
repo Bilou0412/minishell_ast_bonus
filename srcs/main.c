@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:19 by soutin            #+#    #+#             */
-/*   Updated: 2024/01/10 20:54:52 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/12 20:12:52 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,24 @@ t_vars	*_vars(void)
 
 int	init_minishell(t_vars *vars, char **envp)
 {
-	shrek_print();
+	// shrek_print();
 	if (setup_env(&vars->envl, envp) < 0)
 		return (1);
 	tcgetattr(STDIN_FILENO, &_vars()->original);
+	signal(SIGINT, ctrl_c);
 	return (0);
 }
 
-int	launch_ast(t_vars *vars)
+void	init_loop(t_vars *vars)
+{
+	signal(SIGQUIT, SIG_IGN);
+	vars->last_return_val = 0;
+	vars->heredoc_sigint = false;
+	vars->child_sigint = false;
+	vars->error = false;
+}
+
+int	build_and_run_ast(t_vars *vars)
 {
 	signal(SIGQUIT, sigquit_handler);
 	vars->ast = is_branch(&vars->tokens, 0);
@@ -42,41 +52,30 @@ int	launch_ast(t_vars *vars)
 	}
 	else
 		ft_tokclear(&vars->tokens);
-	vars->last_return_val = 0;
 	free_tree(&vars->ast);
+	close_heredocs(&vars->heredocs);
 	return (0);
 }
 
-int	read_inputs(t_vars *vars)
+int	main(int c, char **v, char **envp)
 {
+	t_vars	*vars;
+
+	(void)v;
+	vars = _vars();
+	init_minishell(vars, envp);
+	if (c != 1)
+		return (ft_printf("No arguments awaited\n"), 1);
 	while (1)
 	{
-		vars->heredoc_sigint = false;
-		vars->child_sigint = false;
-		if (vars->heredocs)
-			free_files(&vars->heredocs);
-		vars->heredocs = NULL;
-		signal(SIGINT, ctrl_c);
-		signal(SIGQUIT, nothing);
+		init_loop(vars);
 		vars->str_in.buff = (char *)ft_collector(readline("zebishell> "),
 				false);
 		if (vars->str_in.buff[0])
 			add_history(vars->str_in.buff);
 		token_m(vars, &vars->tokens);
 		if (vars->tokens)
-			launch_ast(vars);
-		vars->error = false;
+			build_and_run_ast(vars);
 	}
-	return (0);
-}
-
-int	main(int c, char **v, char **envp)
-{
-	(void)v;
-	init_minishell(_vars(), envp);
-	if (c != 1)
-		return (ft_printf("No arguments awaited\n"), 1);
-	if (read_inputs(_vars()) < 0)
-		return (1);
 	return (0);
 }

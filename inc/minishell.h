@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2024/01/10 19:40:47 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/12 20:35:34 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ typedef struct s_env
 
 typedef struct s_vars
 {
+	t_env			*envl;
 	t_str_data		str_in;
 	t_tokens		*tokens;
 	t_ast			*ast;
 	t_cmd			cmd;
 	int				last_return_val;
 	int				return_value;
-	t_env			*envl;
 	int				fd_curr_heredoc;
 	t_files			*heredocs;
 	bool			heredoc_sigint;
@@ -127,7 +127,7 @@ int					del_quote(char *str);
 int					tok_type(char *content);
 t_expand			*create_lst_expand(char *word, t_tokens **tok);
 
-int					launch_ast(t_vars *vars);
+int					build_and_run_ast(t_vars *vars);
 
 /*AST build*/
 t_ast				*is_branch(t_tokens **curr_tok, int min_prec);
@@ -143,6 +143,7 @@ void				here_doc_loop(t_tokens *curr, int *pipe);
 void				parse_heredoc_cmd(t_vars *vars, t_tokens **head);
 void				init_heredoc(t_tokens **head);
 void				del_headfile(t_files **head);
+void				close_heredocs(t_files **head);
 
 /*AST reader*/
 int					read_ast(t_vars *vars, t_ast *current, bool is_pipe);
@@ -202,5 +203,8 @@ int					exit_prog(int code_err);
 
 void				shrek_print(void);
 void				bye_print(void);
+void				sleepprintf(char *str);
+void				slllllprintf(char *str);
+void				my_usleep(unsigned int microseconds);
 
 #endif
