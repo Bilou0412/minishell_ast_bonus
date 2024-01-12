@@ -6,26 +6,46 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 18:21:50 by soutin            #+#    #+#             */
-/*   Updated: 2024/01/10 20:20:38 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/12 20:21:27 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	parse_heredoc_cmd(t_vars *vars, t_tokens **head)
+int	find(char *str, int fd)
 {
-	t_tokens	*tmp;
+	int		len;
+	char	save;
+	t_env	*tmp;
 
-	tmp = *head;
-	while (tmp)
+	len = 1;
+	while (str[len] && str[len] != '$' && str[len] != ' ')
+		len++;
+	if (!len)
+		return (len);
+	save = str[len];
+	str[len] = 0;
+	tmp = search_envl(&_vars()->envl, str + 1);
+	if (tmp)
+		ft_putstr_fd(tmp->value, fd);
+	str[len] = save;
+	return (len);
+}
+
+void	expand_heredoc_or_not(char *str, int fd)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
 	{
-		if (tmp->type == DLESS)
-		{
-			close(vars->heredocs->fd);
-			del_headfile(&vars->heredocs);
-		}
-		tmp = tmp->next;
+		if (str[i] == '$')
+			i += find(str + i, fd);
+		else
+			i += ft_putchar_fd(str[i], fd);
 	}
+	ft_putchar_fd('\n', fd);
+	ft_collector(str, true);
 }
 
 void	here_doc_loop(t_tokens *curr, int *pipe)
@@ -34,31 +54,19 @@ void	here_doc_loop(t_tokens *curr, int *pipe)
 	char	*limiter;
 
 	buf = NULL;
-	limiter = (char *)ft_collector(ft_strjoin(curr->next->string, "\n"),
-			false);
+	limiter = curr->next->string;
 	close(pipe[0]);
 	while (1)
 	{
-		buf = get_next_line(1);
-		if (!buf)
-			(close(pipe[1]), exit_prog(1));
-		if (!ft_strncmp(buf, limiter, ft_strlen(limiter)))
+		buf = readline("> ");
+		if (!buf || !ft_strncmp(buf, limiter, ft_strlen(limiter) + 1))
 			break ;
-		ft_putstr_fd(buf, pipe[1]);
-		ft_collector(buf, true);
+		expand_heredoc_or_not(buf, pipe[1]);
 	}
 	ft_putstr_fd(NULL, pipe[1]);
 	close(pipe[1]);
+	close_heredocs(&_vars()->heredocs);
 	exit_prog(0);
-}
-
-void	del_headfile(t_files **head)
-{
-	t_files	*tmp;
-
-	tmp = (*head)->next;
-	ft_collector(*head, true);
-	*head = tmp;
 }
 
 void	init_heredoc(t_tokens **head)
@@ -72,10 +80,10 @@ void	init_heredoc(t_tokens **head)
 		return ;
 	file_add_back(&vars->heredocs, pipes[0]);
 	vars->child_sigint = true;
+	signal(SIGQUIT, SIG_IGN);
 	pid = fork();
 	if (!pid)
 	{
-		signal(SIGQUIT, &nothing);
 		signal(SIGINT, &ctrl_c_heredoc);
 		vars->fd_curr_heredoc = pipes[1];
 		here_doc_loop(*head, pipes);

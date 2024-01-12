@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 15:23:01 by soutin            #+#    #+#             */
-/*   Updated: 2024/01/10 20:03:39 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/12 18:56:00 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,8 @@
 
 void	ctrl_c_heredoc(int sig)
 {
-	t_files	*tmp;
-
-	tmp = _vars()->heredocs;
 	(void)sig;
-	while (tmp->next)
-		tmp = tmp->next;
-	close(tmp->fd);
+	close_heredocs(&_vars()->heredocs);
 	close(_vars()->fd_curr_heredoc);
 	exit_prog(SIGINT);
 }
@@ -47,10 +42,4 @@ void	sigquit_handler(int num)
 {
 	(void)num;
 	write(1, "Quit: 3\n", 9);
-}
-
-void	nothing(int sig)
-{
-	(void)sig;
-	return ;
 }

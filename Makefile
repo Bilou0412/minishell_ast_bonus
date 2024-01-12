@@ -19,6 +19,7 @@ SRCS		=	srcs/built-in/cd.c \
 				srcs/parser/build_ast.c \
 				srcs/parser/build_ast_utils.c \
 				srcs/parser/heredoc.c \
+				srcs/parser/heredoc_utils.c \
 				srcs/read_and_exec/read_ast.c \
 				srcs/read_and_exec/exec.c \
 				srcs/read_and_exec/exec_utils.c \
@@ -30,6 +31,7 @@ SRCS		=	srcs/built-in/cd.c \
 				srcs/read_and_exec/expand_utils.c\
 				srcs/error_handler.c \
 				srcs/print.c \
+				srcs/nice_prints.c \
 				srcs/free.c \
 				srcs/main.c \
 				srcs/signals_functions.c \

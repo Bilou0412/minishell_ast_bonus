@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 19:15:27 by soutin            #+#    #+#             */
-/*   Updated: 2024/01/10 19:19:38 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/12 17:58:01 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	exec_pipes(t_vars *vars, t_ast *curr, int *pipe_fds, bool direction)
 	}
 	if (read_ast(vars, curr, true))
 		exit_prog(1);
+	close_heredocs(&vars->heredocs);
 	exit_prog(vars->return_value);
 }
 

@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:13:52 by soutin            #+#    #+#             */
-/*   Updated: 2024/01/10 20:09:27 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/12 17:27:14 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	exec_simple(t_vars *vars, t_tokens **head, bool is_pipe)
 	pid = 0;
 	expand(vars, head);
 	if (!is_pipe && is_builtin_simple(vars, head))
-		return (parse_heredoc_cmd(vars, head), 0);
+		return (0);
 	vars->child_sigint = true;
 	pid = fork();
 	if (pid < 0)
