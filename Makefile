@@ -10,7 +10,6 @@ SRCS		=	srcs/built-in/cd.c \
 				srcs/built-in/unset.c \
 				srcs/built-in/exit.c \
 				srcs/built-in/echo.c \
-				srcs/built-in/clear.c \
 				srcs/env/own_env.c \
 				srcs/env/t_env_utils.c \
 				srcs/parser/tokens_utils.c \
@@ -29,6 +28,7 @@ SRCS		=	srcs/built-in/cd.c \
 				srcs/read_and_exec/inits_cmd_utils.c \
 				srcs/read_and_exec/expand.c \
 				srcs/read_and_exec/expand_utils.c\
+				srcs/read_and_exec/expand_utils_2.c\
 				srcs/error_handler.c \
 				srcs/print.c \
 				srcs/nice_prints.c \

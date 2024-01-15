@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 18:55:42 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/09 18:18:57 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/15 16:48:04 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,16 @@ int	pwd(char **arg_cmd)
 		if (arg_cmd[1][0] == '-')
 			return (ft_putstr_fd("bash: pwd: no option\n", 2), 1);
 	}
-	str = ft_collector(getcwd(NULL, 0), false);
-	printf("%s\n", str);
-	ft_collector(str, true);
+	str = getcwd(NULL, 0);
+	if (!str)
+	{
+		printf("pwd: error retrieving current directory: getcwd: ");
+		printf("cannot access parent directories: No such file or directory\n");
+	}
+	else
+	{
+		printf("%s\n", str);
+		free(str);
+	}
 	return (0);
 }

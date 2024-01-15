@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/09 11:08:01 by bmoudach          #+#    #+#             */
-/*   Updated: 2024/01/10 20:49:00 by soutin           ###   ########.fr       */
+/*   Created: 2024/01/15 16:48:30 by bmoudach          #+#    #+#             */
+/*   Updated: 2024/01/15 16:48:33 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ char	*init_cd(t_env **envl, t_env **home, t_env **old_pwd, t_env **env_pwd)
 	*old_pwd = search_envl(envl, "OLDPWD");
 	*env_pwd = search_envl(envl, "PWD");
 	*home = search_envl(envl, "HOME");
-	return (ft_collector(getcwd(NULL, 0), false));
+	if (!getcwd(NULL, 0))
+		return (search_envl(envl, "HOME")->value);
+	else
+		return (ft_collector(getcwd(NULL, 0), false));
 }
 
 int	cd(char **path, t_env **envl)

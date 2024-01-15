@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2024/01/12 20:35:34 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/15 17:00:07 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,5 +206,11 @@ void				bye_print(void);
 void				sleepprintf(char *str);
 void				slllllprintf(char *str);
 void				my_usleep(unsigned int microseconds);
+
+char				*replace_key_for_value(char *src_str, int *start,
+						t_expand *expand);
+t_expand			*create_lst_expand(char *word, t_tokens **tok);
+void				content_to_lst_expand(char *to_expand, t_expand **expand);
+char				*get_key_to_exp(char *word, int *start);
 
 #endif

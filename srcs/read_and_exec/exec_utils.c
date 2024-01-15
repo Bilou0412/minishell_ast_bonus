@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:58:09 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/13 14:31:16 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/15 16:45:46 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ int	waitchilds(t_vars *vars, int *pid, int childmax)
 		}
 		else
 		{
-			vars->return_value = WEXITSTATUS(status);
-			vars->last_return_val = WEXITSTATUS(status);
+			vars->return_value = 128 + WEXITSTATUS(status);
+			vars->last_return_val = 128 + WEXITSTATUS(status);
 		}
 	}
 	return (0);

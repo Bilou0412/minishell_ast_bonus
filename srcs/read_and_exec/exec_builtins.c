@@ -6,7 +6,7 @@
 /*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 12:14:40 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/13 17:10:43 by bmoudach         ###   ########.fr       */
+/*   Updated: 2024/01/15 16:52:53 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ int	exec_builtin(t_vars *vars)
 		env(&vars->envl);
 	if (!ft_strncmp(vars->cmd.argv[0], "pwd", 4))
 		return (pwd(vars->cmd.argv));
-	else if (!ft_strncmp(vars->cmd.argv[0], "clear", 6))
-		clear();
 	else if (!ft_strncmp(vars->cmd.argv[0], "export", 7))
 		return (export(vars->cmd.argv, &vars->envl));
 	else if (!ft_strncmp(vars->cmd.argv[0], "exit", 5))
@@ -47,8 +45,6 @@ int	check_stds(int *stds)
 int	is_builtin(char *word)
 {
 	if (!ft_strncmp(word, "cd", 3))
-		return (1);
-	if (!ft_strncmp(word, "clear", 6))
 		return (1);
 	if (!ft_strncmp(word, "echo", 5))
 		return (1);
