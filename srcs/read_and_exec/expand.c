@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 13:23:51 by bmoudach          #+#    #+#             */
-/*   Updated: 2024/01/15 17:22:57 by bmoudach         ###   ########.fr       */
+/*   Updated: 2024/01/15 18:42:23 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void	get_value_of_key(t_env **envl, t_expand **head)
 		if (tmp->to_expand)
 		{
 			if (tmp->to_expand && !ft_strncmp("$?", tmp->to_expand, 3))
-				tmp->value = (char *)ft_collector(ft_itoa(_vars()->return_value), false);
+				tmp->value = ft_collector(ft_itoa(_vars()->return_value),
+						false);
 			else if (search_envl(envl, tmp->to_expand + 1))
 				tmp->value = search_envl(envl, tmp->to_expand + 1)->value;
 		}

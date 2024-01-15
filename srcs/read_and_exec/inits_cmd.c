@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 19:20:32 by soutin            #+#    #+#             */
-/*   Updated: 2024/01/10 20:19:15 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/15 18:37:50 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,15 @@ int	sort_cmd(t_vars *vars, t_tokens **head)
 	return (0);
 }
 
-void	cmd_exec_error(char *name)
+void	cmd_exec_error(char *name, int flag)
 {
+	(void)flag;
+	printf("%s zebi\n", name);
 	ft_printf("zebishell: ");
-	perror(name);
+	if (!ft_strchr(name, '/'))
+		perror(name);
+	else
+		ft_printf("%s: No such file or directory\n", name);
 	exit_prog(126);
 }
 
@@ -56,7 +61,7 @@ int	init_cmd_path(t_vars *vars)
 		if (!access(vars->cmd.path, F_OK))
 		{
 			if (access(vars->cmd.path, X_OK))
-				cmd_exec_error(vars->cmd.argv[0]);
+				cmd_exec_error(vars->cmd.argv[0], 1);
 			return (freetabs(env_paths), 0);
 		}
 		ft_collector(vars->cmd.path, true);
@@ -71,13 +76,19 @@ int	path_to_argv(t_vars *vars, t_cmd *cmd)
 {
 	char	**tmp;
 	int		i;
+	DIR		*buf;
 
 	i = 0;
-	if (!access(cmd->argv[0], F_OK))
+	if (ft_strchr(cmd->argv[0], '/'))
 	{
-		errno = 0;
 		if (access(vars->cmd.argv[0], X_OK))
-			cmd_exec_error(vars->cmd.argv[0]);
+			cmd_exec_error(vars->cmd.argv[0], false);
+		buf = opendir(cmd->argv[0]);
+		if (buf)
+		{
+			ft_printf("zebishell: %s: Is a directory\n", cmd->argv[0]);
+			closedir(buf);
+		}
 		cmd->path = cmd->argv[0];
 		tmp = ft_split(cmd->argv[0], '/');
 		while (tmp[i + 1])

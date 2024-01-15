@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:19 by soutin            #+#    #+#             */
-/*   Updated: 2024/01/12 20:12:52 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/15 18:41:43 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_vars	*_vars(void)
 
 int	init_minishell(t_vars *vars, char **envp)
 {
-	// shrek_print();
+	shrek_print();
 	if (setup_env(&vars->envl, envp) < 0)
 		return (1);
 	tcgetattr(STDIN_FILENO, &_vars()->original);
