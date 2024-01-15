@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 15:23:01 by soutin            #+#    #+#             */
-/*   Updated: 2024/01/12 18:56:00 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/15 19:27:42 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,5 @@ void	ctrl_c(int sig)
 void	sigquit_handler(int num)
 {
 	(void)num;
-	write(1, "Quit: 3\n", 9);
+	write(1, "Quit\n", 5);
 }
