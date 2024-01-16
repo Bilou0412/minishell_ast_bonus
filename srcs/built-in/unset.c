@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 11:07:50 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/11 17:08:51 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/16 17:11:14 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ void	unset_loop(char **arg_cmd, t_env **envl, int nb_cmd)
 		i++;
 		if (!to_unset)
 			continue ;
-		while (tmp)
+		if (tmp == to_unset)
+			*envl = (*envl)->next;
+		while (tmp && tmp != to_unset)
 		{
 			if (tmp->next && tmp->next == to_unset)
 			{
@@ -40,7 +42,7 @@ void	unset_loop(char **arg_cmd, t_env **envl, int nb_cmd)
 
 int	unset(char **arg_cmd, t_env **envl)
 {
-	int		nb_cmd;
+	int	nb_cmd;
 
 	nb_cmd = ft_arraylen(arg_cmd);
 	if (nb_cmd < 2)
