@@ -1,6 +1,0 @@
-signaux
-leaks
-refacto
-ls|>out
- rm -rf /mnt/nfs/homes/bmoudach/Documents/git_bilou0412/minishell_ast_bonus/ok 
- mkdir ok && cd ok && mkdir ok1 && cd ok1 && mkdir ok2 && cd ok2/
