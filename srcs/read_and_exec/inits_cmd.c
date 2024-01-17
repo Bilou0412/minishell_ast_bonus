@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inits_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 19:20:32 by soutin            #+#    #+#             */
-/*   Updated: 2024/01/15 18:37:50 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/17 16:30:51 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	sort_cmd(t_vars *vars, t_tokens **head)
 void	cmd_exec_error(char *name, int flag)
 {
 	(void)flag;
-	printf("%s zebi\n", name);
 	ft_printf("zebishell: ");
 	if (!ft_strchr(name, '/'))
 		perror(name);
@@ -85,18 +84,16 @@ int	path_to_argv(t_vars *vars, t_cmd *cmd)
 			cmd_exec_error(vars->cmd.argv[0], false);
 		buf = opendir(cmd->argv[0]);
 		if (buf)
-		{
 			ft_printf("zebishell: %s: Is a directory\n", cmd->argv[0]);
-			closedir(buf);
-		}
 		cmd->path = cmd->argv[0];
 		tmp = ft_split(cmd->argv[0], '/');
+		if (!*tmp)
+			return (closedir(buf), 0);
 		while (tmp[i + 1])
 			i++;
 		cmd->argv[0] = (char *)ft_collector(ft_substr(tmp[i], 0,
 					ft_strlen(tmp[i])), false);
-		freetabs(tmp);
-		return (1);
+		return (closedir(buf), freetabs(tmp), 1);
 	}
 	return (0);
 }

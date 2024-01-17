@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 13:23:51 by bmoudach          #+#    #+#             */
-/*   Updated: 2024/01/15 18:42:23 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/17 16:25:56 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	expand(t_vars *vars, t_tokens **head)
 		{
 			get_value_of_key(&vars->envl, &tmp->expand);
 			tmp->string = parse_replace_expand(&(tmp->expand), tmp->string);
-			if (!*tmp->string)
+			if (!*tmp->string && tmp->next)
 				delete_1_tok(head, tmp);
 		}
 		tmp = tmp->next;

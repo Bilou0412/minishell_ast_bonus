@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inits_cmd_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 22:52:15 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/09 18:20:41 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/17 16:25:46 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,13 @@ char	**init_paths(t_vars *vars)
 {
 	char	*tmp;
 	char	**env_path;
+	t_env	*moh;
 
 	env_path = NULL;
-	tmp = NULL;
-	tmp = (search_envl(&vars->envl, "PATH"))->value;
+	moh = search_envl(&vars->envl, "PATH");
+	if (!moh)
+		return (NULL);
+	tmp = moh->value;
 	if (tmp)
 	{
 		tmp = (char *)ft_collector(ft_substr(tmp, 5, ft_strlen(tmp + 5)),
