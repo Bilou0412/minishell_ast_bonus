@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:16:58 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/09 18:21:43 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/19 17:14:30 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_tokens	*ft_toknew(char *content, int type, t_expand *lst_expand)
 	new->string = content;
 	new->type = type;
 	new->expand = lst_expand;
+	new->heredoc_index = 0;
 	new->next = NULL;
 	return (new);
 }

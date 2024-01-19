@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:13:52 by soutin            #+#    #+#             */
-/*   Updated: 2024/01/15 18:40:08 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/19 19:27:39 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int	exec_simple(t_vars *vars, t_tokens **head, bool is_pipe)
 			exit_prog(126);
 	}
 	waitchilds(vars, &pid, 1);
+	signal(SIGINT, ctrl_c);
 	vars->child_sigint = false;
-	return (parse_heredoc_cmd(vars, head), 0);
+	return (0);
 }

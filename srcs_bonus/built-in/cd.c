@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 16:48:30 by bmoudach          #+#    #+#             */
-/*   Updated: 2024/01/16 17:51:18 by bmoudach         ###   ########.fr       */
+/*   Updated: 2024/01/19 21:32:51 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,15 @@ char	*init_cd(t_env **envl, t_env **home, t_env **old_pwd, t_env **env_pwd)
 void	update_env(t_env **envl, t_env **env_old_pwd, t_env **env_pwd,
 		char *pwd)
 {
-	if (*envl)
+	if (*env_old_pwd && (*env_old_pwd)->value)
 	{
 		ft_collector((*env_old_pwd)->value, true);
-		ft_collector((*env_pwd)->value, true);
 		(*env_old_pwd)->value = pwd;
+	}
+	if (*env_pwd)
+	{
+		if ((*env_pwd)->value)
+			ft_collector((*env_pwd)->value, true);
 		(*env_pwd)->value = ft_collector(getcwd(NULL, 0), false);
 	}
 }

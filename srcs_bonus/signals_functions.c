@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 15:23:01 by soutin            #+#    #+#             */
-/*   Updated: 2024/01/15 19:27:42 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/19 20:09:48 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ctrl_c_heredoc(int sig)
 	(void)sig;
 	close_heredocs(&_vars()->heredocs);
 	close(_vars()->fd_curr_heredoc);
-	exit_prog(SIGINT);
+	exit_prog(130);
 }
 
 void	ctrl_c(int sig)
@@ -36,6 +36,7 @@ void	ctrl_c(int sig)
 		rl_on_new_line();
 		rl_redisplay();
 	}
+	_vars()->return_value = 130;
 }
 
 void	sigquit_handler(int num)

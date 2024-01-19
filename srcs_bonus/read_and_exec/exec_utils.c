@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:58:09 by soutin            #+#    #+#             */
-/*   Updated: 2024/01/15 18:40:59 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/19 17:46:47 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,6 @@ int	waitchilds(t_vars *vars, int *pid, int childmax)
 			vars->last_return_val = WEXITSTATUS(status);
 		}
 	}
+	vars->child_sigint = false;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:23:57 by soutin            #+#    #+#             */
-/*   Updated: 2024/01/15 18:41:09 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/19 19:47:01 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@
 typedef struct s_files
 {
 	int				fd;
+	char			*delim;
+	int				index;
 	struct s_files	*next;
 }					t_files;
 
@@ -114,7 +116,8 @@ void				ft_tokadd_back(t_tokens **lst, t_tokens *new);
 void				ft_tokclear(t_tokens **lst);
 void				delete_file_tokens(t_tokens **head, t_tokens **curr);
 
-int					file_add_back(t_files **head, int new_fd);
+int					file_add_back(t_files **head, int new_fd, char *name,
+						int index);
 
 /*TOKENS build*/
 void				token_m(t_vars *vars, t_tokens **tok);

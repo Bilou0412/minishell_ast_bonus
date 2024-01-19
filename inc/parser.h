@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 13:40:29 by soutin            #+#    #+#             */
-/*   Updated: 2023/12/12 17:43:30 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/19 17:13:50 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_tokens
 	char			*string;
 	int				type;
 	struct s_expand	*expand;
+	int				heredoc_index;
 	struct s_tokens	*next;
 }					t_tokens;
 

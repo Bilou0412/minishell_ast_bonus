@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 18:21:50 by soutin            #+#    #+#             */
-/*   Updated: 2024/01/12 20:21:27 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/19 21:32:59 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,15 +71,16 @@ void	here_doc_loop(t_tokens *curr, int *pipe)
 
 void	init_heredoc(t_tokens **head)
 {
-	t_vars	*vars;
-	int		pid;
-	int		pipes[2];
+	static int	i;
+	t_vars		*vars;
+	int			pid;
+	int			pipes[2];
 
 	vars = _vars();
 	if (pipe(pipes) < 0)
 		return ;
-	file_add_back(&vars->heredocs, pipes[0]);
-	vars->child_sigint = true;
+	file_add_back(&vars->heredocs, pipes[0], (*head)->next->string, i);
+	(*head)->next->heredoc_index = i;
 	signal(SIGQUIT, SIG_IGN);
 	pid = fork();
 	if (!pid)
@@ -92,4 +93,5 @@ void	init_heredoc(t_tokens **head)
 	signal(SIGQUIT, sigquit_handler);
 	vars->child_sigint = false;
 	close(pipes[1]);
+	i++;
 }

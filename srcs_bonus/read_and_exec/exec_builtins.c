@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 12:14:40 by bmoudach          #+#    #+#             */
-/*   Updated: 2024/01/15 16:52:53 by bmoudach         ###   ########.fr       */
+/*   Updated: 2024/01/19 21:32:34 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ int	check_stds(int *stds)
 
 int	is_builtin(char *word)
 {
+	if (!ft_strncmp(word, "./minishell", 11))
+	{
+		signal(SIGINT, SIG_IGN);
+		return (0);
+	}
 	if (!ft_strncmp(word, "cd", 3))
 		return (1);
 	if (!ft_strncmp(word, "echo", 5))

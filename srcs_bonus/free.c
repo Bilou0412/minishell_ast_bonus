@@ -6,7 +6,7 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:15:26 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/12/09 19:12:44 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/18 20:17:18 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ void	free_envl(t_env **lst)
 	{
 		buf = t->next;
 		ft_collector(*(&t->key), true);
-		ft_collector(*(&t->value), true);
+		if (*(&t->value))
+			ft_collector(*(&t->value), true);
 		ft_collector(*(&t), true);
 		t = buf;
 	}

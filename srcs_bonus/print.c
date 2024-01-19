@@ -6,24 +6,24 @@
 /*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 16:50:50 by soutin            #+#    #+#             */
-/*   Updated: 2024/01/12 20:28:50 by soutin           ###   ########.fr       */
+/*   Updated: 2024/01/18 22:04:45 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void	printtokens(t_tokens **head)
-// {
-// 	t_tokens	*current;
+void	printtokens(t_tokens **head)
+{
+	t_tokens	*current;
 
-// 	current = *head;
-// 	while (current)
-// 	{
-// 		printf("l%s %d", current->string, current->type);
-// 		current = current->next;
-// 	}
-// 	printf("\n");
-// }
+	current = *head;
+	while (current)
+	{
+		printf("%s %d\n", current->string, current->type);
+		current = current->next;
+	}
+	printf("\n");
+}
 
 // void	printtab(char **v)
 // {
