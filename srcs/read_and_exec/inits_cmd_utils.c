@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inits_cmd_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoudach <bmoudach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: soutin <soutin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 22:52:15 by soutin            #+#    #+#             */
-/*   Updated: 2024/01/17 16:18:59 by bmoudach         ###   ########.fr       */
+/*   Updated: 2024/01/22 16:05:07 by soutin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	**init_paths(t_vars *vars)
 	tmp = moh->value;
 	if (tmp)
 	{
-		tmp = (char *)ft_collector(ft_substr(tmp, 5, ft_strlen(tmp + 5)),
+		tmp = (char *)ft_collector(ft_substr(tmp, 0, ft_strlen(tmp)),
 				false);
 		env_path = ft_split(tmp, ':');
 		ft_collector(tmp, true);
